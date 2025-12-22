@@ -16,13 +16,17 @@ abstract class ToolCall with _$ToolCall {
   /// Factory constructor for ToolCall
   const factory ToolCall({
     /// The unique identifier of the tool call.
-    required String id,
+    @JsonKey(includeIfNull: false) String? id,
 
-    /// The type of the tool.
-    required ToolType type,
+    /// The type of the tool (currently only 'function').
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    ToolCallType? type,
 
-    /// A function call made by the model.
-    required FunctionCall function,
+    /// The function call details.
+    @JsonKey(includeIfNull: false) FunctionCall? function,
 
     /// The index of the tool call in the list of tool calls.
     @JsonKey(includeIfNull: false) int? index,
@@ -44,4 +48,14 @@ abstract class ToolCall with _$ToolCall {
   Map<String, dynamic> toMap() {
     return {'id': id, 'type': type, 'function': function, 'index': index};
   }
+}
+
+// ==========================================
+// ENUM: ToolCallType
+// ==========================================
+
+/// The type of the tool (currently only 'function').
+enum ToolCallType {
+  @JsonValue('function')
+  function,
 }

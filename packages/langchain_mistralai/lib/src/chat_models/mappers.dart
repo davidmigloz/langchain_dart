@@ -43,7 +43,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
   mistral.ToolCall _mapToolCall(final AIChatMessageToolCall toolCall) {
     return mistral.ToolCall(
       id: toolCall.id,
-      type: mistral.ToolType.function,
+      type: mistral.ToolCallType.function,
       function: mistral.FunctionCall(
         name: toolCall.name,
         arguments: json.encode(toolCall.arguments),
@@ -117,16 +117,18 @@ extension ChatResultMapper on mistral.ChatCompletionResponse {
   }
 
   AIChatMessageToolCall _mapResponseToolCall(final mistral.ToolCall toolCall) {
+    final function = toolCall.function;
     var args = <String, dynamic>{};
     try {
-      args = toolCall.function.arguments.isEmpty
-          ? {}
-          : json.decode(toolCall.function.arguments);
+      final arguments = function?.arguments;
+      if (arguments != null && arguments.isNotEmpty) {
+        args = json.decode(arguments);
+      }
     } catch (_) {}
     return AIChatMessageToolCall(
-      id: toolCall.id,
-      name: toolCall.function.name,
-      argumentsRaw: toolCall.function.arguments,
+      id: toolCall.id ?? '',
+      name: function?.name ?? '',
+      argumentsRaw: function?.arguments ?? '',
       arguments: args,
     );
   }
@@ -163,14 +165,18 @@ extension CreateChatCompletionStreamResponseMapper
   }
 
   AIChatMessageToolCall _mapStreamToolCall(final mistral.ToolCall toolCall) {
+    final function = toolCall.function;
     var args = <String, dynamic>{};
     try {
-      args = json.decode(toolCall.function.arguments);
+      final arguments = function?.arguments;
+      if (arguments != null && arguments.isNotEmpty) {
+        args = json.decode(arguments);
+      }
     } catch (_) {}
     return AIChatMessageToolCall(
-      id: toolCall.id,
-      name: toolCall.function.name,
-      argumentsRaw: toolCall.function.arguments,
+      id: toolCall.id ?? '',
+      name: function?.name ?? '',
+      argumentsRaw: function?.arguments ?? '',
       arguments: args,
     );
   }

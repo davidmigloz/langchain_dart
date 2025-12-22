@@ -400,27 +400,35 @@ Map<String, dynamic> _$FunctionDefinitionToJson(_FunctionDefinition instance) =>
     };
 
 _ToolCall _$ToolCallFromJson(Map<String, dynamic> json) => _ToolCall(
-  id: json['id'] as String,
-  type: $enumDecode(_$ToolTypeEnumMap, json['type']),
-  function: FunctionCall.fromJson(json['function'] as Map<String, dynamic>),
+  id: json['id'] as String?,
+  type: $enumDecodeNullable(
+    _$ToolCallTypeEnumMap,
+    json['type'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
+  function: json['function'] == null
+      ? null
+      : FunctionCall.fromJson(json['function'] as Map<String, dynamic>),
   index: (json['index'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$ToolCallToJson(_ToolCall instance) => <String, dynamic>{
-  'id': instance.id,
-  'type': _$ToolTypeEnumMap[instance.type]!,
-  'function': instance.function.toJson(),
+  'id': ?instance.id,
+  'type': ?_$ToolCallTypeEnumMap[instance.type],
+  'function': ?instance.function?.toJson(),
   'index': ?instance.index,
 };
 
+const _$ToolCallTypeEnumMap = {ToolCallType.function: 'function'};
+
 _FunctionCall _$FunctionCallFromJson(Map<String, dynamic> json) =>
     _FunctionCall(
-      name: json['name'] as String,
-      arguments: json['arguments'] as String,
+      name: json['name'] as String?,
+      arguments: json['arguments'] as String?,
     );
 
 Map<String, dynamic> _$FunctionCallToJson(_FunctionCall instance) =>
-    <String, dynamic>{'name': instance.name, 'arguments': instance.arguments};
+    <String, dynamic>{'name': ?instance.name, 'arguments': ?instance.arguments};
 
 _ToolChoiceTool _$ToolChoiceToolFromJson(Map<String, dynamic> json) =>
     _ToolChoiceTool(
