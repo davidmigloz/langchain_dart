@@ -1,3 +1,7 @@
+## 0.3.1+1
+
+ - **FIX**(langchain_firebase): Remove invalid FinishReason.malformedFunctionCall case ([#911](https://github.com/davidmigloz/langchain_dart/issues/911)). ([569e9cc5](https://github.com/davidmigloz/langchain_dart/commit/569e9cc53f3cf884f4a5c2bd5d56f081a9c39ad0))
+
 ## 0.3.1
 
  - **FIX**(langchain_firebase): Handle malformedFunctionCall finish reason ([#842](https://github.com/davidmigloz/langchain_dart/issues/842)). ([d6eef0dd](https://github.com/davidmigloz/langchain_dart/commit/d6eef0ddb0c8a5436d830e0487218373ff6dbbce))

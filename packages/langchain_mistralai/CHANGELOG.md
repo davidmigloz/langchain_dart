@@ -1,3 +1,7 @@
+## 0.3.1+1
+
+ - **FIX**(mistralai_dart): Fix streaming tool calls deserialization error ([#913](https://github.com/davidmigloz/langchain_dart/issues/913)) ([#914](https://github.com/davidmigloz/langchain_dart/issues/914)). ([ec4d20bf](https://github.com/davidmigloz/langchain_dart/commit/ec4d20bfd966a6c04ab44d47fd9baa175343a990))
+
 ## 0.3.1
 
  - **FEAT**(langchain_mistralai): Add tool/function calling support ([#888](https://github.com/davidmigloz/langchain_dart/issues/888)). ([f4a1480c](https://github.com/davidmigloz/langchain_dart/commit/f4a1480c787f53668569896933d0d9321600c20e))

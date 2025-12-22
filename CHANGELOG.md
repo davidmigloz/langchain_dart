@@ -2,6 +2,36 @@
 
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
+## 2025-12-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`langchain_firebase` - `v0.3.1+1`](#langchain_firebase---v0311)
+ - [`langchain_mistralai` - `v0.3.1+1`](#langchain_mistralai---v0311)
+ - [`mistralai_dart` - `v0.1.1+1`](#mistralai_dart---v0111)
+
+---
+
+#### `langchain_firebase` - `v0.3.1+1`
+
+ - **FIX**(langchain_firebase): Remove invalid FinishReason.malformedFunctionCall case ([#911](https://github.com/davidmigloz/langchain_dart/issues/911)). ([569e9cc5](https://github.com/davidmigloz/langchain_dart/commit/569e9cc53f3cf884f4a5c2bd5d56f081a9c39ad0))
+
+#### `langchain_mistralai` - `v0.3.1+1`
+
+ - **FIX**(mistralai_dart): Fix streaming tool calls deserialization error ([#913](https://github.com/davidmigloz/langchain_dart/issues/913)) ([#914](https://github.com/davidmigloz/langchain_dart/issues/914)). ([ec4d20bf](https://github.com/davidmigloz/langchain_dart/commit/ec4d20bfd966a6c04ab44d47fd9baa175343a990))
+
+#### `mistralai_dart` - `v0.1.1+1`
+
+ - **FIX**(mistralai_dart): Fix streaming tool calls deserialization error ([#913](https://github.com/davidmigloz/langchain_dart/issues/913)) ([#914](https://github.com/davidmigloz/langchain_dart/issues/914)). ([ec4d20bf](https://github.com/davidmigloz/langchain_dart/commit/ec4d20bfd966a6c04ab44d47fd9baa175343a990))
+
 ## 2025-12-20
 
 ### Changes
