@@ -67,6 +67,23 @@ class GenerationConfig {
   /// MEDIA_RESOLUTION_MEDIUM, MEDIA_RESOLUTION_HIGH.
   final String? mediaResolution;
 
+  /// Response JSON schema for structured output.
+  ///
+  /// This is separate from [responseSchema] and provides additional
+  /// schema configuration options.
+  final Map<String, dynamic>? responseJsonSchema;
+
+  /// Enables enhanced civic answers.
+  ///
+  /// It may not be available for all models.
+  final bool? enableEnhancedCivicAnswers;
+
+  /// The speech generation config.
+  ///
+  /// Contains voice configuration for speech output including
+  /// single-voice and multi-speaker setups.
+  final Map<String, dynamic>? speechConfig;
+
   /// Creates a [GenerationConfig].
   const GenerationConfig({
     this.candidateCount,
@@ -86,6 +103,9 @@ class GenerationConfig {
     this.logprobs,
     this.responseModalities,
     this.mediaResolution,
+    this.responseJsonSchema,
+    this.enableEnhancedCivicAnswers,
+    this.speechConfig,
   });
 
   /// Creates a [GenerationConfig] from JSON.
@@ -115,6 +135,9 @@ class GenerationConfig {
         responseModalities: (json['responseModalities'] as List?)
             ?.cast<String>(),
         mediaResolution: json['mediaResolution'] as String?,
+        responseJsonSchema: json['responseJsonSchema'] as Map<String, dynamic>?,
+        enableEnhancedCivicAnswers: json['enableEnhancedCivicAnswers'] as bool?,
+        speechConfig: json['speechConfig'] as Map<String, dynamic>?,
       );
 
   /// Converts to JSON.
@@ -136,6 +159,10 @@ class GenerationConfig {
     if (logprobs != null) 'logprobs': logprobs,
     if (responseModalities != null) 'responseModalities': responseModalities,
     if (mediaResolution != null) 'mediaResolution': mediaResolution,
+    if (responseJsonSchema != null) 'responseJsonSchema': responseJsonSchema,
+    if (enableEnhancedCivicAnswers != null)
+      'enableEnhancedCivicAnswers': enableEnhancedCivicAnswers,
+    if (speechConfig != null) 'speechConfig': speechConfig,
   };
 
   /// Creates a copy with replaced values.
@@ -157,6 +184,9 @@ class GenerationConfig {
     Object? logprobs = unsetCopyWithValue,
     Object? responseModalities = unsetCopyWithValue,
     Object? mediaResolution = unsetCopyWithValue,
+    Object? responseJsonSchema = unsetCopyWithValue,
+    Object? enableEnhancedCivicAnswers = unsetCopyWithValue,
+    Object? speechConfig = unsetCopyWithValue,
   }) {
     return GenerationConfig(
       candidateCount: candidateCount == unsetCopyWithValue
@@ -204,6 +234,16 @@ class GenerationConfig {
       mediaResolution: mediaResolution == unsetCopyWithValue
           ? this.mediaResolution
           : mediaResolution as String?,
+      responseJsonSchema: responseJsonSchema == unsetCopyWithValue
+          ? this.responseJsonSchema
+          : responseJsonSchema as Map<String, dynamic>?,
+      enableEnhancedCivicAnswers:
+          enableEnhancedCivicAnswers == unsetCopyWithValue
+          ? this.enableEnhancedCivicAnswers
+          : enableEnhancedCivicAnswers as bool?,
+      speechConfig: speechConfig == unsetCopyWithValue
+          ? this.speechConfig
+          : speechConfig as Map<String, dynamic>?,
     );
   }
 }
