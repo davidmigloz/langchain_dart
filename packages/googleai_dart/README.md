@@ -45,6 +45,7 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
   - Function calling (custom function declarations)
   - Code execution (Python sandbox)
   - Google Search grounding
+  - URL Context (fetch and analyze web content)
   - File search (Semantic Retrieval with FileSearchStores)
   - Google Maps (geospatial context)
   - MCP servers (Model Context Protocol)
@@ -162,7 +163,7 @@ final response = await client.models.generateContent(
   ),
 );
 
-print(response.text);
+print(response.candidates?.first.content?.parts.first);
 client.close();
 ```
 
@@ -483,6 +484,248 @@ final response = await client.models.generateContent(
   ),
 );
 ```
+
+</details>
+
+### Grounding Tools
+
+googleai_dart supports multiple grounding tools that enhance model responses with real-world data.
+
+<details>
+<summary><b>Google Search Grounding</b></summary>
+
+Ground responses with real-time web information:
+
+```dart
+final response = await client.models.generateContent(
+  model: 'gemini-2.5-flash',
+  request: GenerateContentRequest(
+    contents: [
+      Content(
+        parts: [TextPart('Who won Euro 2024?')],
+        role: 'user',
+      ),
+    ],
+    // Enable Google Search grounding with an empty map
+    tools: [Tool(googleSearch: {})],
+  ),
+);
+
+// Extract text from response
+final text = response.candidates?.first.content?.parts
+    .whereType<TextPart>()
+    .map((p) => p.text)
+    .join() ?? '';
+print(text);
+
+// Access grounding metadata
+final metadata = response.candidates?.first.groundingMetadata;
+if (metadata != null) {
+  // Search queries executed by the model
+  print('Queries: ${metadata.webSearchQueries}');
+
+  // Web sources used
+  for (final chunk in metadata.groundingChunks ?? []) {
+    if (chunk.web != null) {
+      print('Source: ${chunk.web!.title} - ${chunk.web!.uri}');
+    }
+  }
+
+  // Search entry point widget (required for attribution)
+  if (metadata.searchEntryPoint?.renderedContent != null) {
+    print('Widget HTML available for display');
+  }
+}
+```
+
+Or use the Interactions API for streaming:
+
+```dart
+await for (final event in client.interactions.createStream(
+  model: 'gemini-2.5-flash',
+  input: 'What are today\'s top technology news?',
+  tools: [GoogleSearchTool()],
+)) {
+  if (event case ContentDeltaEvent(:final delta)) {
+    if (delta is TextDelta) {
+      print(delta.text);
+    } else if (delta is GoogleSearchCallDelta) {
+      print('Searching: ${delta.queries?.join(", ")}');
+    }
+  }
+}
+```
+
+See [google_search_example.dart](example/google_search_example.dart) for a complete example.
+
+</details>
+
+<details>
+<summary><b>URL Context</b></summary>
+
+Fetch and analyze content from specific URLs (up to 20 URLs, max 34MB per URL):
+
+```dart
+final response = await client.models.generateContent(
+  model: 'gemini-2.5-flash',
+  request: GenerateContentRequest(
+    contents: [
+      Content(
+        parts: [
+          TextPart('Summarize the main points from: https://dart.dev/overview'),
+        ],
+        role: 'user',
+      ),
+    ],
+    // Enable URL Context with an empty map
+    tools: [Tool(urlContext: {})],
+  ),
+);
+
+// Extract text from response
+final text = response.candidates?.first.content?.parts
+    .whereType<TextPart>()
+    .map((p) => p.text)
+    .join() ?? '';
+print(text);
+```
+
+Or with the Interactions API:
+
+```dart
+await for (final event in client.interactions.createStream(
+  model: 'gemini-2.5-flash',
+  input: 'Summarize https://pub.dev/packages/googleai_dart',
+  tools: [UrlContextTool()],
+)) {
+  if (event case ContentDeltaEvent(:final delta)) {
+    if (delta is TextDelta) {
+      stdout.write(delta.text);
+    } else if (delta is UrlContextCallDelta) {
+      print('Fetching: ${delta.urls?.join(", ")}');
+    }
+  }
+}
+```
+
+See [url_context_example.dart](example/url_context_example.dart) for a complete example.
+
+</details>
+
+<details>
+<summary><b>Google Maps</b></summary>
+
+Add geospatial context for location-based queries:
+
+```dart
+final response = await client.models.generateContent(
+  model: 'gemini-2.5-flash',
+  request: GenerateContentRequest(
+    contents: [
+      Content(
+        parts: [TextPart('Find Italian restaurants nearby')],
+        role: 'user',
+      ),
+    ],
+    // Enable Google Maps with widget support
+    tools: [Tool(googleMaps: GoogleMaps(enableWidget: true))],
+    // Provide user location context (as Map)
+    toolConfig: {
+      'retrievalConfig': {
+        'latLng': {
+          'latitude': 40.758896,
+          'longitude': -73.985130,
+        },
+      },
+    },
+  ),
+);
+
+// Access place information
+final metadata = response.candidates?.first.groundingMetadata;
+for (final chunk in metadata?.groundingChunks ?? []) {
+  if (chunk.maps != null) {
+    print('Place: ${chunk.maps!.title}');
+    print('Place ID: ${chunk.maps!.placeId}');
+  }
+}
+
+// Widget token for rendering Google Maps widget
+if (metadata?.googleMapsWidgetContextToken != null) {
+  print('Widget token: ${metadata!.googleMapsWidgetContextToken}');
+}
+```
+
+See [google_maps_example.dart](example/google_maps_example.dart) for a complete example.
+
+</details>
+
+<details>
+<summary><b>File Search (Semantic Retrieval)</b></summary>
+
+Search your own documents using FileSearchStores:
+
+```dart
+// Create a FileSearchStore
+final store = await client.fileSearchStores.create(
+  displayName: 'My Knowledge Base',
+);
+
+// Upload a document with custom chunking and metadata
+final uploadResponse = await client.fileSearchStores.upload(
+  parent: store.name!,
+  filePath: '/path/to/document.pdf',
+  mimeType: 'application/pdf',
+  request: UploadToFileSearchStoreRequest(
+    displayName: 'Technical Documentation',
+    chunkingConfig: ChunkingConfig(
+      whiteSpaceConfig: WhiteSpaceConfig(
+        maxTokensPerChunk: 200,
+        maxOverlapTokens: 20,
+      ),
+    ),
+    customMetadata: [
+      FileSearchCustomMetadata(key: 'author', stringValue: 'Jane Doe'),
+      FileSearchCustomMetadata(key: 'year', numericValue: 2024),
+    ],
+  ),
+);
+
+// Use FileSearch in generation with optional metadata filter
+final response = await client.models.generateContent(
+  model: 'gemini-2.5-flash',
+  request: GenerateContentRequest(
+    contents: [
+      Content(
+        parts: [TextPart('What does the documentation say about X?')],
+        role: 'user',
+      ),
+    ],
+    tools: [
+      Tool(
+        fileSearch: FileSearch(
+          fileSearchStoreNames: [store.name!],
+          topK: 5,
+          metadataFilter: 'author = "Jane Doe"',
+        ),
+      ),
+    ],
+  ),
+);
+
+// Access grounding metadata (citations)
+final metadata = response.candidates?.first.groundingMetadata;
+for (final chunk in metadata?.groundingChunks ?? []) {
+  if (chunk.retrievedContext != null) {
+    print('Source: ${chunk.retrievedContext!.title}');
+  }
+}
+
+// Cleanup
+await client.fileSearchStores.delete(name: store.name!);
+```
+
+See [file_search_example.dart](example/file_search_example.dart) for a complete example.
 
 </details>
 
@@ -1058,6 +1301,10 @@ See the [`example/`](example/) directory for comprehensive examples:
 18. **[vertex_ai_example.dart](example/vertex_ai_example.dart)** - Using Vertex AI with OAuth authentication
 19. **[complete_api_example.dart](example/complete_api_example.dart)** - Demonstrating 100% API coverage
 20. **[interactions_example.dart](example/interactions_example.dart)** - Interactions API for server-side state management (experimental)
+21. **[google_search_example.dart](example/google_search_example.dart)** - Google Search grounding for real-time web information
+22. **[url_context_example.dart](example/url_context_example.dart)** - URL Context for fetching and analyzing web content
+23. **[google_maps_example.dart](example/google_maps_example.dart)** - Google Maps grounding for geospatial context
+24. **[file_search_example.dart](example/file_search_example.dart)** - File Search with FileSearchStores for semantic retrieval (RAG)
 
 ## API Coverage
 
