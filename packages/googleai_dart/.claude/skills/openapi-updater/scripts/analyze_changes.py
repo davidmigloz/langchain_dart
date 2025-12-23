@@ -286,6 +286,58 @@ def categorize_schema(name: str) -> str:
     return 'common'
 
 
+# Patterns for detecting schemas that may need parent model updates
+PARENT_MODEL_PATTERNS = {
+    'Tool': [
+        r'.*Search$',           # GoogleSearch, FileSearch, UrlSearch
+        r'.*Execution$',        # CodeExecution
+        r'.*Context$',          # UrlContext
+        r'.*Maps$',             # GoogleMaps
+        r'Mcp.*',               # McpServers, McpTool
+        r'.*Grounding$',        # Any grounding type
+        r'.*Retrieval$',        # Any retrieval type
+    ],
+    'Candidate': [
+        r'.*Metadata$',         # GroundingMetadata, UrlContextMetadata
+        r'.*Feedback$',         # ContentFeedback
+        r'.*Attribution$',      # Any attribution
+    ],
+    'Content': [
+        r'.*Part$',             # TextPart, InlineDataPart, etc.
+        r'.*Content$',          # Any content type
+    ],
+    'Part': [
+        r'.*Part$',             # New part types
+    ],
+    'GroundingChunk': [
+        r'.*Chunk$',            # New chunk types
+        r'GroundingChunk.*',    # Grounding chunk variants
+    ],
+}
+
+
+def detect_parent_model_updates(new_schemas: list) -> dict[str, list[str]]:
+    """
+    Detect schemas that may require parent model updates.
+
+    Returns dict mapping parent model to list of new schemas that may need to be added.
+    """
+    parent_updates = {}
+
+    for schema in new_schemas:
+        schema_name = schema.get('name', '') if isinstance(schema, dict) else schema.name
+
+        for parent, patterns in PARENT_MODEL_PATTERNS.items():
+            for pattern in patterns:
+                if re.match(pattern, schema_name, re.IGNORECASE):
+                    if parent not in parent_updates:
+                        parent_updates[parent] = []
+                    parent_updates[parent].append(schema_name)
+                    break
+
+    return parent_updates
+
+
 def schema_to_file_path(name: str) -> str:
     """Map schema name to Dart file path."""
     category = categorize_schema(name)
@@ -573,17 +625,40 @@ def generate_plan(analysis: dict) -> str:
             lines.append(f"- [ ] `{sc['name']}` - verify: {', '.join(changes)}")
         lines.append("")
 
+    # Parent model update detection
+    parent_updates = detect_parent_model_updates(analysis['schemas']['added'])
+    if parent_updates:
+        lines.extend([
+            "### ⚠️ Parent Model Updates Required",
+            "",
+            "The following new schemas may need to be added to parent models:",
+            "",
+        ])
+        for parent, schemas in sorted(parent_updates.items()):
+            lines.append(f"**{parent}**:")
+            for schema in schemas:
+                lines.append(f"  - [ ] Add `{schema}` property")
+            lines.append("")
+        lines.extend([
+            "Run property verification to confirm:",
+            "```bash",
+            "python3 .claude/skills/openapi-updater/scripts/verify_model_properties.py",
+            "```",
+            "",
+        ])
+
     # Cross-reference reminders
     lines.extend([
         "### Cross-Reference Checks",
         "- [ ] All new models exported in `lib/googleai_dart.dart`",
         "- [ ] Sealed classes (Part, etc.) handle new variants",
-        "- [ ] Parent models reference new child types",
+        "- [ ] Parent models reference new child types (see above)",
         "",
         "### Quality Gates",
         "- [ ] `dart analyze --fatal-infos` - no issues",
         "- [ ] `dart format --set-exit-if-changed .` - no changes",
         "- [ ] `dart test test/unit/` - all pass",
+        "- [ ] `python3 .claude/skills/.../verify_model_properties.py` - all pass",
     ])
 
     return "\n".join(lines)

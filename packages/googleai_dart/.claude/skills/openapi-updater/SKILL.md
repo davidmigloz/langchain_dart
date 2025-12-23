@@ -109,11 +109,16 @@ Use patterns from `references/implementation-patterns.md`:
 
 ### 4. Review & Validate (MANDATORY)
 
-Perform the three-pass review documented in `references/REVIEW_CHECKLIST.md`:
+Perform the four-pass review documented in `references/REVIEW_CHECKLIST.md`:
 
 1. **Pass 1**: Implementation review against generated plan
 2. **Pass 2**: Barrel file verification (`verify_exports.py`)
 3. **Pass 3**: Documentation completeness (`verify_readme.py`, `verify_examples.py`)
+4. **Pass 4**: Property-level verification (`verify_model_properties.py`)
+
+**Pass 4 is critical** - it catches missing properties in parent models (e.g., `Tool`, `Candidate`).
+This was added after discovering that the `urlContext` property was in the OpenAPI spec but
+missing from the Dart `Tool` class.
 
 All passes must complete with zero issues before finalizing.
 
@@ -121,6 +126,8 @@ All passes must complete with zero issues before finalizing.
 python3 .claude/skills/openapi-updater/scripts/verify_exports.py
 python3 .claude/skills/openapi-updater/scripts/verify_readme.py
 python3 .claude/skills/openapi-updater/scripts/verify_examples.py
+python3 .claude/skills/openapi-updater/scripts/verify_model_properties.py
+python3 .claude/skills/openapi-updater/scripts/verify_readme_code.py
 dart analyze --fatal-infos && dart format --set-exit-if-changed . && dart test test/unit/
 ```
 

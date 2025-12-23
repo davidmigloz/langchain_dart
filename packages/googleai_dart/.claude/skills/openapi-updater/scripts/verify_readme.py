@@ -56,6 +56,8 @@ TOOL_PROPERTIES = {
                    ['mcpservers', 'mcp server', 'model context protocol']),
     'googleMaps': ('Google Maps geospatial context',
                    ['googlemaps', 'google maps']),
+    'urlContext': ('URL Context for fetching and analyzing web content',
+                   ['urlcontext', 'url context']),
 }
 
 # Resources that should NOT be documented as standalone client accessors
