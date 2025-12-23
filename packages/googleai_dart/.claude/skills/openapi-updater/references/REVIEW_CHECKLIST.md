@@ -447,3 +447,18 @@ If you add a feature but don't update the scripts, future runs will:
 - Miss documentation gaps for new features
 - Report false "file not found" errors for moved files
 - Fail to catch new documentation drift patterns
+
+---
+
+## Additional Verification Steps
+
+These checks catch issues that have caused bugs in the past:
+
+### Tool Call Correlation (Shared with Live API)
+- [ ] `FunctionCall.id` field is preserved in serialization
+- [ ] `FunctionResponse.id` field is preserved in serialization
+- [ ] These models are included in `CRITICAL_MODELS` for property verification
+
+### EXPECTED_PROPERTIES Sync
+- [ ] When adding new fields to spec, update `EXPECTED_PROPERTIES` in `verify_model_properties.py`
+- [ ] Both `websocket-updater` and `openapi-updater` scripts are updated if the model is shared

@@ -34,6 +34,9 @@ CRITICAL_MODELS = [
     ('ToolConfig', 'lib/src/models/tools/tool_config.dart'),
     ('GroundingMetadata', 'lib/src/models/metadata/grounding_metadata.dart'),
     ('GroundingChunk', 'lib/src/models/metadata/grounding_chunk.dart'),
+    # Tool call/response models - id field is critical for Live API correlation
+    ('FunctionCall', 'lib/src/models/tools/function_call.dart'),
+    ('FunctionResponse', 'lib/src/models/tools/function_response.dart'),
 ]
 
 
