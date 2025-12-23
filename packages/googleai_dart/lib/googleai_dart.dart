@@ -158,6 +158,8 @@ export 'src/models/safety/safety_rating.dart';
 export 'src/models/safety/safety_setting.dart';
 // Models - Tools
 export 'src/models/tools/code_execution_result.dart';
+export 'src/models/tools/computer_use.dart';
+export 'src/models/tools/dynamic_retrieval_config.dart';
 export 'src/models/tools/executable_code.dart';
 export 'src/models/tools/file_search.dart';
 export 'src/models/tools/function_call.dart';
@@ -165,6 +167,7 @@ export 'src/models/tools/function_calling_config.dart';
 export 'src/models/tools/function_declaration.dart';
 export 'src/models/tools/function_response.dart';
 export 'src/models/tools/google_maps.dart';
+export 'src/models/tools/google_search_retrieval.dart';
 export 'src/models/tools/mcp_server.dart';
 export 'src/models/tools/streamable_http_transport.dart';
 export 'src/models/tools/tool.dart';

@@ -38,6 +38,14 @@ class Candidate {
   /// Grounding metadata for this candidate.
   final GroundingMetadata? groundingMetadata;
 
+  /// Attribution information for sources that contributed to a grounded answer.
+  ///
+  /// This field is populated for `GenerateAnswer` calls.
+  final List<Map<String, dynamic>>? groundingAttributions;
+
+  /// Metadata related to URL context retrieval tool.
+  final Map<String, dynamic>? urlContextMetadata;
+
   /// Creates a [Candidate].
   const Candidate({
     this.content,
@@ -50,6 +58,8 @@ class Candidate {
     this.avgLogprobs,
     this.logprobsResult,
     this.groundingMetadata,
+    this.groundingAttributions,
+    this.urlContextMetadata,
   });
 
   /// Creates a [Candidate] from JSON.
@@ -84,6 +94,10 @@ class Candidate {
             json['groundingMetadata'] as Map<String, dynamic>,
           )
         : null,
+    groundingAttributions: (json['groundingAttributions'] as List<dynamic>?)
+        ?.map((e) => e as Map<String, dynamic>)
+        .toList(),
+    urlContextMetadata: json['urlContextMetadata'] as Map<String, dynamic>?,
   );
 
   /// Converts to JSON.
@@ -102,6 +116,9 @@ class Candidate {
     if (logprobsResult != null) 'logprobsResult': logprobsResult!.toJson(),
     if (groundingMetadata != null)
       'groundingMetadata': groundingMetadata!.toJson(),
+    if (groundingAttributions != null)
+      'groundingAttributions': groundingAttributions,
+    if (urlContextMetadata != null) 'urlContextMetadata': urlContextMetadata,
   };
 
   /// Creates a copy with replaced values.
@@ -116,6 +133,8 @@ class Candidate {
     Object? avgLogprobs = unsetCopyWithValue,
     Object? logprobsResult = unsetCopyWithValue,
     Object? groundingMetadata = unsetCopyWithValue,
+    Object? groundingAttributions = unsetCopyWithValue,
+    Object? urlContextMetadata = unsetCopyWithValue,
   }) {
     return Candidate(
       content: content == unsetCopyWithValue
@@ -146,6 +165,12 @@ class Candidate {
       groundingMetadata: groundingMetadata == unsetCopyWithValue
           ? this.groundingMetadata
           : groundingMetadata as GroundingMetadata?,
+      groundingAttributions: groundingAttributions == unsetCopyWithValue
+          ? this.groundingAttributions
+          : groundingAttributions as List<Map<String, dynamic>>?,
+      urlContextMetadata: urlContextMetadata == unsetCopyWithValue
+          ? this.urlContextMetadata
+          : urlContextMetadata as Map<String, dynamic>?,
     );
   }
 }
