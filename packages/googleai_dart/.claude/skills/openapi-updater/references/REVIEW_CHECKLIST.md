@@ -10,9 +10,11 @@ Systematic verification after implementing OpenAPI changes.
 4. [Common Gaps](#common-gaps) - Frequently missed items
 5. [Barrel File Completeness (PASS 2)](#barrel-file-completeness-pass-2) - Export verification
 6. [Documentation Completeness (PASS 3)](#documentation-completeness-pass-3) - Documentation completeness
-7. [Quality Gates](#quality-gates) - Required checks before finalization
-8. [Review Output Template](#review-output-template) - Standard format for findings
-9. [Fix Loop Process](#fix-loop-process) - Gap resolution workflow
+7. [Property-Level Verification (PASS 4)](#property-level-verification-pass-4) - Parent model properties
+8. [Quality Gates](#quality-gates) - Required checks before finalization
+9. [Review Output Template](#review-output-template) - Standard format for findings
+10. [Fix Loop Process](#fix-loop-process) - Gap resolution workflow
+11. [Updating Verify Scripts](#updating-verify-scripts) - Maintaining script accuracy
 
 ---
 
@@ -82,12 +84,24 @@ Check these sealed classes handle all their variants:
 - [ ] Enum converters exist for all enum types
 
 ### Parent Model Updates
-When a new type is added, check if it should be referenced by:
-- [ ] `Tool` (new tool types: fileSearch, mcpServers, googleMaps)
-- [ ] `ToolConfig` (config extensions)
-- [ ] `GenerationConfig` (new config fields)
-- [ ] `Candidate` (new response fields)
-- [ ] `Content`/`Part` (new content types)
+
+**CRITICAL:** Parent models often need updates when new schemas are added.
+
+Run the property verification script to detect missing properties:
+```bash
+python3 .claude/skills/openapi-updater/scripts/verify_model_properties.py
+```
+
+The script checks these critical models automatically:
+- `Tool` - new tool types (Search, Context, Maps, Mcp)
+- `ToolConfig` - config extensions
+- `GenerationConfig` - new config fields
+- `Candidate` - new response fields/metadata
+- `Content`/`Part` - new content types
+- `GroundingMetadata` - new grounding data
+- `GroundingChunk` - new chunk types
+
+The `analyze_changes.py` script also flags schemas that may need parent updates.
 
 ---
 
@@ -187,6 +201,24 @@ python3 .claude/skills/openapi-updater/scripts/verify_examples.py
 - [ ] All new features listed
 - [ ] Breaking changes highlighted with migration notes
 
+### 3e. README Code Validation
+
+Verify README code examples match actual Dart API:
+
+```bash
+python3 .claude/skills/openapi-updater/scripts/verify_readme_code.py
+```
+
+This catches common documentation drift patterns:
+- `response.text` (doesn't exist on GenerateContentResponse)
+- `delta.query` vs `delta.queries` (singular vs plural)
+- `delta.url` vs `delta.urls` (singular vs plural)
+- Typed classes vs Map types (ToolConfig, RetrievalConfig)
+
+**Why this matters:** During implementation, `dart analyze` catches errors in example
+files which get fixed. But README code snippets are not analyzed and can drift from
+the actual API.
+
 ### If Issues Are Found
 
 **For missing resource documentation:**
@@ -231,6 +263,75 @@ done
 
 ---
 
+## Property-Level Verification (PASS 4)
+
+**CRITICAL: This pass catches missing properties in parent models.**
+
+This is a common gap: a new schema is added (e.g., `UrlContext`) but the parent model
+that should reference it (e.g., `Tool`) is not updated to include the new property.
+
+### 4a. Run Property Verification Script
+
+```bash
+python3 .claude/skills/openapi-updater/scripts/verify_model_properties.py
+```
+
+The script compares Dart model classes against the OpenAPI spec and reports:
+- Missing properties in critical parent models
+- Properties that exist in spec but not in Dart class
+
+### 4b. Critical Models Checked
+
+The script automatically verifies these models:
+
+| Model | Common Missing Properties |
+|-------|--------------------------|
+| `Tool` | New tool types (urlContext, fileSearch, mcpServers) |
+| `Candidate` | New metadata fields (urlContextMetadata) |
+| `Content` | New content types |
+| `Part` | New part types |
+| `GroundingMetadata` | New grounding data fields |
+| `GroundingChunk` | New chunk types (maps, retrievedContext) |
+| `GenerationConfig` | New config options |
+| `ToolConfig` | New config fields |
+
+### 4c. Manual Verification (if script unavailable)
+
+For each critical model, compare against OpenAPI spec:
+
+```bash
+# Extract properties from spec for a schema
+jq '.components.schemas.Tool.properties | keys' openapi.json
+
+# Compare with Dart class fields
+grep 'final.*\w\+;' lib/src/models/tools/tool.dart
+```
+
+### 4d. Fixing Missing Properties
+
+For each missing property:
+1. Add field to class: `final Type? propertyName;`
+2. Add to constructor: `this.propertyName,`
+3. Add to `fromJson`: `propertyName: json['propertyName'],`
+4. Add to `toJson`: `'propertyName': propertyName,`
+5. Add to `copyWith`: using sentinel pattern
+6. Update tests
+
+### Why This Pass Exists
+
+This pass was added because the `urlContext` property was in the OpenAPI spec but
+missing from the Dart `Tool` class. The existing verification passes check:
+- ✅ New schemas are created
+- ✅ Exports are complete
+- ✅ Documentation exists
+
+But they did NOT check:
+- ❌ Parent models have all spec properties
+
+This pass closes that gap.
+
+---
+
 ## Quality Gates
 
 Run all commands - all must pass:
@@ -251,6 +352,12 @@ python3 .claude/skills/openapi-updater/scripts/verify_exports.py
 # Documentation verification (CRITICAL - often missed!)
 python3 .claude/skills/openapi-updater/scripts/verify_readme.py
 python3 .claude/skills/openapi-updater/scripts/verify_examples.py
+
+# Property-level verification (CRITICAL - catches parent model gaps!)
+python3 .claude/skills/openapi-updater/scripts/verify_model_properties.py
+
+# README code validation (catches documentation drift)
+python3 .claude/skills/openapi-updater/scripts/verify_readme_code.py
 ```
 
 ---
@@ -296,3 +403,47 @@ If gaps were found:
 | Sealed class variant | Add case to `fromJson` factory switch |
 | Missing test | Create using `assets/test_template.dart` |
 | Type mismatch | Check Type Mappings in implementation-patterns.md |
+
+---
+
+## Updating Verify Scripts
+
+**IMPORTANT:** When adding new features, the verify scripts themselves may need updates.
+
+### When to Update Scripts
+
+| Feature Type | Script to Update | What to Add |
+|--------------|------------------|-------------|
+| New Tool property | `verify_readme.py` | Add to `TOOL_PROPERTIES` dict |
+| New critical model | `verify_model_properties.py` | Add to `CRITICAL_MODELS` list |
+| New drift pattern | `verify_readme_code.py` | Add to `DRIFT_PATTERNS` list |
+| New resource | Auto-detected | No change needed (uses glob) |
+| File path change | `verify_model_properties.py` | Update paths in `CRITICAL_MODELS` |
+
+### Example: Adding a New Tool Property
+
+When you add a new property to the `Tool` class (e.g., `urlContext`):
+
+1. Implement the property in `lib/src/models/tools/tool.dart`
+2. Document in README.md
+3. **Update `verify_readme.py`**:
+   ```python
+   TOOL_PROPERTIES = {
+       # ... existing ...
+       'urlContext': ('URL Context for fetching web content',
+                      ['urlcontext', 'url context']),
+   }
+   ```
+
+### Why This Matters
+
+The verify scripts maintain hardcoded lists of:
+- Tool properties that should be documented
+- Critical models to check for property completeness
+- File paths for model classes
+- Known drift patterns in README code
+
+If you add a feature but don't update the scripts, future runs will:
+- Miss documentation gaps for new features
+- Report false "file not found" errors for moved files
+- Fail to catch new documentation drift patterns
