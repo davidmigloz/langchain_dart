@@ -480,8 +480,28 @@ class TunedModelsResource extends ResourceBase {
         placement,
       ),
       BearerTokenCredentials(:final token) => _addBearerToken(request, token),
+      EphemeralTokenCredentials(:final token) => _addEphemeralToken(
+        request,
+        token,
+      ),
       NoAuthCredentials() => request,
     };
+  }
+
+  /// Adds ephemeral token to request as query parameter.
+  http.Request _addEphemeralToken(http.Request request, String token) {
+    final uri = request.url;
+    if (uri.queryParameters.containsKey('access_token')) {
+      return request;
+    }
+    final queryParams = Map<String, dynamic>.from(uri.queryParameters);
+    queryParams['access_token'] = token;
+    final newUri = uri.replace(queryParameters: queryParams);
+
+    return http.Request(request.method, newUri)
+      ..headers.addAll(request.headers)
+      ..bodyBytes = request.bodyBytes
+      ..encoding = request.encoding;
   }
 
   /// Adds API key to request based on placement strategy.

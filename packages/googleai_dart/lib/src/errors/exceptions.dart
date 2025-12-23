@@ -282,3 +282,138 @@ class AbortedException extends GoogleAIException {
   String toString() =>
       'AbortedException($stage): $message [ID: $correlationId]';
 }
+
+// =============================================================================
+// Live API Exceptions
+// =============================================================================
+
+/// Exception thrown when the Live session is closed.
+class LiveSessionClosedException extends GoogleAIException {
+  /// WebSocket close code.
+  final int? code;
+
+  /// Close reason message.
+  final String? reason;
+
+  @override
+  String get message =>
+      'Live session closed${code != null ? ' (code: $code)' : ''}'
+      '${reason != null ? ': $reason' : ''}';
+
+  @override
+  final StackTrace? stackTrace;
+
+  @override
+  final Exception? cause;
+
+  /// Creates a [LiveSessionClosedException].
+  const LiveSessionClosedException({
+    this.code,
+    this.reason,
+    this.stackTrace,
+    this.cause,
+  }) : super();
+
+  @override
+  String toString() => 'LiveSessionClosedException: $message';
+}
+
+/// Exception thrown when session setup fails.
+class LiveSessionSetupException extends GoogleAIException {
+  @override
+  final String message;
+
+  /// Additional error details from the server.
+  final Map<String, dynamic>? details;
+
+  @override
+  final StackTrace? stackTrace;
+
+  @override
+  final Exception? cause;
+
+  /// Creates a [LiveSessionSetupException].
+  const LiveSessionSetupException({
+    required this.message,
+    this.details,
+    this.stackTrace,
+    this.cause,
+  }) : super();
+
+  @override
+  String toString() => 'LiveSessionSetupException: $message';
+}
+
+/// Exception thrown for general Live session errors.
+class LiveSessionException extends GoogleAIException {
+  @override
+  final String message;
+
+  @override
+  final StackTrace? stackTrace;
+
+  @override
+  final Exception? cause;
+
+  /// Creates a [LiveSessionException].
+  const LiveSessionException({
+    required this.message,
+    this.stackTrace,
+    this.cause,
+  }) : super();
+
+  @override
+  String toString() => 'LiveSessionException: $message';
+}
+
+/// Exception thrown when session resumption fails.
+class LiveSessionResumptionException extends GoogleAIException {
+  @override
+  final String message;
+
+  /// The handle that failed to resume.
+  final String? handle;
+
+  @override
+  final StackTrace? stackTrace;
+
+  @override
+  final Exception? cause;
+
+  /// Creates a [LiveSessionResumptionException].
+  const LiveSessionResumptionException({
+    required this.message,
+    this.handle,
+    this.stackTrace,
+    this.cause,
+  }) : super();
+
+  @override
+  String toString() => 'LiveSessionResumptionException: $message';
+}
+
+/// Exception thrown when WebSocket connection fails.
+class LiveConnectionException extends GoogleAIException {
+  @override
+  final String message;
+
+  /// The URI that failed to connect.
+  final Uri? uri;
+
+  @override
+  final StackTrace? stackTrace;
+
+  @override
+  final Exception? cause;
+
+  /// Creates a [LiveConnectionException].
+  const LiveConnectionException({
+    required this.message,
+    this.uri,
+    this.stackTrace,
+    this.cause,
+  }) : super();
+
+  @override
+  String toString() => 'LiveConnectionException: $message';
+}

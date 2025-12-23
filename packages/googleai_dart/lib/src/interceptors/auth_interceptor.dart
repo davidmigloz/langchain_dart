@@ -53,6 +53,8 @@ class AuthInterceptor implements Interceptor {
         placement,
       ),
       BearerTokenCredentials(:final token) => _addBearerToken(request, token),
+      EphemeralTokenCredentials(:final token, :final placement) =>
+        _addEphemeralToken(request, token, placement),
       NoAuthCredentials() => request,
     };
   }
@@ -115,6 +117,49 @@ class AuthInterceptor implements Interceptor {
         ..headers['Authorization'] = 'Bearer $bearerToken'
         ..bodyBytes = request.bodyBytes
         ..encoding = request.encoding;
+    }
+
+    return request;
+  }
+
+  /// Adds ephemeral token to request based on placement strategy.
+  http.BaseRequest _addEphemeralToken(
+    http.BaseRequest request,
+    String token,
+    EphemeralTokenPlacement placement,
+  ) {
+    if (placement == EphemeralTokenPlacement.header) {
+      // Add as header
+      if (request is http.Request) {
+        // Don't overwrite existing Authorization header
+        if (request.headers.containsKey('Authorization')) {
+          return request;
+        }
+        return http.Request(request.method, request.url)
+          ..headers.addAll(request.headers)
+          ..headers['Authorization'] = 'Token $token'
+          ..bodyBytes = request.bodyBytes
+          ..encoding = request.encoding;
+      }
+    } else {
+      // Add as query parameter (default)
+      final uri = request.url;
+      final queryParams = Map<String, dynamic>.from(uri.queryParameters);
+
+      // Don't overwrite existing 'access_token' query parameter
+      if (queryParams.containsKey('access_token')) {
+        return request;
+      }
+      queryParams['access_token'] = token;
+
+      final newUri = uri.replace(queryParameters: queryParams);
+
+      if (request is http.Request) {
+        return http.Request(request.method, newUri)
+          ..headers.addAll(request.headers)
+          ..bodyBytes = request.bodyBytes
+          ..encoding = request.encoding;
+      }
     }
 
     return request;
