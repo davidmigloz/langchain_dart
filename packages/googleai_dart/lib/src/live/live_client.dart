@@ -84,7 +84,7 @@ class LiveClient {
     String? accessToken,
   }) async {
     final uri = await _buildWebSocketUri(model, accessToken: accessToken);
-    _log.fine('Connecting to Live API: $uri');
+    _log.fine('Connecting to Live API');
 
     // Get headers for Vertex AI OAuth (native platforms only)
     // Web platforms don't support WebSocket headers - the connector will throw
