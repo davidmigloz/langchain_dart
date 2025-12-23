@@ -1,3 +1,7 @@
+## 0.7.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.7.1
 
  - **FIX**(langchain_google): Remove ServiceAccountCredentials stub export ([#838](https://github.com/davidmigloz/langchain_dart/issues/838)). ([d0a058b3](https://github.com/davidmigloz/langchain_dart/commit/d0a058b3f5488470362564fa84c350bdb7b41b14))

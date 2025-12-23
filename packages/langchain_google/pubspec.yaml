@@ -1,6 +1,6 @@
 name: langchain_google
 description: LangChain.dart integration module for Google (Gemini, Gemma, VertexAI, Vector Search, etc.).
-version: 0.7.1
+version: 0.7.1+1
 repository: https://github.com/davidmigloz/langchain_dart/tree/main/packages/langchain_google
 issue_tracker: https://github.com/davidmigloz/langchain_dart/issues?q=label:p:langchain_google
 homepage: https://github.com/davidmigloz/langchain_dart
@@ -23,7 +23,7 @@ resolution: workspace
 dependencies:
   collection: ^1.19.1
   gcloud: ^0.9.0
-  googleai_dart: ^2.0.0
+  googleai_dart: ^2.1.0
   googleapis: ^15.0.0
   googleapis_auth: ^2.0.0
   http: ^1.5.0

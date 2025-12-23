@@ -1,5 +1,39 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 2025-12-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`googleai_dart` - `v2.1.0`](#googleai_dart---v210)
+ - [`langchain_google` - `v0.7.1+1`](#langchain_google---v0711)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_google` - `v0.7.1+1`
+
+---
+
+#### `googleai_dart` - `v2.1.0`
+
+ - **FEAT**(googleai_dart): Add Gemini Live API (WebSocket) support ([#920](https://github.com/davidmigloz/langchain_dart/issues/920)). ([4beb01dd](https://github.com/davidmigloz/langchain_dart/commit/4beb01dd532582257e3d06c1619da1ee1793c5f4))
+ - **FEAT**(googleai_dart): Add missing model properties from OpenAPI spec ([#916](https://github.com/davidmigloz/langchain_dart/issues/916)). ([fc0e2f8a](https://github.com/davidmigloz/langchain_dart/commit/fc0e2f8ac70ccb8fc8bc3992f76aa05f90d81690))
+ - **DOCS**(googleai_dart): Add documentation for grounding tools ([#917](https://github.com/davidmigloz/langchain_dart/issues/917)). ([b5a529fe](https://github.com/davidmigloz/langchain_dart/commit/b5a529fe015095e2a8c4dfff32c2b5155eb608fa))
+
+# Change Log
+
 📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
 ## 2025-12-22

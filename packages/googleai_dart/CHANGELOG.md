@@ -1,3 +1,9 @@
+## 2.1.0
+
+ - **FEAT**(googleai_dart): Add Gemini Live API (WebSocket) support ([#920](https://github.com/davidmigloz/langchain_dart/issues/920)). ([4beb01dd](https://github.com/davidmigloz/langchain_dart/commit/4beb01dd532582257e3d06c1619da1ee1793c5f4))
+ - **FEAT**(googleai_dart): Add missing model properties from OpenAPI spec ([#916](https://github.com/davidmigloz/langchain_dart/issues/916)). ([fc0e2f8a](https://github.com/davidmigloz/langchain_dart/commit/fc0e2f8ac70ccb8fc8bc3992f76aa05f90d81690))
+ - **DOCS**(googleai_dart): Add documentation for grounding tools ([#917](https://github.com/davidmigloz/langchain_dart/issues/917)). ([b5a529fe](https://github.com/davidmigloz/langchain_dart/commit/b5a529fe015095e2a8c4dfff32c2b5155eb608fa))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.
