@@ -116,6 +116,19 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 - ✅ 17 content types (text, image, audio, function calls, etc.)
 - ✅ Background interactions with cancel support
 
+#### Live API (WebSocket Streaming)
+
+- ✅ Real-time bidirectional WebSocket communication
+- ✅ Audio streaming (16kHz input, 24kHz output PCM)
+- ✅ Text streaming with real-time responses
+- ✅ Voice Activity Detection (VAD) - automatic and manual modes
+- ✅ Input/output audio transcription
+- ✅ Tool/function calling in live sessions
+- ✅ Session resumption with tokens
+- ✅ Context window compression for long conversations
+- ✅ Multiple voice options (Puck, Charon, Kore, etc.)
+- ✅ Ephemeral tokens for secure client-side authentication
+
 ### Quick Comparison
 
 | Aspect | Google AI | Vertex AI |
@@ -1229,6 +1242,221 @@ if (operation.done == true && operation.response != null) {
 
 </details>
 
+### Live API (Real-time Streaming)
+
+The Live API provides bidirectional WebSocket streaming for real-time audio/text conversations.
+
+<details>
+<summary><b>Live API Example</b></summary>
+
+```dart
+import 'package:googleai_dart/googleai_dart.dart';
+
+// Create the main client
+final client = GoogleAIClient(
+  config: GoogleAIConfig(
+    authProvider: ApiKeyProvider('YOUR_API_KEY'),
+  ),
+);
+
+// Create a Live client for WebSocket streaming
+final liveClient = client.createLiveClient();
+
+try {
+  // Connect to the Live API with configuration
+  final session = await liveClient.connect(
+    model: 'gemini-2.0-flash-live-001',
+    liveConfig: LiveConfig(
+      generationConfig: LiveGenerationConfig.textAndAudio(
+        speechConfig: SpeechConfig.withVoice(LiveVoices.puck),
+        temperature: 0.7,
+      ),
+      // Enable transcription for both input and output
+      inputAudioTranscription: AudioTranscriptionConfig.enabled(),
+      outputAudioTranscription: AudioTranscriptionConfig.enabled(),
+      // Configure voice activity detection
+      realtimeInputConfig: RealtimeInputConfig.withVAD(
+        silenceDurationMs: 500,
+        activityHandling: ActivityHandling.startOfActivityInterrupts,
+      ),
+    ),
+  );
+
+  print('Connected! Session ID: ${session.sessionId}');
+
+  // Send a text message
+  session.sendText('Hello! Tell me a short joke.');
+
+  // Listen for responses
+  await for (final message in session.messages) {
+    switch (message) {
+      case BidiGenerateContentSetupComplete(:final sessionId):
+        print('Setup complete, session: $sessionId');
+
+      case BidiGenerateContentServerContent(
+          :final modelTurn,
+          :final turnComplete,
+          :final inputTranscription,
+          :final outputTranscription,
+        ):
+        // Handle model response
+        if (modelTurn != null) {
+          for (final part in modelTurn.parts) {
+            if (part is TextPart) {
+              print('Model: ${part.text}');
+            } else if (part is InlineDataPart) {
+              // Audio data (24kHz PCM)
+              print('Audio: ${part.inlineData.data.length} bytes');
+            }
+          }
+        }
+
+        // Show transcriptions
+        if (inputTranscription?.text != null) {
+          print('You said: ${inputTranscription!.text}');
+        }
+        if (outputTranscription?.text != null) {
+          print('Model said: ${outputTranscription!.text}');
+        }
+
+        if (turnComplete ?? false) {
+          print('--- Turn complete ---');
+          break;
+        }
+
+      case BidiGenerateContentToolCall(:final functionCalls):
+        // Handle tool calls and send responses
+        final responses = functionCalls.map((call) => FunctionResponse(
+          name: call.name,
+          response: {'result': 'executed'},
+        )).toList();
+        session.sendToolResponse(responses);
+
+      case GoAway(:final timeLeft):
+        print('Server disconnect in: $timeLeft');
+        // Save session.resumptionToken for later resumption
+
+      case SessionResumptionUpdate(:final resumable):
+        print('Session resumable: $resumable');
+    }
+  }
+
+  await session.close();
+} on LiveConnectionException catch (e) {
+  print('Connection failed: ${e.message}');
+} finally {
+  await liveClient.close();
+  client.close();
+}
+```
+
+</details>
+
+<details>
+<summary><b>Sending Audio</b></summary>
+
+```dart
+// Audio must be 16kHz, 16-bit, mono PCM
+void sendAudio(LiveSession session, List<int> pcmBytes) {
+  session.sendAudio(pcmBytes);
+}
+```
+
+</details>
+
+<details>
+<summary><b>Manual Voice Activity Detection</b></summary>
+
+```dart
+// For manual VAD mode (when automaticActivityDetection.disabled = true)
+void manualVAD(LiveSession session) {
+  // Signal when user starts speaking
+  session.signalActivityStart();
+
+  // ... user speaks ...
+
+  // Signal when user stops speaking
+  session.signalActivityEnd();
+}
+```
+
+</details>
+
+<details>
+<summary><b>Session Resumption</b></summary>
+
+```dart
+// Resume a previous session
+final session = await liveClient.resume(
+  model: 'gemini-2.0-flash-live-001',
+  resumptionToken: savedToken, // From previous session
+  liveConfig: LiveConfig(
+    generationConfig: LiveGenerationConfig.textAndAudio(),
+  ),
+);
+
+print('Session resumed! ID: ${session.sessionId}');
+```
+
+</details>
+
+<details>
+<summary><b>Ephemeral Tokens (Secure Client-Side Auth)</b></summary>
+
+For client-side applications (mobile apps, web apps), use ephemeral tokens instead of exposing your API key:
+
+**Server-side (create token):**
+
+```dart
+// On your backend server
+final token = await client.authTokens.create(
+  authToken: AuthToken(
+    expireTime: DateTime.now().add(Duration(minutes: 30)),
+    uses: 1, // Single use
+  ),
+);
+// Send token.name to client securely
+```
+
+**Client-side (use token):**
+
+```dart
+// On mobile/web client - no API key needed!
+final liveClient = LiveClient(
+  config: GoogleAIConfig.googleAI(
+    authProvider: NoAuthProvider(), // No API key
+  ),
+);
+
+final session = await liveClient.connect(
+  model: 'gemini-2.0-flash-live-001',
+  accessToken: tokenFromServer, // Use ephemeral token
+);
+```
+
+> **Note**: Ephemeral tokens are only available with Google AI (not Vertex AI).
+
+</details>
+
+<details>
+<summary><b>Platform Notes</b></summary>
+
+**Web (Browser) Limitations:**
+
+- Browser WebSocket API does NOT support custom HTTP headers during handshake
+- Google AI: Works on web via query parameter authentication (`?key=...` or `?access_token=...`)
+- Vertex AI OAuth: Requires Bearer token in headers, which doesn't work in browsers
+- **Recommendation**: For Vertex AI on web, use a backend proxy or ephemeral tokens with Google AI
+
+**Audio Streaming Notes:**
+
+- Audio data is base64-encoded before sending (~33% size overhead)
+- The underlying WebSocket handles buffering automatically
+- Audio format: 16kHz, 16-bit PCM mono input (32 KB/s raw, ~43 KB/s encoded)
+- Output audio: 24kHz, 16-bit PCM mono
+
+</details>
+
 ## Migrating from Google AI to Vertex AI
 
 Switching from Google AI to Vertex AI requires minimal code changes:
@@ -1305,6 +1533,7 @@ See the [`example/`](example/) directory for comprehensive examples:
 22. **[url_context_example.dart](example/url_context_example.dart)** - URL Context for fetching and analyzing web content
 23. **[google_maps_example.dart](example/google_maps_example.dart)** - Google Maps grounding for geospatial context
 24. **[file_search_example.dart](example/file_search_example.dart)** - File Search with FileSearchStores for semantic retrieval (RAG)
+25. **[live_example.dart](example/live_example.dart)** - Live API for real-time WebSocket streaming (audio/text)
 
 ## API Coverage
 
@@ -1362,6 +1591,19 @@ This client implements **78 endpoints** covering **100% of all non-deprecated Ge
 - **Streaming**: createStream, resumeStream (SSE with event types)
 - **Content Types**: 17 types including text, image, audio, function calls, code execution, etc.
 - **Events**: InteractionStart, ContentDelta, ContentStop, InteractionComplete, Error
+
+### Auth Tokens Resource (`client.authTokens`)
+
+- **Management**: create (creates ephemeral tokens for secure client-side authentication)
+
+### Live API (`client.createLiveClient()`)
+
+- **Connection**: connect, resume (WebSocket streaming, ephemeral token support)
+- **Client Messages**: setup, clientContent, realtimeInput, toolResponse
+- **Server Messages**: setupComplete, serverContent, toolCall, toolCallCancellation, goAway, sessionResumptionUpdate, unknownServerMessage
+- **Session Methods**: sendText, sendAudio, sendContent, sendToolResponse, signalActivityStart, signalActivityEnd
+- **Configuration**: LiveConfig, LiveGenerationConfig, SpeechConfig, RealtimeInputConfig, SessionResumptionConfig
+- **Audio Format**: 16kHz/16-bit/mono PCM input, 24kHz/16-bit/mono PCM output
 
 ### Universal Operations
 

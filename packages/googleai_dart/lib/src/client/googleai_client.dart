@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 import '../interceptors/auth_interceptor.dart';
 import '../interceptors/error_interceptor.dart';
 import '../interceptors/logging_interceptor.dart';
+import '../live/live_client.dart';
 import '../models/models/operation.dart';
+import '../resources/auth_tokens_resource.dart';
 import '../resources/batches_resource.dart';
 import '../resources/cached_contents_resource.dart';
 import '../resources/corpora_resource.dart';
@@ -37,6 +39,7 @@ import 'retry_wrapper.dart';
 /// - [corpora] - Corpus management for semantic retrieval
 /// - [fileSearchStores] - File search store management for file-based retrieval
 /// - [interactions] - Server-side state management for conversations (experimental)
+/// - [authTokens] - Ephemeral token management for secure client-side auth
 ///
 /// ## Example Usage
 ///
@@ -115,6 +118,15 @@ class GoogleAIClient {
   ///
   /// This is an experimental API and is subject to change.
   late final InteractionsResource interactions;
+
+  /// Resource for ephemeral authentication token management.
+  ///
+  /// Ephemeral tokens allow secure, short-lived authentication for client-side
+  /// applications. Create tokens server-side and pass them to clients without
+  /// exposing the main API key.
+  ///
+  /// Currently only compatible with Live API.
+  late final AuthTokensResource authTokens;
 
   /// Creates a [GoogleAIClient].
   ///
@@ -200,6 +212,13 @@ class GoogleAIClient {
       interceptorChain: _interceptorChain,
       requestBuilder: _requestBuilder,
     );
+
+    authTokens = AuthTokensResource(
+      config: this.config,
+      httpClient: _httpClient,
+      interceptorChain: _interceptorChain,
+      requestBuilder: _requestBuilder,
+    );
   }
 
   /// Gets the status of a long-running operation.
@@ -224,6 +243,45 @@ class GoogleAIClient {
 
     final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
     return Operation.fromJson(responseBody);
+  }
+
+  /// Creates a [LiveClient] for the Gemini Live API.
+  ///
+  /// The Live API provides real-time bidirectional WebSocket streaming
+  /// for audio, video, and text conversations.
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// final liveClient = client.createLiveClient();
+  ///
+  /// final session = await liveClient.connect(
+  ///   model: 'gemini-2.0-flash-live-001',
+  ///   liveConfig: LiveConfig(
+  ///     generationConfig: LiveGenerationConfig(
+  ///       responseModalities: ['AUDIO', 'TEXT'],
+  ///     ),
+  ///   ),
+  /// );
+  ///
+  /// // Send text
+  /// session.sendText('Hello!');
+  ///
+  /// // Handle responses
+  /// await for (final message in session.messages) {
+  ///   switch (message) {
+  ///     case BidiGenerateContentServerContent(:final modelTurn):
+  ///       // Handle response
+  ///     case BidiGenerateContentToolCall(:final functionCalls):
+  ///       session.sendToolResponse(responses);
+  ///   }
+  /// }
+  ///
+  /// await session.close();
+  /// await liveClient.close();
+  /// ```
+  LiveClient createLiveClient() {
+    return LiveClient(config: config);
   }
 
   /// Closes the HTTP client and releases resources.

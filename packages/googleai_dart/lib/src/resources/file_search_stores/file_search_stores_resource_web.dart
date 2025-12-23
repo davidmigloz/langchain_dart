@@ -239,13 +239,18 @@ class FileSearchStoresResource extends ResourceBase {
           }
         case BearerTokenCredentials(:final token):
           initiationHeaders['Authorization'] = 'Bearer $token';
+        case EphemeralTokenCredentials(:final token, :final placement):
+          if (placement == EphemeralTokenPlacement.header) {
+            initiationHeaders['Authorization'] = 'Token $token';
+          }
+        // Query param handled below
         case NoAuthCredentials():
           // No auth needed
           break;
       }
     }
 
-    // Add API key as query param if needed
+    // Add API key or ephemeral token as query param if needed
     final Uri uploadUrlWithAuth;
     if (config.authProvider != null) {
       final credentials = await config.authProvider!.getCredentials();
@@ -253,6 +258,11 @@ class FileSearchStoresResource extends ResourceBase {
           credentials.placement == AuthPlacement.queryParam) {
         uploadUrlWithAuth = uploadUrl.replace(
           queryParameters: {'key': credentials.apiKey},
+        );
+      } else if (credentials is EphemeralTokenCredentials &&
+          credentials.placement == EphemeralTokenPlacement.queryParam) {
+        uploadUrlWithAuth = uploadUrl.replace(
+          queryParameters: {'access_token': credentials.token},
         );
       } else {
         uploadUrlWithAuth = uploadUrl;

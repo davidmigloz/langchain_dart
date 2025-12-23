@@ -54,6 +54,37 @@ class NoAuthCredentials extends AuthCredentials {
   const NoAuthCredentials();
 }
 
+/// Ephemeral token authentication credentials.
+///
+/// Used for short-lived, secure client-side authentication.
+/// Ephemeral tokens can be placed as query parameters or in headers.
+///
+/// See also:
+/// - [AuthToken] for creating ephemeral tokens
+/// - [EphemeralTokenProvider] for using ephemeral tokens
+class EphemeralTokenCredentials extends AuthCredentials {
+  /// The ephemeral token string.
+  final String token;
+
+  /// Where to place the token (query param or header).
+  final EphemeralTokenPlacement placement;
+
+  /// Creates [EphemeralTokenCredentials].
+  const EphemeralTokenCredentials(
+    this.token, {
+    this.placement = EphemeralTokenPlacement.queryParam,
+  });
+}
+
+/// Ephemeral token placement strategy.
+enum EphemeralTokenPlacement {
+  /// Add as query parameter (?access_token=...)
+  queryParam,
+
+  /// Add as header (Authorization: Token ...)
+  header,
+}
+
 /// Authentication placement strategy.
 enum AuthPlacement {
   /// Add API key as query parameter (?key=...)
@@ -166,5 +197,42 @@ class NoAuthProvider implements AuthProvider {
   @override
   Future<AuthCredentials> getCredentials() async {
     return const NoAuthCredentials();
+  }
+}
+
+/// Provider for ephemeral token authentication.
+///
+/// Ephemeral tokens are short-lived credentials that can be safely passed
+/// to client-side applications. They are created server-side using the
+/// [AuthTokensResource.create] method and used client-side for connecting
+/// to the Live API.
+///
+/// Example:
+/// ```dart
+/// // Client receives token from server
+/// final liveClient = LiveClient(config: GoogleAIConfig(
+///   authProvider: EphemeralTokenProvider(tokenFromServer),
+/// ));
+///
+/// final session = await liveClient.connect(
+///   model: 'gemini-2.0-flash-live-001',
+/// );
+/// ```
+class EphemeralTokenProvider implements AuthProvider {
+  /// The ephemeral token string.
+  final String token;
+
+  /// Where to place the token (query param or header).
+  final EphemeralTokenPlacement placement;
+
+  /// Creates an [EphemeralTokenProvider].
+  const EphemeralTokenProvider(
+    this.token, {
+    this.placement = EphemeralTokenPlacement.queryParam,
+  });
+
+  @override
+  Future<AuthCredentials> getCredentials() async {
+    return EphemeralTokenCredentials(token, placement: placement);
   }
 }
