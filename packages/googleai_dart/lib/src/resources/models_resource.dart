@@ -546,6 +546,7 @@ class ModelsResource extends ResourceBase {
   /// The [model] parameter specifies which embedding model to use
   /// (e.g., "text-embedding-004").
   /// The [batch] contains the batch configuration including input configuration.
+  /// If [batch.model] is not set, it will be auto-populated from [model].
   ///
   /// Returns an [EmbedContentBatch] with the batch job details including
   /// the batch name which can be used to track progress.
@@ -553,6 +554,11 @@ class ModelsResource extends ResourceBase {
     required String model,
     required EmbedContentBatch batch,
   }) async {
+    // Auto-populate batch.model from method parameter if not set
+    final effectiveBatch = batch.model == null
+        ? batch.copyWith(model: 'models/$model')
+        : batch;
+
     final url = requestBuilder.buildUrl(
       '/{version}/models/$model:asyncBatchEmbedContent',
     );
@@ -563,7 +569,7 @@ class ModelsResource extends ResourceBase {
 
     final httpRequest = http.Request('POST', url)
       ..headers.addAll(headers)
-      ..body = jsonEncode({'batch': batch.toJson()});
+      ..body = jsonEncode({'batch': effectiveBatch.toJson()});
 
     final response = await interceptorChain.execute(httpRequest);
 
@@ -738,12 +744,18 @@ class ModelsResource extends ResourceBase {
   ///
   /// The [model] parameter specifies which model to use (e.g., "gemini-pro").
   /// The [batch] contains the batch configuration including requests.
+  /// If [batch.model] is not set, it will be auto-populated from [model].
   ///
   /// Returns a [GenerateContentBatch] with the batch job details.
   Future<GenerateContentBatch> batchGenerateContent({
     required String model,
     required GenerateContentBatch batch,
   }) async {
+    // Auto-populate batch.model from method parameter if not set
+    final effectiveBatch = batch.model == null
+        ? batch.copyWith(model: 'models/$model')
+        : batch;
+
     final url = requestBuilder.buildUrl(
       '/{version}/models/$model:batchGenerateContent',
     );
@@ -754,7 +766,7 @@ class ModelsResource extends ResourceBase {
 
     final httpRequest = http.Request('POST', url)
       ..headers.addAll(headers)
-      ..body = jsonEncode({'batch': batch.toJson()});
+      ..body = jsonEncode({'batch': effectiveBatch.toJson()});
 
     final response = await interceptorChain.execute(httpRequest);
 

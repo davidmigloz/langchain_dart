@@ -240,12 +240,18 @@ class TunedModelsResource extends ResourceBase {
   ///
   /// The [tunedModel] parameter specifies which tuned model to use (e.g., "my-model-abc123").
   /// The [batch] contains the batch configuration including requests.
+  /// If [batch.model] is not set, it will be auto-populated from [tunedModel].
   ///
   /// Returns a [GenerateContentBatch] with the batch job details.
   Future<GenerateContentBatch> batchGenerateContent({
     required String tunedModel,
     required GenerateContentBatch batch,
   }) async {
+    // Auto-populate batch.model from method parameter if not set
+    final effectiveBatch = batch.model == null
+        ? batch.copyWith(model: 'tunedModels/$tunedModel')
+        : batch;
+
     final url = requestBuilder.buildUrl(
       '/{version}/tunedModels/$tunedModel:batchGenerateContent',
     );
@@ -256,7 +262,7 @@ class TunedModelsResource extends ResourceBase {
 
     final httpRequest = http.Request('POST', url)
       ..headers.addAll(headers)
-      ..body = jsonEncode({'batch': batch.toJson()});
+      ..body = jsonEncode({'batch': effectiveBatch.toJson()});
 
     final response = await interceptorChain.execute(httpRequest);
 
@@ -272,6 +278,7 @@ class TunedModelsResource extends ResourceBase {
   ///
   /// The [tunedModel] parameter specifies which tuned model to use (e.g., "my-model-abc123").
   /// The [batch] contains the batch configuration including input configuration.
+  /// If [batch.model] is not set, it will be auto-populated from [tunedModel].
   ///
   /// Returns an [EmbedContentBatch] with the batch job details including
   /// the batch name which can be used to track progress.
@@ -279,6 +286,11 @@ class TunedModelsResource extends ResourceBase {
     required String tunedModel,
     required EmbedContentBatch batch,
   }) async {
+    // Auto-populate batch.model from method parameter if not set
+    final effectiveBatch = batch.model == null
+        ? batch.copyWith(model: 'tunedModels/$tunedModel')
+        : batch;
+
     final url = requestBuilder.buildUrl(
       '/{version}/tunedModels/$tunedModel:asyncBatchEmbedContent',
     );
@@ -289,7 +301,7 @@ class TunedModelsResource extends ResourceBase {
 
     final httpRequest = http.Request('POST', url)
       ..headers.addAll(headers)
-      ..body = jsonEncode({'batch': batch.toJson()});
+      ..body = jsonEncode({'batch': effectiveBatch.toJson()});
 
     final response = await interceptorChain.execute(httpRequest);
 
