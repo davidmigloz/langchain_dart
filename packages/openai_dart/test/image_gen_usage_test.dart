@@ -81,8 +81,7 @@ void main() {
       expect(json['total_tokens'], 1500);
       expect(json['input_tokens'], 1000);
       expect(json['output_tokens'], 500);
-      final inputDetails =
-          json['input_tokens_details'] as Map<String, dynamic>;
+      final inputDetails = json['input_tokens_details'] as Map<String, dynamic>;
       expect(inputDetails['text_tokens'], 700);
       expect(inputDetails['image_tokens'], 300);
     });

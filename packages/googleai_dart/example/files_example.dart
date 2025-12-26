@@ -118,7 +118,7 @@ void main() async {
     print('\n💡 You can now use this file in prompts:');
     print('   ```dart');
     print('   final response = await client.models.generateContent(');
-    print('     model: "gemini-2.0-flash-exp",');
+    print('     model: "gemini-3-flash-preview",');
     print('     request: GenerateContentRequest(');
     print('       contents: [');
     print('         Content(');

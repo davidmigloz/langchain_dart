@@ -5,7 +5,7 @@
 library;
 
 /// The default generative model to use for content generation tests.
-const defaultGenerativeModel = 'gemini-2.5-flash';
+const defaultGenerativeModel = 'gemini-3-flash-preview';
 
 /// The default embedding model to use for embedding tests.
 const defaultEmbeddingModel = 'gemini-embedding-001';

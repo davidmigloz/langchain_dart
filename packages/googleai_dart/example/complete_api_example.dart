@@ -20,7 +20,7 @@ void main() async {
     // List operations for a specific model
     // This is useful for monitoring async tasks like batch processing
     final modelOps = await client.models
-        .operations(model: 'models/gemini-2.0-flash-exp')
+        .operations(model: 'models/gemini-3-flash-preview')
         .list(pageSize: 5);
     final ops = modelOps.operations;
     print('Operations for model: ${ops.length}');

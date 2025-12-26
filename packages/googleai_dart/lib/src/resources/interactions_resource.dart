@@ -32,7 +32,7 @@ class InteractionsResource extends ResourceBase {
 
   /// Creates a new interaction.
   ///
-  /// The [model] specifies which model to use (e.g., "gemini-2.5-flash").
+  /// The [model] specifies which model to use (e.g., "gemini-3-flash-preview").
   /// The [input] can be a [String], a [List<InteractionContent>], or
   /// a list of turns for multi-turn conversations.
   ///

@@ -77,7 +77,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 // Before
 final r1 = await old.generateContent(
-  modelId: 'gemini-2.5-flash',
+  modelId: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [Content(parts: [TextPart('Hello')], role: 'user')],
   ),
@@ -85,7 +85,7 @@ final r1 = await old.generateContent(
 
 // After
 final r2 = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [Content(parts: [TextPart('Hello')], role: 'user')],
   ),
@@ -102,13 +102,13 @@ final r2 = await client.models.generateContent(
 ```dart
 // Before
 await for (final chunk in old.streamGenerateContent(
-  modelId: 'gemini-2.5-flash',
+  modelId: 'gemini-3-flash-preview',
   request: request,
 )) { /* ... */ }
 
 // After
 await for (final chunk in client.models.streamGenerateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: request,
 )) { /* ... */ }
 ```
@@ -145,7 +145,7 @@ final batch = await client.models.batchEmbedContents(
 ```dart
 // Before
 final t1 = await old.countTokens(
-  modelId: 'gemini-2.5-flash',
+  modelId: 'gemini-3-flash-preview',
   request: CountTokensRequest(
     contents: [Content(parts: [TextPart('Hello')], role: 'user')],
   ),
@@ -153,7 +153,7 @@ final t1 = await old.countTokens(
 
 // After
 final t2 = await client.models.countTokens(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: CountTokensRequest(
     contents: [Content(parts: [TextPart('Hello')], role: 'user')],
   ),
@@ -165,11 +165,11 @@ final t2 = await client.models.countTokens(
 ```dart
 // Before
 final list1 = await old.listModels();
-final m1 = await old.getModel(modelId: 'gemini-2.5-flash');
+final m1 = await old.getModel(modelId: 'gemini-3-flash-preview');
 
 // After
 final list2 = await client.models.list();
-final m2 = await client.models.get(model: 'gemini-2.5-flash');
+final m2 = await client.models.get(model: 'gemini-3-flash-preview');
 ```
 
 ## 7) Files API (New, Google AI only)
@@ -202,7 +202,7 @@ await client.files.delete(name: file.name);
 // Create cached content with system instructions
 final cached = await client.cachedContents.create(
   cachedContent: CachedContent(
-    model: 'models/gemini-1.5-flash-8b',
+    model: 'models/gemini-3-flash-preview',
     systemInstruction: Content(
       parts: [TextPart('You are a helpful assistant.')],
     ),
@@ -212,7 +212,7 @@ final cached = await client.cachedContents.create(
 
 // Use cached content in generation
 final res = await client.models.generateContent(
-  model: 'gemini-1.5-flash-8b',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     cachedContent: cached.name,
     contents: [Content(parts: [TextPart('Explain Pythagoras')], role: 'user')],
@@ -232,10 +232,10 @@ await client.cachedContents.delete(name: cached.name!);
 
 ```dart
 final batch = await client.models.batchGenerateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   batch: GenerateContentBatch(
     displayName: 'My Batch',
-    model: 'models/gemini-2.5-flash',
+    model: 'models/gemini-3-flash-preview',
     inputConfig: InputConfig(
       requests: InlinedRequests(
         requests: [

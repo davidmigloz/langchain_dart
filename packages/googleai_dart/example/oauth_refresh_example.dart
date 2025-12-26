@@ -113,7 +113,7 @@ void main() async {
     // In production with real OAuth tokens, this would succeed.
     try {
       await client.models.generateContent(
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3-flash-preview',
         request: const GenerateContentRequest(
           contents: [
             Content(parts: [TextPart('Say hello')], role: 'user'),
@@ -139,7 +139,7 @@ void main() async {
 
     try {
       await client.models.generateContent(
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3-flash-preview',
         request: const GenerateContentRequest(
           contents: [
             Content(parts: [TextPart('Say hello again')], role: 'user'),

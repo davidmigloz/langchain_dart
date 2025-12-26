@@ -165,7 +165,7 @@ final client = GoogleAIClient(
 );
 
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -261,7 +261,7 @@ final vertexClient = GoogleAIClient(
 
 // Use the same API as Google AI
 final response = await vertexClient.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -379,7 +379,7 @@ final client = GoogleAIClient(
 );
 
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -406,7 +406,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 // Assumes you have a configured client instance
 await for (final chunk in client.models.streamGenerateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: request,
 )) {
   // Process each chunk as it arrives
@@ -433,7 +433,7 @@ final abortController = Completer<void>();
 
 // Start request with abort capability
 final requestFuture = client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: request,
   abortTrigger: abortController.future,
 );
@@ -454,7 +454,7 @@ This works for both regular and streaming requests. You can also use it with tim
 ```dart
 // Auto-cancel after 30 seconds
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: request,
   abortTrigger: Future.delayed(Duration(seconds: 30)),
 );
@@ -490,7 +490,7 @@ final tools = [
 ];
 
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [/* ... */],
     tools: tools,
@@ -511,7 +511,7 @@ Ground responses with real-time web information:
 
 ```dart
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -555,7 +555,7 @@ Or use the Interactions API for streaming:
 
 ```dart
 await for (final event in client.interactions.createStream(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   input: 'What are today\'s top technology news?',
   tools: [GoogleSearchTool()],
 )) {
@@ -580,7 +580,7 @@ Fetch and analyze content from specific URLs (up to 20 URLs, max 34MB per URL):
 
 ```dart
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -607,7 +607,7 @@ Or with the Interactions API:
 
 ```dart
 await for (final event in client.interactions.createStream(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   input: 'Summarize https://pub.dev/packages/googleai_dart',
   tools: [UrlContextTool()],
 )) {
@@ -632,7 +632,7 @@ Add geospatial context for location-based queries:
 
 ```dart
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -706,7 +706,7 @@ final uploadResponse = await client.fileSearchStores.upload(
 
 // Use FileSearch in generation with optional metadata filter
 final response = await client.models.generateContent(
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -797,7 +797,7 @@ while (file.state == FileState.processing) {
 
 // Use the file in a prompt
 final response = await client.models.generateContent(
-  model: 'gemini-2.0-flash-exp',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
       Content(
@@ -847,7 +847,7 @@ import 'package:googleai_dart/googleai_dart.dart';
 // Create cached content with system instructions
 final cachedContent = await client.cachedContents.create(
   cachedContent: const CachedContent(
-    model: 'models/gemini-1.5-flash-8b',
+    model: 'models/gemini-3-flash-preview',
     displayName: 'Math Expert Cache',
     systemInstruction: Content(
       parts: [TextPart('You are an expert mathematician...')],
@@ -858,7 +858,7 @@ final cachedContent = await client.cachedContents.create(
 
 // Use cached content in requests (saves tokens!)
 final response = await client.models.generateContent(
-  model: 'gemini-1.5-flash-8b',
+  model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     cachedContent: cachedContent.name,
     contents: [
@@ -871,7 +871,7 @@ final response = await client.models.generateContent(
 await client.cachedContents.update(
   name: cachedContent.name!,
   cachedContent: const CachedContent(
-    model: 'models/gemini-1.5-flash-8b',
+    model: 'models/gemini-3-flash-preview',
     ttl: '7200s', // Extend to 2 hours
   ),
   updateMask: 'ttl',
@@ -974,11 +974,11 @@ import 'package:googleai_dart/googleai_dart.dart';
 
 // Assumes you have a configured client instance
 // Create a batch for processing multiple requests
+// The model in the batch is auto-populated from the method parameter
 final batch = await client.models.batchGenerateContent(
-  model: 'gemini-2.0-flash-exp',
+  model: 'gemini-3-flash-preview',
   batch: const GenerateContentBatch(
     displayName: 'My Batch Job',
-    model: 'models/gemini-2.0-flash-exp',
     inputConfig: InputConfig(
       requests: InlinedRequests(
         requests: [
@@ -1157,10 +1157,10 @@ await for (final chunk in client.tunedModels.streamGenerateContent(
 }
 
 // Batch generation with a tuned model
+// The model in the batch is auto-populated from the tunedModel parameter
 final batch = await client.tunedModels.batchGenerateContent(
   tunedModel: 'my-model-abc123',
   batch: const GenerateContentBatch(
-    model: 'models/placeholder',
     displayName: 'My Batch Job',
     inputConfig: InputConfig(
       requests: InlinedRequests(
