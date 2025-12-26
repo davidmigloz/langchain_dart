@@ -102,9 +102,7 @@ void main() async {
     print('4. Updating batch display name...');
     final updatedBatch = await client.batches.updateGenerateContentBatch(
       name: generateBatch.name!,
-      batch: const GenerateContentBatch(
-        displayName: 'Math Questions Batch v2',
-      ),
+      batch: const GenerateContentBatch(displayName: 'Math Questions Batch v2'),
       updateMask: 'displayName',
     );
     print('   ✓ Updated display name: ${updatedBatch.displayName}\n');

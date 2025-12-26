@@ -5,7 +5,7 @@ class Model {
   /// The resource name in format `models/{model}`.
   final String name;
 
-  /// The name of the base model (e.g., "gemini-1.5-flash").
+  /// The name of the base model (e.g., "gemini-3-flash-preview").
   final String? baseModelId;
 
   /// The human-readable name (e.g., "Gemini 1.5 Pro").

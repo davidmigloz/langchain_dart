@@ -68,7 +68,7 @@ Future<void> usingV1(String apiKey) async {
     print('Generating content with v1 API...');
 
     final response = await client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       request: const GenerateContentRequest(
         contents: [
           Content(
@@ -110,7 +110,7 @@ Future<void> usingV1Beta(String apiKey) async {
     print('Generating content with v1beta API...');
 
     final response = await client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       request: const GenerateContentRequest(
         contents: [
           Content(
@@ -150,7 +150,7 @@ Future<void> usingDefault(String apiKey) async {
     print('Generating content with default config (v1beta)...');
 
     final response = await client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       request: const GenerateContentRequest(
         contents: [
           Content(parts: [TextPart('What is machine learning?')], role: 'user'),

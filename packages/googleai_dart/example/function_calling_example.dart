@@ -55,7 +55,7 @@ void main() async {
     print('Asking: What is the weather in London?\n');
 
     final response = await client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       request: GenerateContentRequest(
         contents: [
           const Content(

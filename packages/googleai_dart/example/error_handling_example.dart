@@ -12,7 +12,7 @@ void main() async {
   try {
     // Make a request that might fail
     final response = await client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       request: const GenerateContentRequest(
         contents: [
           Content(parts: [TextPart('Hello!')], role: 'user'),

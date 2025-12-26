@@ -24,7 +24,7 @@ void main() async {
   try {
     // Generate content using Gemini
     final response = await client.models.generateContent(
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       request: const GenerateContentRequest(
         contents: [
           Content(

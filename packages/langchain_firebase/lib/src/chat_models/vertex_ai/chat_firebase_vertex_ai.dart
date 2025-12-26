@@ -174,8 +174,8 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     this.appCheck,
     this.auth,
     this.location,
-  })  : _currentModel = defaultOptions.model ?? '',
-        _currentBackend = defaultBackend {
+  }) : _currentModel = defaultOptions.model ?? '',
+       _currentBackend = defaultBackend {
     _firebaseClient = _createFirebaseClient(_currentModel);
   }
 
@@ -329,11 +329,11 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
 
     final firebaseAI = switch (effectiveBackend) {
       FirebaseAIBackend.vertexAI => FirebaseAI.vertexAI(
-          app: app,
-          appCheck: appCheck,
-          auth: auth,
-          location: location,
-        ),
+        app: app,
+        appCheck: appCheck,
+        auth: auth,
+        location: location,
+      ),
       FirebaseAIBackend.googleAI => FirebaseAI.googleAI(app: app),
     };
 

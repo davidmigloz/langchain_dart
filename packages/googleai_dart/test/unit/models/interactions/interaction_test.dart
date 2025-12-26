@@ -7,7 +7,7 @@ void main() {
       test('creates Interaction with all fields', () {
         final json = {
           'id': 'abc-123',
-          'model': 'gemini-2.5-flash',
+          'model': 'gemini-3-flash-preview',
           'status': 'completed',
           'created': '2024-01-15T10:30:00Z',
           'updated': '2024-01-15T10:31:00Z',
@@ -29,7 +29,7 @@ void main() {
         final interaction = Interaction.fromJson(json);
 
         expect(interaction.id, 'abc-123');
-        expect(interaction.model, 'gemini-2.5-flash');
+        expect(interaction.model, 'gemini-3-flash-preview');
         expect(interaction.status, InteractionStatus.completed);
         expect(interaction.created, DateTime.parse('2024-01-15T10:30:00Z'));
         expect(interaction.updated, DateTime.parse('2024-01-15T10:31:00Z'));
@@ -112,7 +112,7 @@ void main() {
       final original = Interaction(
         id: 'roundtrip-789',
         status: InteractionStatus.inProgress,
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3-flash-preview',
         created: DateTime.parse('2024-03-10T12:00:00Z'),
         usage: const InteractionUsage(
           totalInputTokens: 50,

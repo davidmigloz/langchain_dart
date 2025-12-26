@@ -38,7 +38,7 @@ Future<void> simpleInteraction(GoogleAIClient client) async {
   print('=== Simple Interaction ===\n');
 
   final interaction = await client.interactions.create(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     input: 'What is the capital of France?',
   );
 
@@ -68,7 +68,7 @@ Future<void> streamingInteraction(GoogleAIClient client) async {
   print('=== Streaming Interaction ===\n');
 
   await for (final event in client.interactions.createStream(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     input: 'Write a haiku about programming.',
   )) {
     switch (event) {
@@ -103,7 +103,7 @@ Future<void> multiTurnConversation(GoogleAIClient client) async {
 
   // First turn
   final turn1 = await client.interactions.create(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     input: 'My name is Alice.',
   );
   print('Turn 1 - User: My name is Alice.');
@@ -111,7 +111,7 @@ Future<void> multiTurnConversation(GoogleAIClient client) async {
 
   // Second turn - references the first interaction
   final turn2 = await client.interactions.create(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     input: 'What is my name?',
     previousInteractionId: turn1.id,
   );
@@ -142,7 +142,7 @@ Future<void> functionCallingInteraction(GoogleAIClient client) async {
 
   // Stream the interaction to see function calls in real-time
   await for (final event in client.interactions.createStream(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     input: 'What is the weather in Paris?',
     tools: tools,
   )) {

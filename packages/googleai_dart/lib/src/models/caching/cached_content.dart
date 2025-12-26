@@ -13,7 +13,7 @@ import 'cached_content_usage_metadata.dart';
 /// ## Creating Cached Content
 ///
 /// **Required fields**:
-/// - [model]: The model to use with this cache (e.g., "models/gemini-1.5-flash")
+/// - [model]: The model to use with this cache (e.g., "models/gemini-3-flash-preview")
 ///
 /// **Expiration** (must provide one):
 /// - [ttl]: Duration string (e.g., "3600s" for 1 hour, "7200s" for 2 hours)
@@ -53,7 +53,7 @@ import 'cached_content_usage_metadata.dart';
 /// // Create cache with system instruction
 /// final cache = await client.createCachedContent(
 ///   cachedContent: CachedContent(
-///     model: 'models/gemini-1.5-flash',
+///     model: 'models/gemini-3-flash-preview',
 ///     displayName: 'Math Expert',
 ///     systemInstruction: Content(
 ///       parts: [TextPart('You are a math expert...')],
@@ -64,7 +64,7 @@ import 'cached_content_usage_metadata.dart';
 ///
 /// // Use cache in generation requests
 /// final response = await client.generateContent(
-///   model: 'gemini-1.5-flash',
+///   model: 'gemini-3-flash-preview',
 ///   request: GenerateContentRequest(
 ///     cachedContent: cache.name,
 ///     contents: [Content(parts: [TextPart('What is 2+2?')])],
@@ -84,7 +84,7 @@ class CachedContent {
 
   /// Required. Immutable. The model to use with this cached content.
   ///
-  /// Format: `models/{model}` (e.g., "models/gemini-1.5-flash-8b")
+  /// Format: `models/{model}` (e.g., "models/gemini-3-flash-preview-8b")
   ///
   /// The cached content can only be used with this specific model.
   final String? model;

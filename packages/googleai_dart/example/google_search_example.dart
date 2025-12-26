@@ -41,7 +41,7 @@ Future<void> main() async {
 /// Google Search grounding using the generateContent API.
 Future<void> googleSearchWithGenerateContent(GoogleAIClient client) async {
   final response = await client.models.generateContent(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     request: const GenerateContentRequest(
       contents: [
         Content(
@@ -99,7 +99,7 @@ Future<void> googleSearchWithInteractions(GoogleAIClient client) async {
   print('Response (streaming):');
 
   await for (final event in client.interactions.createStream(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     input: "What are today's top technology news? Give me 3 headlines.",
     tools: const [GoogleSearchTool()],
   )) {
