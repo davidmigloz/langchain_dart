@@ -16,10 +16,10 @@ void main() async {
     // 1. Create a batch for content generation
     print('1. Creating batch for content generation...');
     final generateBatch = await client.models.batchGenerateContent(
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-3-flash-preview',
       batch: const GenerateContentBatch(
         displayName: 'Math Questions Batch',
-        model: 'models/gemini-2.0-flash-exp',
+        // model is auto-populated from the method parameter
         inputConfig: InputConfig(
           requests: InlinedRequests(
             requests: [
@@ -104,9 +104,8 @@ void main() async {
       name: generateBatch.name!,
       batch: const GenerateContentBatch(
         displayName: 'Math Questions Batch v2',
-        model: 'models/gemini-2.0-flash-exp',
-        inputConfig: InputConfig(),
       ),
+      updateMask: 'displayName',
     );
     print('   ✓ Updated display name: ${updatedBatch.displayName}\n');
 
@@ -116,7 +115,7 @@ void main() async {
       model: 'text-embedding-004',
       batch: const EmbedContentBatch(
         displayName: 'Product Descriptions Embeddings',
-        model: 'models/text-embedding-004',
+        // model is auto-populated from the method parameter
         inputConfig: InputEmbedContentConfig(
           requests: InlinedEmbedContentRequests(
             requests: [

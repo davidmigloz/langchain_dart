@@ -39,12 +39,12 @@ void main() {
         return;
       }
 
-      // Create a batch
+      // Create a batch - model is auto-populated from method parameter
       final batch = await client!.models.batchGenerateContent(
         model: defaultGenerativeModel,
         batch: const GenerateContentBatch(
           displayName: 'Test Batch - Simple Questions',
-          model: 'models/$defaultGenerativeModel',
+          // model is auto-populated from the method parameter
           inputConfig: InputConfig(
             requests: InlinedRequests(
               requests: [
@@ -108,12 +108,11 @@ void main() {
         return;
       }
 
-      // Create a batch first
+      // Create a batch first - model is auto-populated
       final batch = await client!.models.batchGenerateContent(
         model: defaultGenerativeModel,
         batch: const GenerateContentBatch(
           displayName: 'Test Batch for Listing',
-          model: 'models/$defaultGenerativeModel',
           inputConfig: InputConfig(
             requests: InlinedRequests(
               requests: [
@@ -152,11 +151,12 @@ void main() {
         return;
       }
 
+      // Create batch - model is auto-populated from method parameter
       final batch = await client!.models.asyncBatchEmbedContent(
         model: defaultEmbeddingModel,
         batch: const EmbedContentBatch(
           displayName: 'Test Embeddings Batch',
-          model: 'models/$defaultEmbeddingModel',
+          // model is auto-populated from the method parameter
           inputConfig: InputEmbedContentConfig(
             requests: InlinedEmbedContentRequests(
               requests: [
@@ -224,12 +224,11 @@ void main() {
         return;
       }
 
-      // Create a batch with initial priority
+      // Create a batch with initial priority - model auto-populated
       final batch = await client!.models.batchGenerateContent(
         model: defaultGenerativeModel,
         batch: const GenerateContentBatch(
           displayName: 'Test Batch for Update',
-          model: 'models/$defaultGenerativeModel',
           priority: 5,
           inputConfig: InputConfig(
             requests: InlinedRequests(
@@ -293,7 +292,7 @@ void main() {
         model: defaultGenerativeModel,
         batch: GenerateContentBatch(
           displayName: 'Test Batch for Cancellation',
-          model: 'models/$defaultGenerativeModel',
+          // model is auto-populated from method parameter
           inputConfig: InputConfig(
             requests: InlinedRequests(requests: requests),
           ),
@@ -340,11 +339,11 @@ void main() {
         return;
       }
 
+      // Create batch - model is auto-populated from method parameter
       final batch = await client!.models.batchGenerateContent(
         model: defaultGenerativeModel,
         batch: const GenerateContentBatch(
           displayName: 'High Priority Batch',
-          model: 'models/$defaultGenerativeModel',
           priority: 10,
           inputConfig: InputConfig(
             requests: InlinedRequests(
