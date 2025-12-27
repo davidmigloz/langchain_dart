@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`googleai_dart` - `v3.0.0`](#googleai_dart---v300)
+
+Packages with other changes:
+
+ - [`langchain_firebase` - `v0.3.2`](#langchain_firebase---v032)
+ - [`openai_dart` - `v0.6.2`](#openai_dart---v062)
+ - [`langchain_google` - `v0.7.1+2`](#langchain_google---v0712)
+ - [`langchain_openai` - `v0.8.1+1`](#langchain_openai---v0811)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `langchain_google` - `v0.7.1+2`
+ - `langchain_openai` - `v0.8.1+1`
+
+---
+
+#### `googleai_dart` - `v3.0.0`
+
+ - **FEAT**(googleai_dart): add convenience helpers for improved DX ([#924](https://github.com/davidmigloz/langchain_dart/issues/924)). ([634b4f97](https://github.com/davidmigloz/langchain_dart/commit/634b4f970ec3264cddaa6e42d7d03fc8af3593ff))
+ - **FEAT**(googleai_dart): Update default models to Gemini 3 family ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))
+ - **FEAT**(googleai_dart): Auto-populate batch.model from method parameter ([#921](https://github.com/davidmigloz/langchain_dart/issues/921)). ([abfeded8](https://github.com/davidmigloz/langchain_dart/commit/abfeded8f602b1db28d0f8f35f4e275982a7fed6))
+ - **BREAKING** **FEAT**(googleai_dart): replace List<dynamic> with strongly-typed lists ([#923](https://github.com/davidmigloz/langchain_dart/issues/923)). ([403d5319](https://github.com/davidmigloz/langchain_dart/commit/403d5319d67fb39298cc6182d883a8e2f1b731f8))
+
+#### `langchain_firebase` - `v0.3.2`
+
+ - **FEAT**: Fix formatting issues ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))
+
+#### `openai_dart` - `v0.6.2`
+
+ - **FEAT**: Fix formatting issues ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))
+
 ## 2025-12-23
 
 ### Changes

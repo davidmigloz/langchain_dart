@@ -1,3 +1,7 @@
+## 0.6.2
+
+ - **FEAT**: Fix formatting issues ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))
+
 ## 0.6.1
 
  - **FEAT**(openai_dart): Add image streaming and new GPT image models ([#827](https://github.com/davidmigloz/langchain_dart/issues/827)). ([1218d8c3](https://github.com/davidmigloz/langchain_dart/commit/1218d8c3d67531066ba9b1e9320699461a7e172d))

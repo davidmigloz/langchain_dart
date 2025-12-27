@@ -9,6 +9,6 @@ resolution: workspace
 
 dependencies:
   langchain: ^0.8.1
-  langchain_openai: ^0.8.1
+  langchain_openai: ^0.8.1+1
   shelf: ^1.4.2
   shelf_router: ^1.1.4

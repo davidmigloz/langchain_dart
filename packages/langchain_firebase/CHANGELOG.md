@@ -1,3 +1,7 @@
+## 0.3.2
+
+ - **FEAT**: Fix formatting issues ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))
+
 ## 0.3.1+1
 
  - **FIX**(langchain_firebase): Remove invalid FinishReason.malformedFunctionCall case ([#911](https://github.com/davidmigloz/langchain_dart/issues/911)). ([569e9cc5](https://github.com/davidmigloz/langchain_dart/commit/569e9cc53f3cf884f4a5c2bd5d56f081a9c39ad0))

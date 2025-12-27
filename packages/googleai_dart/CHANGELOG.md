@@ -1,3 +1,12 @@
+## 3.0.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**(googleai_dart): add convenience helpers for improved DX ([#924](https://github.com/davidmigloz/langchain_dart/issues/924)). ([634b4f97](https://github.com/davidmigloz/langchain_dart/commit/634b4f970ec3264cddaa6e42d7d03fc8af3593ff))
+ - **FEAT**(googleai_dart): Update default models to Gemini 3 family ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))
+ - **FEAT**(googleai_dart): Auto-populate batch.model from method parameter ([#921](https://github.com/davidmigloz/langchain_dart/issues/921)). ([abfeded8](https://github.com/davidmigloz/langchain_dart/commit/abfeded8f602b1db28d0f8f35f4e275982a7fed6))
+ - **BREAKING** **FEAT**(googleai_dart): replace List<dynamic> with strongly-typed lists ([#923](https://github.com/davidmigloz/langchain_dart/issues/923)). ([403d5319](https://github.com/davidmigloz/langchain_dart/commit/403d5319d67fb39298cc6182d883a8e2f1b731f8))
+
 ## 2.1.0
 
  - **FEAT**(googleai_dart): Add Gemini Live API (WebSocket) support ([#920](https://github.com/davidmigloz/langchain_dart/issues/920)). ([4beb01dd](https://github.com/davidmigloz/langchain_dart/commit/4beb01dd532582257e3d06c1619da1ee1793c5f4))

@@ -31,4 +31,4 @@ dev_dependencies:
   test: ^1.26.2
   langchain: ^0.8.1
   langchain_community: 0.4.0+2
-  langchain_openai: ^0.8.1
+  langchain_openai: ^0.8.1+1

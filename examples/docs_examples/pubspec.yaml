@@ -12,7 +12,7 @@ dependencies:
   langchain_anthropic: ^0.3.1
   langchain_chroma: ^0.3.0+2
   langchain_community: 0.4.0+2
-  langchain_google: ^0.7.1+1
+  langchain_google: ^0.7.1+2
   langchain_mistralai: ^0.3.1+1
   langchain_ollama: ^0.4.1
-  langchain_openai: ^0.8.1
+  langchain_openai: ^0.8.1+1
