@@ -255,13 +255,84 @@ mcp__dart__run_tests()
 ## Agent Responsibilities
 
 - **Use MCP tools** for format/analyze/fix/tests; attach outputs to your change notes when useful.
-- **Keep it small**: submit focused, reviewable changes with clear commit messages (Conventional Commits recommended).
+- **Keep it small**: submit focused, reviewable changes following the Git Workflow guidelines below.
+- **Complete PR metadata**: always add required labels (`p:`, `t:`), assignee, and milestone to PRs.
 - **Honor minimal‑deps policy**: propose new dependencies only with trade‑off notes.
 - **Maintain type & null safety**: avoid `dynamic` and implicit casts.
 - **Write tests and docs** with every change; update examples when behavior changes.
 - **Protect secrets**: never commit keys; redact logs; scrub artifacts.
 - **Make code readable**: consistent naming, comments where intent isn’t obvious, no dead code.
 - **Ensure reproducibility**: lock constraints, avoid relying on machine‑local state.
+
+---
+
+## Git Workflow & Pull Requests
+
+**Conventional Commits (Required)**
+
+All commits must follow [Conventional Commits](https://www.conventionalcommits.org/) format. Melos uses this for automatic version bumping and changelog generation.
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+- **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`
+- **Scope**: Package name (e.g., `googleai_dart`, `langchain`)
+- **Breaking changes**: Add `!` after type/scope — this triggers a **major version bump**
+
+```bash
+# Regular feature (minor bump)
+feat(googleai_dart): add Content.text() factory constructor
+
+# Breaking change (major bump)
+feat(googleai_dart)!: replace List<dynamic> with strongly-typed lists
+
+BREAKING CHANGE: Interaction.outputs type changed from List<dynamic>? to List<InteractionContent>?
+```
+
+**Pull Request Requirements**
+
+Every PR must have:
+
+| Requirement | Value | Notes |
+|-------------|-------|-------|
+| **Labels** | `p:<package>` | e.g., `p:googleai_dart`, `p:langchain` |
+| | `t:<type>` | e.g., `t:feat`, `t:fix`, `t:docs` |
+| **Assignee** | `davidmigloz` | Repository owner |
+| **Milestone** | `Next Release` | For tracking upcoming releases |
+
+**Creating PRs (Example)**
+
+```bash
+# Create branch
+git checkout -b feat/my-feature
+
+# Make changes, commit with conventional format
+git add .
+git commit -m "feat(googleai_dart): add new feature"
+
+# Push and create PR
+git push -u origin feat/my-feature
+
+# Add metadata via GitHub API (gh pr edit has issues with classic projects)
+gh api repos/davidmigloz/langchain_dart/issues/<PR_NUMBER> -X PATCH \
+  -f 'labels[]=p:googleai_dart' \
+  -f 'labels[]=t:feat' \
+  -f 'assignees[]=davidmigloz' \
+  -F milestone=51  # "Next Release" milestone number
+```
+
+**Branch Naming**
+
+- `feat/<description>` — New features
+- `fix/<description>` — Bug fixes
+- `docs/<description>` — Documentation only
+- `refactor/<description>` — Code refactoring
+- `chore/<description>` — Maintenance tasks
 
 ---
 
