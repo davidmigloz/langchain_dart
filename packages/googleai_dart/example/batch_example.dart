@@ -17,7 +17,7 @@ void main() async {
     print('1. Creating batch for content generation...');
     final generateBatch = await client.models.batchGenerateContent(
       model: 'gemini-3-flash-preview',
-      batch: const GenerateContentBatch(
+      batch: GenerateContentBatch(
         displayName: 'Math Questions Batch',
         // model is auto-populated from the method parameter
         inputConfig: InputConfig(
@@ -25,30 +25,21 @@ void main() async {
             requests: [
               InlinedRequest(
                 request: GenerateContentRequest(
-                  contents: [
-                    Content(parts: [TextPart('What is 2 + 2?')], role: 'user'),
-                  ],
+                  contents: [Content.text('What is 2 + 2?')],
                 ),
                 metadata: {'question_id': 'q1', 'difficulty': 'easy'},
               ),
               InlinedRequest(
                 request: GenerateContentRequest(
-                  contents: [
-                    Content(parts: [TextPart('What is 15 * 7?')], role: 'user'),
-                  ],
+                  contents: [Content.text('What is 15 * 7?')],
                 ),
                 metadata: {'question_id': 'q2', 'difficulty': 'medium'},
               ),
               InlinedRequest(
                 request: GenerateContentRequest(
                   contents: [
-                    Content(
-                      parts: [
-                        TextPart(
-                          'Explain the Pythagorean theorem in simple terms.',
-                        ),
-                      ],
-                      role: 'user',
+                    Content.text(
+                      'Explain the Pythagorean theorem in simple terms.',
                     ),
                   ],
                 ),
@@ -111,7 +102,7 @@ void main() async {
     print('5. Creating async batch for embeddings...');
     final embedBatch = await client.models.asyncBatchEmbedContent(
       model: 'text-embedding-004',
-      batch: const EmbedContentBatch(
+      batch: EmbedContentBatch(
         displayName: 'Product Descriptions Embeddings',
         // model is auto-populated from the method parameter
         inputConfig: InputEmbedContentConfig(
@@ -119,12 +110,8 @@ void main() async {
             requests: [
               InlinedEmbedContentRequest(
                 request: EmbedContentRequest(
-                  content: Content(
-                    parts: [
-                      TextPart(
-                        'High-quality wireless headphones with noise cancellation.',
-                      ),
-                    ],
+                  content: Content.text(
+                    'High-quality wireless headphones with noise cancellation.',
                   ),
                   taskType: TaskType.retrievalDocument,
                 ),
@@ -132,12 +119,8 @@ void main() async {
               ),
               InlinedEmbedContentRequest(
                 request: EmbedContentRequest(
-                  content: Content(
-                    parts: [
-                      TextPart(
-                        'Ergonomic office chair with lumbar support and adjustable height.',
-                      ),
-                    ],
+                  content: Content.text(
+                    'Ergonomic office chair with lumbar support and adjustable height.',
                   ),
                   taskType: TaskType.retrievalDocument,
                 ),
@@ -145,12 +128,8 @@ void main() async {
               ),
               InlinedEmbedContentRequest(
                 request: EmbedContentRequest(
-                  content: Content(
-                    parts: [
-                      TextPart(
-                        'Smart watch with heart rate monitor and GPS tracking.',
-                      ),
-                    ],
+                  content: Content.text(
+                    'Smart watch with heart rate monitor and GPS tracking.',
                   ),
                   taskType: TaskType.retrievalDocument,
                 ),

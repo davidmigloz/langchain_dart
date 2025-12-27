@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print, unused_local_variable, unreachable_from_main
 // ignore_for_file: cascade_invocations
-import 'dart:io';
-
 import 'package:googleai_dart/googleai_dart.dart';
 
 /// Example demonstrating the Gemini Live API for real-time streaming.
@@ -16,17 +14,8 @@ import 'package:googleai_dart/googleai_dart.dart';
 /// - Input: 16kHz, 16-bit, mono PCM
 /// - Output: 24kHz, 16-bit, mono PCM
 void main() async {
-  // Get API key from environment
-  final apiKey = Platform.environment['GOOGLE_AI_API_KEY'];
-  if (apiKey == null) {
-    print('Please set GOOGLE_AI_API_KEY environment variable');
-    exit(1);
-  }
-
-  // Create the main client
-  final client = GoogleAIClient(
-    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
-  );
+  // Create client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   // Create a Live client for WebSocket streaming
   final liveClient = client.createLiveClient();

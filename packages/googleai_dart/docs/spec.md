@@ -380,6 +380,48 @@ class ResponseMetadata {
 
 ---
 
+## Developer Experience Principles
+
+### Reduce Boilerplate
+
+Provide convenience methods that eliminate repetitive code patterns. When the same
+code pattern appears in multiple examples, it should be abstracted into the library.
+
+**Guidance:**
+- Use extension methods to add convenience getters to response types
+- Use factory constructors for common object creation patterns
+- Return `null` or empty collections for missing data (don't throw)
+
+### Dart-Idiomatic API Design
+
+Follow Dart conventions rather than porting patterns from other SDKs:
+
+| Pattern | Implementation |
+|---------|----------------|
+| Object creation | Factory constructors (`Content.text()`) not top-level functions |
+| Role variants | Named constructors (`Content.user()`, `Content.model()`) |
+| Response helpers | Extension methods (keeps model classes clean) |
+| Async streaming | Dart `Stream` (not generators) |
+| Deep copy | `copyWith()` or `fromJson(toJson())` |
+
+### Type Safety
+
+Use strong types wherever possible:
+- Replace `List<dynamic>` with typed lists when the element type is known
+- Keep `dynamic` only for truly polymorphic API fields (e.g., Vertex AI generic payloads)
+- Use sealed classes for discriminated unions
+
+### Extension Method Principles
+
+Extensions should:
+1. Be pure and have no side effects
+2. Return nullable types for potentially missing data
+3. Use lazy evaluation (compute on access)
+4. Follow naming conventions from official SDKs (e.g., `.text`, `.functionCalls`)
+5. Use `whereType<T>()` for type-safe filtering of sealed class instances
+
+---
+
 ## Critical Requirements
 
 **Non-negotiable requirements (must all pass):**

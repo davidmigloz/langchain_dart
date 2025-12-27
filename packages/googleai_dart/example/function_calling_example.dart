@@ -5,14 +5,13 @@ library;
 import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
-  final client = GoogleAIClient(
-    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     // Define available tools (functions the model can call)
-    final tools = [
-      const Tool(
+    const tools = [
+      Tool(
         functionDeclarations: [
           FunctionDeclaration(
             name: 'get_weather',
@@ -58,40 +57,29 @@ void main() async {
       model: 'gemini-3-flash-preview',
       request: GenerateContentRequest(
         contents: [
-          const Content(
-            parts: [
-              TextPart('What is the weather in London and what time is it?'),
-            ],
-            role: 'user',
-          ),
+          Content.text('What is the weather in London and what time is it?'),
         ],
         tools: tools,
       ),
     );
 
-    // Check if model wants to call a function
-    final candidate = response.candidates?.firstOrNull;
-    if (candidate != null) {
-      final content = candidate.content;
-      if (content != null) {
-        for (final part in content.parts) {
-          if (part is FunctionCallPart) {
-            print('Model wants to call: ${part.functionCall.name}');
-            print('With arguments:');
-            part.functionCall.args?.forEach((key, value) {
-              print('  $key: $value');
-            });
-            print('');
-
-            // In a real application, you would:
-            // 1. Execute the function with the provided arguments
-            // 2. Send the result back to the model
-            // 3. Get the final response
-          } else if (part is TextPart) {
-            print('Text response: ${part.text}');
-          }
-        }
+    // Check if model wants to call functions using the extension
+    final functionCalls = response.functionCalls;
+    if (functionCalls.isNotEmpty) {
+      for (final call in functionCalls) {
+        print('Model wants to call: ${call.name}');
+        print('With arguments:');
+        call.args?.forEach((key, value) {
+          print('  $key: $value');
+        });
+        print('');
       }
+    }
+
+    // Check for text response
+    final text = response.text;
+    if (text != null) {
+      print('Text response: $text');
     }
 
     // Example of handling function results (mock implementation)

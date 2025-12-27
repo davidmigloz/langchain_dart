@@ -158,27 +158,33 @@ Unofficial Dart client for the **[Google AI Gemini Developer API](https://ai.goo
 ```dart
 import 'package:googleai_dart/googleai_dart.dart';
 
+// Initialize from environment variable (GOOGLE_GENAI_API_KEY)
+final client = GoogleAIClient.fromEnvironment();
+
+final response = await client.models.generateContent(
+  model: 'gemini-3-flash-preview',
+  request: GenerateContentRequest(
+    contents: [Content.text('Hello Gemini!')],  // Convenience factory
+  ),
+);
+
+// Use .text extension to get the response text
+print(response.text);
+client.close();
+```
+
+<details>
+<summary><b>Or with explicit API key</b></summary>
+
+```dart
 final client = GoogleAIClient(
   config: GoogleAIConfig.googleAI(
     authProvider: ApiKeyProvider('YOUR_API_KEY'),
   ),
 );
-
-final response = await client.models.generateContent(
-  model: 'gemini-3-flash-preview',
-  request: GenerateContentRequest(
-    contents: [
-      Content(
-        parts: [TextPart('Hello Gemini!')], 
-        role: 'user',
-      ),
-    ],
-  ),
-);
-
-print(response.candidates?.first.content?.parts.first);
-client.close();
 ```
+
+</details>
 
 ## Installation
 
@@ -372,25 +378,18 @@ final oauthClient = GoogleAIClient(
 ```dart
 import 'package:googleai_dart/googleai_dart.dart';
 
-final client = GoogleAIClient(
-  config: GoogleAIConfig(
-    authProvider: ApiKeyProvider('YOUR_API_KEY'),
-  ),
-);
+// Initialize from environment variable (GOOGLE_GENAI_API_KEY)
+final client = GoogleAIClient.fromEnvironment();
 
 final response = await client.models.generateContent(
   model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
-    contents: [
-      Content(
-        parts: [TextPart('Explain quantum computing')],
-        role: 'user',
-      ),
-    ],
+    contents: [Content.text('Explain quantum computing')],
   ),
 );
 
-print(response.candidates?.first.content?.parts.first);
+// Use .text extension for easy text extraction
+print(response.text);
 client.close();
 ```
 
@@ -407,11 +406,13 @@ import 'package:googleai_dart/googleai_dart.dart';
 // Assumes you have a configured client instance
 await for (final chunk in client.models.streamGenerateContent(
   model: 'gemini-3-flash-preview',
-  request: request,
+  request: GenerateContentRequest(
+    contents: [Content.text('Write a poem about AI')],
+  ),
 )) {
-  // Process each chunk as it arrives
-  final text = chunk.candidates?.first.content?.parts.first;
-  if (text is TextPart) print(text.text);
+  // Use .text extension for each chunk
+  final text = chunk.text;
+  if (text != null) print(text);
 }
 ```
 
@@ -513,23 +514,14 @@ Ground responses with real-time web information:
 final response = await client.models.generateContent(
   model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
-    contents: [
-      Content(
-        parts: [TextPart('Who won Euro 2024?')],
-        role: 'user',
-      ),
-    ],
+    contents: [Content.text('Who won Euro 2024?')],
     // Enable Google Search grounding with an empty map
     tools: [Tool(googleSearch: {})],
   ),
 );
 
-// Extract text from response
-final text = response.candidates?.first.content?.parts
-    .whereType<TextPart>()
-    .map((p) => p.text)
-    .join() ?? '';
-print(text);
+// Use .text extension for easy text extraction
+print(response.text);
 
 // Access grounding metadata
 final metadata = response.candidates?.first.groundingMetadata;
@@ -583,24 +575,15 @@ final response = await client.models.generateContent(
   model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
-      Content(
-        parts: [
-          TextPart('Summarize the main points from: https://dart.dev/overview'),
-        ],
-        role: 'user',
-      ),
+      Content.text('Summarize the main points from: https://dart.dev/overview'),
     ],
     // Enable URL Context with an empty map
     tools: [Tool(urlContext: {})],
   ),
 );
 
-// Extract text from response
-final text = response.candidates?.first.content?.parts
-    .whereType<TextPart>()
-    .map((p) => p.text)
-    .join() ?? '';
-print(text);
+// Use .text extension for easy text extraction
+print(response.text);
 ```
 
 Or with the Interactions API:
@@ -634,12 +617,7 @@ Add geospatial context for location-based queries:
 final response = await client.models.generateContent(
   model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
-    contents: [
-      Content(
-        parts: [TextPart('Find Italian restaurants nearby')],
-        role: 'user',
-      ),
-    ],
+    contents: [Content.text('Find Italian restaurants nearby')],
     // Enable Google Maps with widget support
     tools: [Tool(googleMaps: GoogleMaps(enableWidget: true))],
     // Provide user location context (as Map)
@@ -709,10 +687,7 @@ final response = await client.models.generateContent(
   model: 'gemini-3-flash-preview',
   request: GenerateContentRequest(
     contents: [
-      Content(
-        parts: [TextPart('What does the documentation say about X?')],
-        role: 'user',
-      ),
+      Content.text('What does the documentation say about X?'),
     ],
     tools: [
       Tool(
@@ -858,12 +833,10 @@ final cachedContent = await client.cachedContents.create(
 
 // Use cached content in requests (saves tokens!)
 final response = await client.models.generateContent(
-  model: 'gemini-3-flash-preview',
+  model: 'gemini-3-flash',
   request: GenerateContentRequest(
     cachedContent: cachedContent.name,
-    contents: [
-      Content(parts: [TextPart('Explain the Pythagorean theorem')], role: 'user'),
-    ],
+    contents: [Content.text('Explain the Pythagorean theorem')],
   ),
 );
 
@@ -984,16 +957,12 @@ final batch = await client.models.batchGenerateContent(
         requests: [
           InlinedRequest(
             request: GenerateContentRequest(
-              contents: [
-                Content(parts: [TextPart('What is 2+2?')], role: 'user'),
-              ],
+              contents: [Content.text('What is 2+2?')],
             ),
           ),
           InlinedRequest(
             request: GenerateContentRequest(
-              contents: [
-                Content(parts: [TextPart('What is 3+3?')], role: 'user'),
-              ],
+              contents: [Content.text('What is 3+3?')],
             ),
           ),
         ],
@@ -1135,41 +1104,35 @@ import 'package:googleai_dart/googleai_dart.dart';
 // Generate content with a tuned model
 final response = await client.tunedModels.generateContent(
   tunedModel: 'my-model-abc123', // Your tuned model ID
-  request: const GenerateContentRequest(
-    contents: [
-      Content(
-        parts: [TextPart('Explain quantum computing')],
-        role: 'user',
-      ),
-    ],
+  request: GenerateContentRequest(
+    contents: [Content.text('Explain quantum computing')],
   ),
 );
 
-print(response.candidates?.first.content?.parts.first);
+// Use the convenience extension to get text
+print(response.text);
 
 // Stream responses with a tuned model
 await for (final chunk in client.tunedModels.streamGenerateContent(
   tunedModel: 'my-model-abc123',
   request: request,
 )) {
-  final text = chunk.candidates?.first.content?.parts.first;
-  if (text is TextPart) print(text.text);
+  final text = chunk.text;
+  if (text != null) print(text);
 }
 
 // Batch generation with a tuned model
 // The model in the batch is auto-populated from the tunedModel parameter
 final batch = await client.tunedModels.batchGenerateContent(
   tunedModel: 'my-model-abc123',
-  batch: const GenerateContentBatch(
+  batch: GenerateContentBatch(
     displayName: 'My Batch Job',
     inputConfig: InputConfig(
       requests: InlinedRequests(
         requests: [
           InlinedRequest(
             request: GenerateContentRequest(
-              contents: [
-                Content(parts: [TextPart('Question 1')], role: 'user'),
-              ],
+              contents: [Content.text('Question 1')],
             ),
           ),
         ],

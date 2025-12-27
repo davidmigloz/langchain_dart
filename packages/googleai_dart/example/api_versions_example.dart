@@ -69,19 +69,14 @@ Future<void> usingV1(String apiKey) async {
 
     final response = await client.models.generateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
-        contents: [
-          Content(
-            parts: [TextPart('What is the meaning of life?')],
-            role: 'user',
-          ),
-        ],
+      request: GenerateContentRequest(
+        contents: [Content.text('What is the meaning of life?')],
       ),
     );
 
-    final text = response.candidates?.first.content?.parts.first;
-    if (text is TextPart) {
-      print('Response: ${text.text.substring(0, 100)}...\n');
+    final text = response.text;
+    if (text != null) {
+      print('Response: ${text.substring(0, 100)}...\n');
     }
 
     print('✅ Success with v1 (stable)');
@@ -111,19 +106,14 @@ Future<void> usingV1Beta(String apiKey) async {
 
     final response = await client.models.generateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
-        contents: [
-          Content(
-            parts: [TextPart('Explain quantum entanglement.')],
-            role: 'user',
-          ),
-        ],
+      request: GenerateContentRequest(
+        contents: [Content.text('Explain quantum entanglement.')],
       ),
     );
 
-    final text = response.candidates?.first.content?.parts.first;
-    if (text is TextPart) {
-      print('Response: ${text.text.substring(0, 100)}...\n');
+    final text = response.text;
+    if (text != null) {
+      print('Response: ${text.substring(0, 100)}...\n');
     }
 
     print('✅ Success with v1beta (beta)');
@@ -151,16 +141,14 @@ Future<void> usingDefault(String apiKey) async {
 
     final response = await client.models.generateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
-        contents: [
-          Content(parts: [TextPart('What is machine learning?')], role: 'user'),
-        ],
+      request: GenerateContentRequest(
+        contents: [Content.text('What is machine learning?')],
       ),
     );
 
-    final text = response.candidates?.first.content?.parts.first;
-    if (text is TextPart) {
-      print('Response: ${text.text.substring(0, 100)}...\n');
+    final text = response.text;
+    if (text != null) {
+      print('Response: ${text.substring(0, 100)}...\n');
     }
 
     print('✅ Success with default config (v1beta)');

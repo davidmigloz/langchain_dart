@@ -5,9 +5,8 @@ library;
 import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
-  final client = GoogleAIClient(
-    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     print('Starting streaming generation...\n');
@@ -15,29 +14,17 @@ void main() async {
     // Stream content generation - receives chunks as they're generated
     await for (final chunk in client.models.streamGenerateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
+      request: GenerateContentRequest(
         contents: [
-          Content(
-            parts: [
-              TextPart('Write a short poem about artificial intelligence'),
-            ],
-            role: 'user',
-          ),
+          Content.text('Write a short poem about artificial intelligence'),
         ],
       ),
     )) {
-      // Process each chunk in real-time
-      final candidate = chunk.candidates?.firstOrNull;
-      if (candidate != null) {
-        final content = candidate.content;
-        if (content != null) {
-          for (final part in content.parts) {
-            if (part is TextPart) {
-              // Print text as it arrives (without newline for streaming effect)
-              print(part.text);
-            }
-          }
-        }
+      // Process each chunk using the .text extension
+      final text = chunk.text;
+      if (text != null) {
+        // Print text as it arrives
+        print(text);
       }
     }
 

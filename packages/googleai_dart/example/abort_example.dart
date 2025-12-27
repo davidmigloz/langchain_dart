@@ -21,18 +21,13 @@ void main() async {
     // Start a long-running request
     final requestFuture = client.models.generateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
+      request: GenerateContentRequest(
         contents: [
-          Content(
-            parts: [
-              TextPart(
-                'Write a very long and detailed essay about the '
-                'history of computing, including early mechanical '
-                'computers, the development of electronic computers, '
-                'and modern computer architecture.',
-              ),
-            ],
-            role: 'user',
+          Content.text(
+            'Write a very long and detailed essay about the '
+            'history of computing, including early mechanical '
+            'computers, the development of electronic computers, '
+            'and modern computer architecture.',
           ),
         ],
       ),
@@ -49,16 +44,9 @@ void main() async {
     final response = await requestFuture;
 
     // This code will not execute if aborted
-    final candidate = response.candidates?.firstOrNull;
-    if (candidate != null) {
-      final content = candidate.content;
-      if (content != null) {
-        for (final part in content.parts) {
-          if (part is TextPart) {
-            print('Response: ${part.text}');
-          }
-        }
-      }
+    final text = response.text;
+    if (text != null) {
+      print('Response: $text');
     }
   } on AbortedException catch (e) {
     print('Request was successfully aborted!');
@@ -93,26 +81,14 @@ void main() async {
     // Start streaming
     await for (final chunk in streamingClient.models.streamGenerateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
-        contents: [
-          Content(
-            parts: [TextPart('Write a long story about space exploration')],
-            role: 'user',
-          ),
-        ],
+      request: GenerateContentRequest(
+        contents: [Content.text('Write a long story about space exploration')],
       ),
       abortTrigger: abortController.future,
     )) {
-      final candidate = chunk.candidates?.firstOrNull;
-      if (candidate != null) {
-        final content = candidate.content;
-        if (content != null) {
-          for (final part in content.parts) {
-            if (part is TextPart) {
-              print(part.text);
-            }
-          }
-        }
+      final text = chunk.text;
+      if (text != null) {
+        print(text);
       }
     }
   } on AbortedException catch (e) {

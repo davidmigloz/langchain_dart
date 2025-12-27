@@ -13,24 +13,13 @@ void main() async {
     // Make a request that might fail
     final response = await client.models.generateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
-        contents: [
-          Content(parts: [TextPart('Hello!')], role: 'user'),
-        ],
-      ),
+      request: GenerateContentRequest(contents: [Content.text('Hello!')]),
     );
 
-    // Process successful response
-    final candidate = response.candidates?.firstOrNull;
-    if (candidate != null) {
-      final content = candidate.content;
-      if (content != null) {
-        for (final part in content.parts) {
-          if (part is TextPart) {
-            print('Response: ${part.text}');
-          }
-        }
-      }
+    // Process successful response using the .text extension
+    final text = response.text;
+    if (text != null) {
+      print('Response: $text');
     }
   } on RateLimitException catch (e) {
     // Handle rate limiting errors
