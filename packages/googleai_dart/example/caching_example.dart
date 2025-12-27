@@ -72,27 +72,16 @@ Future<void> demonstrateCaching(GoogleAIClient client) async {
     model: 'gemini-3-flash-preview',
     request: GenerateContentRequest(
       cachedContent: cachedContent.name,
-      contents: const [
-        Content(
-          parts: [
-            TextPart('Explain the Pythagorean theorem and provide an example.'),
-          ],
-          role: 'user',
-        ),
+      contents: [
+        Content.text('Explain the Pythagorean theorem and provide an example.'),
       ],
     ),
   );
 
   print('✓ Generated response:');
-  if (response.candidates != null && response.candidates!.isNotEmpty) {
-    final content = response.candidates!.first.content;
-    if (content != null) {
-      final text = content.parts
-          .whereType<TextPart>()
-          .map((p) => p.text)
-          .join('\n');
-      print('  ${text.substring(0, text.length > 200 ? 200 : text.length)}...');
-    }
+  final text = response.text;
+  if (text != null) {
+    print('  ${text.substring(0, text.length > 200 ? 200 : text.length)}...');
   }
   if (response.usageMetadata != null) {
     print('  Input tokens: ${response.usageMetadata!.promptTokenCount}');

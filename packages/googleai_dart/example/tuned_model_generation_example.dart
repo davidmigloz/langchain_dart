@@ -3,14 +3,8 @@
 import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
-  // Initialize the client with your API key
-  final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider(
-        'YOUR_API_KEY',
-      ), // Replace with your actual API key
-    ),
-  );
+  // Initialize the client (uses GOOGLE_GENAI_API_KEY environment variable)
+  final client = GoogleAIClient.fromEnvironment();
 
   // Replace with your actual tuned model ID
   // You can create a tuned model through the Google AI Studio or API
@@ -19,14 +13,9 @@ void main() async {
   try {
     print('=== Example 1: Generate Content with Tuned Model ===\n');
 
-    // Create a simple text request
-    const request = GenerateContentRequest(
-      contents: [
-        Content(
-          parts: [TextPart('Explain quantum computing in simple terms')],
-          role: 'user',
-        ),
-      ],
+    // Create a simple text request using convenience factory
+    final request = GenerateContentRequest(
+      contents: [Content.text('Explain quantum computing in simple terms')],
     );
 
     // Generate content using your tuned model
@@ -35,16 +24,10 @@ void main() async {
       request: request,
     );
 
-    // Print the response
-    if (response.candidates != null && response.candidates!.isNotEmpty) {
-      final candidate = response.candidates!.first;
-      if (candidate.content != null) {
-        for (final part in candidate.content!.parts) {
-          if (part is TextPart) {
-            print(part.text);
-          }
-        }
-      }
+    // Print the response using convenience extension
+    final text = response.text;
+    if (text != null) {
+      print(text);
     }
 
     // Print usage metadata
@@ -57,27 +40,16 @@ void main() async {
     // Stream content using your tuned model
     final stream = client.tunedModels.streamGenerateContent(
       tunedModel: tunedModelId,
-      request: const GenerateContentRequest(
-        contents: [
-          Content(
-            parts: [TextPart('Write a haiku about programming')],
-            role: 'user',
-          ),
-        ],
+      request: GenerateContentRequest(
+        contents: [Content.text('Write a haiku about programming')],
       ),
     );
 
-    // Process each chunk as it arrives
+    // Process each chunk using convenience extension
     await for (final chunk in stream) {
-      if (chunk.candidates != null && chunk.candidates!.isNotEmpty) {
-        final candidate = chunk.candidates!.first;
-        if (candidate.content != null) {
-          for (final part in candidate.content!.parts) {
-            if (part is TextPart) {
-              print(part.text);
-            }
-          }
-        }
+      final chunkText = chunk.text;
+      if (chunkText != null) {
+        print(chunkText);
       }
     }
 
@@ -86,7 +58,7 @@ void main() async {
     // Create a batch job with multiple requests
     final batch = await client.tunedModels.batchGenerateContent(
       tunedModel: tunedModelId,
-      batch: const GenerateContentBatch(
+      batch: GenerateContentBatch(
         model: 'tunedModels/placeholder', // Will be replaced by path param
         displayName: 'My Batch Job',
         inputConfig: InputConfig(
@@ -94,23 +66,17 @@ void main() async {
             requests: [
               InlinedRequest(
                 request: GenerateContentRequest(
-                  contents: [
-                    Content(parts: [TextPart('What is 2+2?')], role: 'user'),
-                  ],
+                  contents: [Content.text('What is 2+2?')],
                 ),
               ),
               InlinedRequest(
                 request: GenerateContentRequest(
-                  contents: [
-                    Content(parts: [TextPart('What is 3+3?')], role: 'user'),
-                  ],
+                  contents: [Content.text('What is 3+3?')],
                 ),
               ),
               InlinedRequest(
                 request: GenerateContentRequest(
-                  contents: [
-                    Content(parts: [TextPart('What is 5+5?')], role: 'user'),
-                  ],
+                  contents: [Content.text('What is 5+5?')],
                 ),
               ),
             ],
@@ -142,11 +108,7 @@ void main() async {
     try {
       await client.tunedModels.generateContent(
         tunedModel: 'invalid-model-id',
-        request: const GenerateContentRequest(
-          contents: [
-            Content(parts: [TextPart('Test')], role: 'user'),
-          ],
-        ),
+        request: GenerateContentRequest(contents: [Content.text('Test')]),
       );
     } on ApiException catch (e) {
       print('Caught expected error:');

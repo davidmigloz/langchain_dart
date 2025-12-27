@@ -17,15 +17,8 @@ import 'dart:io';
 import 'package:googleai_dart/googleai_dart.dart';
 
 Future<void> main() async {
-  final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
-  if (apiKey == null) {
-    stderr.writeln('No GOOGLEAI_API_KEY environment variable');
-    exit(1);
-  }
-
-  final client = GoogleAIClient(
-    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     print('=== Example 1: Google Search with generateContent ===\n');
@@ -42,20 +35,17 @@ Future<void> main() async {
 Future<void> googleSearchWithGenerateContent(GoogleAIClient client) async {
   final response = await client.models.generateContent(
     model: 'gemini-3-flash-preview',
-    request: const GenerateContentRequest(
+    request: GenerateContentRequest(
       contents: [
-        Content(
-          parts: [TextPart('Who won Euro 2024 and what was the final score?')],
-          role: 'user',
-        ),
+        Content.text('Who won Euro 2024 and what was the final score?'),
       ],
       // Enable Google Search grounding with an empty map
-      tools: [Tool(googleSearch: {})],
+      tools: const [Tool(googleSearch: {})],
     ),
   );
 
-  // Print the generated response
-  print('Response: ${_extractText(response)}\n');
+  // Print the generated response using the .text extension
+  print('Response: ${response.text}\n');
 
   // Access grounding metadata
   final metadata = response.candidates?.first.groundingMetadata;
@@ -144,17 +134,4 @@ Future<void> googleSearchWithInteractions(GoogleAIClient client) async {
         break;
     }
   }
-}
-
-/// Helper to extract text from a GenerateContentResponse.
-String _extractText(GenerateContentResponse response) {
-  final buffer = StringBuffer();
-  for (final candidate in response.candidates ?? []) {
-    for (final part in candidate.content?.parts ?? []) {
-      if (part is TextPart) {
-        buffer.write(part.text);
-      }
-    }
-  }
-  return buffer.toString();
 }

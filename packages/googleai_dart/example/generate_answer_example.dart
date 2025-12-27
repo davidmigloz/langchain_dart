@@ -43,35 +43,22 @@ Future<void> main() async {
 Future<void> generateAnswerWithInlinePassages(GoogleAIClient client) async {
   final response = await client.models.generateAnswer(
     model: 'aqa',
-    request: const GenerateAnswerRequest(
-      contents: [
-        Content(
-          parts: [TextPart('What is the capital of France?')],
-          role: 'user',
-        ),
-      ],
+    request: GenerateAnswerRequest(
+      contents: [Content.text('What is the capital of France?')],
       answerStyle: AnswerStyle.abstractive,
       inlinePassages: GroundingPassages(
         passages: [
           GroundingPassage(
             id: 'passage-1',
-            content: Content(
-              parts: [
-                TextPart(
-                  'Paris is the capital and most populous city of France.',
-                ),
-              ],
+            content: Content.text(
+              'Paris is the capital and most populous city of France.',
             ),
           ),
           GroundingPassage(
             id: 'passage-2',
-            content: Content(
-              parts: [
-                TextPart(
-                  'France is a country in Western Europe. Its capital, Paris, '
-                  'is known for its art, fashion, and culture.',
-                ),
-              ],
+            content: Content.text(
+              'France is a country in Western Europe. Its capital, Paris, '
+              'is known for its art, fashion, and culture.',
             ),
           ),
         ],
@@ -93,34 +80,27 @@ Future<void> generateAnswerWithInlinePassages(GoogleAIClient client) async {
 
 /// Demonstrates different answer styles: abstractive, extractive, and verbose.
 Future<void> demonstrateAnswerStyles(GoogleAIClient client) async {
-  const passages = GroundingPassages(
+  final passages = GroundingPassages(
     passages: [
       GroundingPassage(
         id: 'p1',
-        content: Content(
-          parts: [
-            TextPart(
-              'Quantum computing uses quantum-mechanical phenomena such as '
-              'superposition and entanglement to perform computation. Unlike '
-              'classical computers that use bits, quantum computers use quantum '
-              'bits or qubits.',
-            ),
-          ],
+        content: Content.text(
+          'Quantum computing uses quantum-mechanical phenomena such as '
+          'superposition and entanglement to perform computation. Unlike '
+          'classical computers that use bits, quantum computers use quantum '
+          'bits or qubits.',
         ),
       ),
     ],
   );
 
-  const question = Content(
-    parts: [TextPart('What is quantum computing?')],
-    role: 'user',
-  );
+  final question = Content.text('What is quantum computing?');
 
   // Abstractive: Succinct but abstract
   print('Style: ABSTRACTIVE (succinct, abstract)');
   final abstractive = await client.models.generateAnswer(
     model: 'aqa',
-    request: const GenerateAnswerRequest(
+    request: GenerateAnswerRequest(
       contents: [question],
       answerStyle: AnswerStyle.abstractive,
       inlinePassages: passages,
@@ -132,7 +112,7 @@ Future<void> demonstrateAnswerStyles(GoogleAIClient client) async {
   print('Style: EXTRACTIVE (brief, extractive)');
   final extractive = await client.models.generateAnswer(
     model: 'aqa',
-    request: const GenerateAnswerRequest(
+    request: GenerateAnswerRequest(
       contents: [question],
       answerStyle: AnswerStyle.extractive,
       inlinePassages: passages,
@@ -144,7 +124,7 @@ Future<void> demonstrateAnswerStyles(GoogleAIClient client) async {
   print('Style: VERBOSE (detailed, comprehensive)');
   final verbose = await client.models.generateAnswer(
     model: 'aqa',
-    request: const GenerateAnswerRequest(
+    request: GenerateAnswerRequest(
       contents: [question],
       answerStyle: AnswerStyle.verbose,
       inlinePassages: passages,
@@ -157,21 +137,14 @@ Future<void> demonstrateAnswerStyles(GoogleAIClient client) async {
 Future<void> handleLowAnswerability(GoogleAIClient client) async {
   final response = await client.models.generateAnswer(
     model: 'aqa',
-    request: const GenerateAnswerRequest(
-      contents: [
-        Content(
-          parts: [TextPart('What is the meaning of life?')],
-          role: 'user',
-        ),
-      ],
+    request: GenerateAnswerRequest(
+      contents: [Content.text('What is the meaning of life?')],
       answerStyle: AnswerStyle.abstractive,
       inlinePassages: GroundingPassages(
         passages: [
           GroundingPassage(
             id: 'unrelated',
-            content: Content(
-              parts: [TextPart('The weather today is sunny and pleasant.')],
-            ),
+            content: Content.text('The weather today is sunny and pleasant.'),
           ),
         ],
       ),

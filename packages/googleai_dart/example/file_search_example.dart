@@ -21,15 +21,8 @@ import 'dart:io' as io;
 import 'package:googleai_dart/googleai_dart.dart';
 
 Future<void> main() async {
-  final apiKey = io.Platform.environment['GOOGLEAI_API_KEY'];
-  if (apiKey == null) {
-    io.stderr.writeln('No GOOGLEAI_API_KEY environment variable');
-    io.exit(1);
-  }
-
-  final client = GoogleAIClient(
-    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     print('=== Example 1: FileSearchStore Management ===\n');
@@ -121,12 +114,7 @@ To get started with Dart, install the Dart SDK from dart.dev.
     final response = await client.models.generateContent(
       model: 'gemini-3-flash-preview',
       request: GenerateContentRequest(
-        contents: const [
-          Content(
-            parts: [TextPart('What are the key features of Dart?')],
-            role: 'user',
-          ),
-        ],
+        contents: [Content.text('What are the key features of Dart?')],
         tools: [
           Tool(
             fileSearch: FileSearch(
@@ -138,7 +126,8 @@ To get started with Dart, install the Dart SDK from dart.dev.
       ),
     );
 
-    print('Response: ${_extractText(response)}');
+    // Print response using the .text extension
+    print('Response: ${response.text}');
 
     // Access grounding metadata (citations)
     final metadata = response.candidates?.first.groundingMetadata;
@@ -222,17 +211,4 @@ await for (final event in client.interactions.createStream(
   }
 }
 ''');
-}
-
-/// Helper to extract text from a GenerateContentResponse.
-String _extractText(GenerateContentResponse response) {
-  final buffer = StringBuffer();
-  for (final candidate in response.candidates ?? []) {
-    for (final part in candidate.content?.parts ?? []) {
-      if (part is TextPart) {
-        buffer.write(part.text);
-      }
-    }
-  }
-  return buffer.toString();
 }

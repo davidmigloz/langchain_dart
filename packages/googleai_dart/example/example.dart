@@ -3,44 +3,34 @@
 /// A simple example demonstrating basic usage of the googleai_dart package.
 ///
 /// This example shows how to:
-/// - Initialize the Google AI client with an API key
-/// - Generate content using the Gemini API
-/// - Handle the response and print results
+/// - Initialize the Google AI client from environment variable
+/// - Generate content using the Gemini API with convenience methods
+/// - Handle the response using extension methods
 ///
 /// To run this example:
 /// 1. Get an API key from https://ai.google.dev/gemini-api/docs/api-key
-/// 2. Replace 'YOUR_API_KEY' with your actual key
+/// 2. Set the environment variable: export GOOGLE_GENAI_API_KEY=your_key
 /// 3. Run: dart run example/example.dart
 library;
 
 import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
-  // Initialize the Google AI client
-  final client = GoogleAIClient(
-    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
-  );
+  // Initialize the Google AI client from environment variable
+  // Uses GOOGLE_GENAI_API_KEY by default
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
-    // Generate content using Gemini
+    // Generate content using Gemini with convenience Content.text()
     final response = await client.models.generateContent(
       model: 'gemini-3-flash-preview',
-      request: const GenerateContentRequest(
-        contents: [
-          Content(
-            parts: [TextPart('Explain quantum computing in simple terms')],
-            role: 'user',
-          ),
-        ],
+      request: GenerateContentRequest(
+        contents: [Content.text('Explain quantum computing in simple terms')],
       ),
     );
 
-    // Print the generated text
-    for (final part in response.candidates?.firstOrNull?.content?.parts ?? []) {
-      if (part is TextPart) {
-        print('Response: ${part.text}');
-      }
-    }
+    // Print the generated text using the .text extension
+    print('Response: ${response.text}');
 
     // Print token usage
     if (response.usageMetadata != null) {

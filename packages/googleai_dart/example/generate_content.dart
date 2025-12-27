@@ -3,24 +3,13 @@
 import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
-  // Initialize the client with your API key
-  final client = GoogleAIClient(
-    config: const GoogleAIConfig(
-      authProvider: ApiKeyProvider(
-        'YOUR_API_KEY',
-      ), // Replace with your actual API key
-    ),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
-    // Create a simple text request
-    const request = GenerateContentRequest(
-      contents: [
-        Content(
-          parts: [TextPart('Explain quantum computing in simple terms')],
-          role: 'user',
-        ),
-      ],
+    // Create a simple text request using Content.text()
+    final request = GenerateContentRequest(
+      contents: [Content.text('Explain quantum computing in simple terms')],
     );
 
     // Generate content
@@ -29,17 +18,8 @@ void main() async {
       request: request,
     );
 
-    // Print the response
-    if (response.candidates != null && response.candidates!.isNotEmpty) {
-      final candidate = response.candidates!.first;
-      if (candidate.content != null) {
-        for (final part in candidate.content!.parts) {
-          if (part is TextPart) {
-            print(part.text);
-          }
-        }
-      }
-    }
+    // Print the response using the .text extension
+    print(response.text);
 
     // Print usage metadata
     if (response.usageMetadata != null) {

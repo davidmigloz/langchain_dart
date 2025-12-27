@@ -9,6 +9,11 @@ export 'src/client/config.dart'
 export 'src/client/googleai_client.dart';
 // Errors
 export 'src/errors/exceptions.dart';
+// Extensions (convenience helpers)
+export 'src/extensions/candidate_extensions.dart';
+export 'src/extensions/content_extensions.dart';
+export 'src/extensions/generate_content_response_extensions.dart';
+export 'src/extensions/interaction_extensions.dart';
 // Live API
 export 'src/live/live_client.dart';
 export 'src/live/live_session.dart';

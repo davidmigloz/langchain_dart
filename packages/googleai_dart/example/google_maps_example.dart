@@ -12,20 +12,11 @@
 /// See: https://ai.google.dev/gemini-api/docs/maps-grounding
 library;
 
-import 'dart:io';
-
 import 'package:googleai_dart/googleai_dart.dart';
 
 Future<void> main() async {
-  final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
-  if (apiKey == null) {
-    stderr.writeln('No GOOGLEAI_API_KEY environment variable');
-    exit(1);
-  }
-
-  final client = GoogleAIClient(
-    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     print('=== Example 1: Basic Google Maps Grounding ===\n');
@@ -45,19 +36,17 @@ Future<void> main() async {
 Future<void> basicMapsGrounding(GoogleAIClient client) async {
   final response = await client.models.generateContent(
     model: 'gemini-3-flash-preview',
-    request: const GenerateContentRequest(
+    request: GenerateContentRequest(
       contents: [
-        Content(
-          parts: [TextPart('What are the best pizza places in New York City?')],
-          role: 'user',
-        ),
+        Content.text('What are the best pizza places in New York City?'),
       ],
       // Enable Google Maps grounding
-      tools: [Tool(googleMaps: GoogleMaps())],
+      tools: const [Tool(googleMaps: GoogleMaps())],
     ),
   );
 
-  print('Response: ${_extractText(response)}\n');
+  // Print response using the .text extension
+  print('Response: ${response.text}\n');
 
   // Access grounding metadata with place information
   final metadata = response.candidates?.first.groundingMetadata;
@@ -71,12 +60,7 @@ Future<void> mapsWithLocationContext(GoogleAIClient client) async {
   final response = await client.models.generateContent(
     model: 'gemini-3-flash-preview',
     request: GenerateContentRequest(
-      contents: const [
-        Content(
-          parts: [TextPart('Find Italian restaurants near me')],
-          role: 'user',
-        ),
-      ],
+      contents: [Content.text('Find Italian restaurants near me')],
       // Enable Google Maps grounding
       tools: const [Tool(googleMaps: GoogleMaps())],
       // Provide user location for context (as Map)
@@ -92,7 +76,8 @@ Future<void> mapsWithLocationContext(GoogleAIClient client) async {
     ),
   );
 
-  print('Response: ${_extractText(response)}\n');
+  // Print response using the .text extension
+  print('Response: ${response.text}\n');
 
   // Access grounding metadata
   final metadata = response.candidates?.first.groundingMetadata;
@@ -106,14 +91,9 @@ Future<void> mapsWithWidgetToken(GoogleAIClient client) async {
   final response = await client.models.generateContent(
     model: 'gemini-3-flash-preview',
     request: GenerateContentRequest(
-      contents: const [
-        Content(
-          parts: [
-            TextPart(
-              'What are some popular tourist attractions near the Eiffel Tower?',
-            ),
-          ],
-          role: 'user',
+      contents: [
+        Content.text(
+          'What are some popular tourist attractions near the Eiffel Tower?',
         ),
       ],
       // Enable Google Maps with widget support
@@ -128,7 +108,8 @@ Future<void> mapsWithWidgetToken(GoogleAIClient client) async {
     ),
   );
 
-  print('Response: ${_extractText(response)}\n');
+  // Print response using the .text extension
+  print('Response: ${response.text}\n');
 
   // Access grounding metadata
   final metadata = response.candidates?.first.groundingMetadata;
@@ -169,17 +150,4 @@ void printPlaceInfo(GroundingMetadata metadata) {
       }
     }
   }
-}
-
-/// Helper to extract text from a GenerateContentResponse.
-String _extractText(GenerateContentResponse response) {
-  final buffer = StringBuffer();
-  for (final candidate in response.candidates ?? []) {
-    for (final part in candidate.content?.parts ?? []) {
-      if (part is TextPart) {
-        buffer.write(part.text);
-      }
-    }
-  }
-  return buffer.toString();
 }

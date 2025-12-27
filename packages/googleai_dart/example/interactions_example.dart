@@ -12,9 +12,8 @@ library;
 import 'package:googleai_dart/googleai_dart.dart';
 
 void main() async {
-  final client = GoogleAIClient(
-    config: const GoogleAIConfig(authProvider: ApiKeyProvider('YOUR_API_KEY')),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     // Example 1: Simple interaction (non-streaming)
@@ -45,14 +44,8 @@ Future<void> simpleInteraction(GoogleAIClient client) async {
   print('Status: ${interaction.status}');
   print('Model: ${interaction.model}');
 
-  // Extract text from outputs
-  if (interaction.outputs != null) {
-    for (final output in interaction.outputs!) {
-      if (output is TextContent) {
-        print('Response: ${output.text}');
-      }
-    }
-  }
+  // Use the .text extension to get text from outputs
+  print('Response: ${interaction.text}');
 
   // Check usage
   if (interaction.usage != null) {
@@ -107,7 +100,7 @@ Future<void> multiTurnConversation(GoogleAIClient client) async {
     input: 'My name is Alice.',
   );
   print('Turn 1 - User: My name is Alice.');
-  _printTextOutputs(turn1);
+  print('Assistant: ${turn1.text}');
 
   // Second turn - references the first interaction
   final turn2 = await client.interactions.create(
@@ -116,7 +109,7 @@ Future<void> multiTurnConversation(GoogleAIClient client) async {
     previousInteractionId: turn1.id,
   );
   print('Turn 2 - User: What is my name?');
-  _printTextOutputs(turn2);
+  print('Assistant: ${turn2.text}');
 
   print('');
 }
@@ -172,15 +165,11 @@ Future<void> functionCallingInteraction(GoogleAIClient client) async {
         if (event.interaction?.status == InteractionStatus.requiresAction) {
           print('Action required: execute function and continue');
         }
-        // Check for function calls in the final output
-        final outputs = event.interaction?.outputs;
-        if (outputs != null) {
-          for (final output in outputs) {
-            if (output is FunctionCallContent) {
-              print('Function call: ${output.name}');
-              print('Arguments: ${output.arguments}');
-            }
-          }
+        // Use functionCallOutputs extension for easy access
+        final functionCalls = event.interaction?.functionCallOutputs ?? [];
+        for (final call in functionCalls) {
+          print('Function call: ${call.name}');
+          print('Arguments: ${call.arguments}');
         }
       default:
         break;
@@ -188,15 +177,4 @@ Future<void> functionCallingInteraction(GoogleAIClient client) async {
   }
 
   print('');
-}
-
-/// Helper to print text outputs from an interaction
-void _printTextOutputs(Interaction interaction) {
-  if (interaction.outputs != null) {
-    for (final output in interaction.outputs!) {
-      if (output is TextContent) {
-        print('Assistant: ${output.text}');
-      }
-    }
-  }
 }

@@ -673,5 +673,99 @@ void main() {
         }
       });
     });
+
+    group('Factory Constructors', () {
+      test('Part.text creates TextPart', () {
+        final part = Part.text('Hello world');
+        expect(part, isA<TextPart>());
+        expect((part as TextPart).text, 'Hello world');
+      });
+
+      test('Part.base64 creates InlineDataPart with correct mimeType', () {
+        final part = Part.base64('base64data', 'image/png');
+        expect(part, isA<InlineDataPart>());
+        final inlinePart = part as InlineDataPart;
+        expect(inlinePart.inlineData.data, 'base64data');
+        expect(inlinePart.inlineData.mimeType, 'image/png');
+      });
+
+      test('Part.file creates FileDataPart', () {
+        final part = Part.file('gs://bucket/file.pdf');
+        expect(part, isA<FileDataPart>());
+        final filePart = part as FileDataPart;
+        expect(filePart.fileData.fileUri, 'gs://bucket/file.pdf');
+        expect(filePart.fileData.mimeType, isNull);
+      });
+
+      test('Part.file with mimeType creates FileDataPart', () {
+        final part = Part.file('gs://bucket/image.jpg', mimeType: 'image/jpeg');
+        expect(part, isA<FileDataPart>());
+        final filePart = part as FileDataPart;
+        expect(filePart.fileData.fileUri, 'gs://bucket/image.jpg');
+        expect(filePart.fileData.mimeType, 'image/jpeg');
+      });
+
+      test('Part.functionCall creates FunctionCallPart', () {
+        final part = Part.functionCall('get_weather', args: {'city': 'Tokyo'});
+        expect(part, isA<FunctionCallPart>());
+        final callPart = part as FunctionCallPart;
+        expect(callPart.functionCall.name, 'get_weather');
+        expect(callPart.functionCall.args, {'city': 'Tokyo'});
+      });
+
+      test('Part.functionCall without args creates FunctionCallPart', () {
+        final part = Part.functionCall('no_args_fn');
+        expect(part, isA<FunctionCallPart>());
+        final callPart = part as FunctionCallPart;
+        expect(callPart.functionCall.name, 'no_args_fn');
+        expect(callPart.functionCall.args, isNull);
+      });
+
+      test('Part.functionResponse creates FunctionResponsePart', () {
+        final part = Part.functionResponse('get_weather', {'temp': 72});
+        expect(part, isA<FunctionResponsePart>());
+        final responsePart = part as FunctionResponsePart;
+        expect(responsePart.functionResponse.name, 'get_weather');
+        expect(responsePart.functionResponse.response, {'temp': 72});
+        expect(responsePart.functionResponse.id, isNull);
+      });
+
+      test('Part.functionResponse with id creates FunctionResponsePart', () {
+        final part = Part.functionResponse('get_weather', {
+          'temp': 72,
+        }, id: 'call-123');
+        expect(part, isA<FunctionResponsePart>());
+        final responsePart = part as FunctionResponsePart;
+        expect(responsePart.functionResponse.name, 'get_weather');
+        expect(responsePart.functionResponse.id, 'call-123');
+      });
+
+      test('factory constructors roundtrip through JSON', () {
+        // Test Part.text
+        final textPart = Part.text('Test');
+        final textJson = textPart.toJson();
+        expect(Part.fromJson(textJson), isA<TextPart>());
+
+        // Test Part.base64
+        final base64Part = Part.base64('data', 'image/png');
+        final base64Json = base64Part.toJson();
+        expect(Part.fromJson(base64Json), isA<InlineDataPart>());
+
+        // Test Part.file
+        final filePart = Part.file('gs://test');
+        final fileJson = filePart.toJson();
+        expect(Part.fromJson(fileJson), isA<FileDataPart>());
+
+        // Test Part.functionCall
+        final callPart = Part.functionCall('fn', args: {'a': 1});
+        final callJson = callPart.toJson();
+        expect(Part.fromJson(callJson), isA<FunctionCallPart>());
+
+        // Test Part.functionResponse
+        final responsePart = Part.functionResponse('fn', {'b': 2});
+        final responseJson = responsePart.toJson();
+        expect(Part.fromJson(responseJson), isA<FunctionResponsePart>());
+      });
+    });
   });
 }

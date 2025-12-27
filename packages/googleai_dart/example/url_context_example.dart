@@ -16,20 +16,13 @@
 /// See: https://ai.google.dev/gemini-api/docs/url-context
 library;
 
-import 'dart:io';
+import 'dart:io' show stdout;
 
 import 'package:googleai_dart/googleai_dart.dart';
 
 Future<void> main() async {
-  final apiKey = Platform.environment['GOOGLEAI_API_KEY'];
-  if (apiKey == null) {
-    stderr.writeln('No GOOGLEAI_API_KEY environment variable');
-    exit(1);
-  }
-
-  final client = GoogleAIClient(
-    config: GoogleAIConfig(authProvider: ApiKeyProvider(apiKey)),
-  );
+  // Initialize client from environment variable (GOOGLE_GENAI_API_KEY)
+  final client = GoogleAIClient.fromEnvironment();
 
   try {
     print('=== Example 1: URL Context with generateContent ===\n');
@@ -49,25 +42,21 @@ Future<void> main() async {
 Future<void> urlContextWithGenerateContent(GoogleAIClient client) async {
   final response = await client.models.generateContent(
     model: 'gemini-3-flash-preview',
-    request: const GenerateContentRequest(
+    request: GenerateContentRequest(
       contents: [
-        Content(
-          parts: [
-            TextPart(
-              'Summarize the main points from this page: '
-              'https://dart.dev/overview',
-            ),
-          ],
-          role: 'user',
+        Content.text(
+          'Summarize the main points from this page: '
+          'https://dart.dev/overview',
         ),
       ],
       // Enable URL Context with an empty map
-      tools: [Tool(urlContext: {})],
+      tools: const [Tool(urlContext: {})],
     ),
   );
 
+  // Print response using the .text extension
   print('Response:');
-  print(_extractText(response));
+  print(response.text);
 
   // Note: The API may return URL context metadata in the response
   // for tracking which URLs were successfully fetched
@@ -119,37 +108,20 @@ Future<void> compareMultipleUrls(GoogleAIClient client) async {
   // You can reference up to 20 URLs in a single request
   final response = await client.models.generateContent(
     model: 'gemini-3-flash-preview',
-    request: const GenerateContentRequest(
+    request: GenerateContentRequest(
       contents: [
-        Content(
-          parts: [
-            TextPart(
-              'Compare the documentation styles of these two pages:\n'
-              '1. https://dart.dev/language\n'
-              '2. https://flutter.dev/development\n\n'
-              'Which one is more beginner-friendly and why?',
-            ),
-          ],
-          role: 'user',
+        Content.text(
+          'Compare the documentation styles of these two pages:\n'
+          '1. https://dart.dev/language\n'
+          '2. https://flutter.dev/development\n\n'
+          'Which one is more beginner-friendly and why?',
         ),
       ],
-      tools: [Tool(urlContext: {})],
+      tools: const [Tool(urlContext: {})],
     ),
   );
 
+  // Print comparison using the .text extension
   print('Comparison:');
-  print(_extractText(response));
-}
-
-/// Helper to extract text from a GenerateContentResponse.
-String _extractText(GenerateContentResponse response) {
-  final buffer = StringBuffer();
-  for (final candidate in response.candidates ?? []) {
-    for (final part in candidate.content?.parts ?? []) {
-      if (part is TextPart) {
-        buffer.write(part.text);
-      }
-    }
-  }
-  return buffer.toString();
+  print(response.text);
 }

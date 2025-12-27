@@ -113,12 +113,8 @@ void main() async {
     // In production with real OAuth tokens, this would succeed.
     try {
       await client.models.generateContent(
-        model: 'gemini-3-flash-preview',
-        request: const GenerateContentRequest(
-          contents: [
-            Content(parts: [TextPart('Say hello')], role: 'user'),
-          ],
-        ),
+        model: 'gemini-3-flash',
+        request: GenerateContentRequest(contents: [Content.text('Say hello')]),
       );
     } catch (e) {
       print('   (Expected failure with mock token: $e)\n');
@@ -139,11 +135,9 @@ void main() async {
 
     try {
       await client.models.generateContent(
-        model: 'gemini-3-flash-preview',
-        request: const GenerateContentRequest(
-          contents: [
-            Content(parts: [TextPart('Say hello again')], role: 'user'),
-          ],
+        model: 'gemini-3-flash',
+        request: GenerateContentRequest(
+          contents: [Content.text('Say hello again')],
         ),
       );
     } catch (e) {

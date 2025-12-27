@@ -15,8 +15,8 @@ void main() async {
 
     final response = await client.models.embedContent(
       model: 'gemini-embedding-001',
-      request: const EmbedContentRequest(
-        content: Content(parts: [TextPart('Hello, world!')]),
+      request: EmbedContentRequest(
+        content: Content.text('Hello, world!'),
         taskType: TaskType.retrievalDocument,
       ),
     );
@@ -42,7 +42,7 @@ void main() async {
         requests: texts
             .map(
               (text) => EmbedContentRequest(
-                content: Content(parts: [TextPart(text)]),
+                content: Content.text(text),
                 taskType: TaskType.retrievalDocument,
               ),
             )

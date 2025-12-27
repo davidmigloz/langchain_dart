@@ -254,7 +254,12 @@ mcp__dart__run_tests()
 
 ## Agent Responsibilities
 
-- **Use MCP tools** for format/analyze/fix/tests; attach outputs to your change notes when useful.
+- **Run quality checks after every code change** in this order:
+  1. `mcp__dart__dart_format()` - Format all Dart files
+  2. `mcp__dart__analyze_files()` - Static analysis (must be warning-free)
+  3. `mcp__dart__run_tests()` - Run tests if applicable
+
+  **Never skip formatting.** CI will reject unformatted code.
 - **Keep it small**: submit focused, reviewable changes following the Git Workflow guidelines below.
 - **Complete PR metadata**: always add required labels (`p:`, `t:`), assignee, and milestone to PRs.
 - **Honor minimal‑deps policy**: propose new dependencies only with trade‑off notes.

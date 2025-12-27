@@ -17,6 +17,57 @@ sealed class Part {
   /// Creates a [Part].
   const Part();
 
+  /// Creates a text part.
+  ///
+  /// Example:
+  /// ```dart
+  /// final part = Part.text('Hello, world!');
+  /// ```
+  factory Part.text(String text) = TextPart;
+
+  /// Creates an inline data part from base64-encoded data.
+  ///
+  /// Example:
+  /// ```dart
+  /// final part = Part.base64(imageBase64, 'image/png');
+  /// ```
+  factory Part.base64(String data, String mimeType) =>
+      InlineDataPart(Blob(mimeType: mimeType, data: data));
+
+  /// Creates a file reference part.
+  ///
+  /// Use for files uploaded via the Files API.
+  ///
+  /// Example:
+  /// ```dart
+  /// final part = Part.file('files/abc123', mimeType: 'image/jpeg');
+  /// ```
+  factory Part.file(String fileUri, {String? mimeType}) =>
+      FileDataPart(FileData(fileUri: fileUri, mimeType: mimeType));
+
+  /// Creates a function call part.
+  ///
+  /// Example:
+  /// ```dart
+  /// final part = Part.functionCall('get_weather', args: {'city': 'SF'});
+  /// ```
+  factory Part.functionCall(String name, {Map<String, dynamic>? args}) =>
+      FunctionCallPart(FunctionCall(name: name, args: args));
+
+  /// Creates a function response part.
+  ///
+  /// Example:
+  /// ```dart
+  /// final part = Part.functionResponse('get_weather', {'temp': 72});
+  /// ```
+  factory Part.functionResponse(
+    String name,
+    Map<String, dynamic> response, {
+    String? id,
+  }) => FunctionResponsePart(
+    FunctionResponse(name: name, response: response, id: id),
+  );
+
   /// Creates a [Part] from JSON.
   factory Part.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('text')) {
