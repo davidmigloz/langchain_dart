@@ -1,8 +1,10 @@
 import '../copy_with_sentinel.dart';
 import 'agent_config.dart';
+import 'content/content.dart';
 import 'generation_config.dart';
 import 'interaction_status.dart';
 import 'response_modality.dart';
+import 'tools/tools.dart';
 import 'usage.dart';
 
 /// The Interaction resource.
@@ -32,7 +34,7 @@ class Interaction {
   final String? role;
 
   /// Output only. Responses from the model.
-  final List<dynamic>? outputs;
+  final List<InteractionContent>? outputs;
 
   /// Statistics on the interaction request's token usage.
   final InteractionUsage? usage;
@@ -71,7 +73,9 @@ class Interaction {
         ? DateTime.parse(json['updated'] as String)
         : null,
     role: json['role'] as String?,
-    outputs: json['outputs'] as List<dynamic>?,
+    outputs: (json['outputs'] as List<dynamic>?)
+        ?.map((e) => InteractionContent.fromJson(e as Map<String, dynamic>))
+        .toList(),
     usage: json['usage'] != null
         ? InteractionUsage.fromJson(json['usage'] as Map<String, dynamic>)
         : null,
@@ -88,7 +92,7 @@ class Interaction {
     if (created != null) 'created': created!.toIso8601String(),
     if (updated != null) 'updated': updated!.toIso8601String(),
     if (role != null) 'role': role,
-    if (outputs != null) 'outputs': outputs,
+    if (outputs != null) 'outputs': outputs!.map((e) => e.toJson()).toList(),
     if (usage != null) 'usage': usage!.toJson(),
     'object': object,
     if (previousInteractionId != null)
@@ -125,7 +129,7 @@ class Interaction {
       role: role == unsetCopyWithValue ? this.role : role as String?,
       outputs: outputs == unsetCopyWithValue
           ? this.outputs
-          : outputs as List<dynamic>?,
+          : outputs as List<InteractionContent>?,
       usage: usage == unsetCopyWithValue
           ? this.usage
           : usage as InteractionUsage?,
@@ -152,7 +156,7 @@ class CreateModelInteractionParams {
   final String? systemInstruction;
 
   /// A list of tool declarations the model may call during interaction.
-  final List<dynamic>? tools;
+  final List<InteractionTool>? tools;
 
   /// Configuration parameters for the model interaction.
   final InteractionGenerationConfig? generationConfig;
@@ -188,7 +192,9 @@ class CreateModelInteractionParams {
         model: json['model'] as String,
         input: json['input'],
         systemInstruction: json['system_instruction'] as String?,
-        tools: json['tools'] as List<dynamic>?,
+        tools: (json['tools'] as List<dynamic>?)
+            ?.map((e) => InteractionTool.fromJson(e as Map<String, dynamic>))
+            .toList(),
         generationConfig: json['generation_config'] != null
             ? InteractionGenerationConfig.fromJson(
                 json['generation_config'] as Map<String, dynamic>,
@@ -207,7 +213,7 @@ class CreateModelInteractionParams {
     'model': model,
     if (input != null) 'input': input,
     if (systemInstruction != null) 'system_instruction': systemInstruction,
-    if (tools != null) 'tools': tools,
+    if (tools != null) 'tools': tools!.map((e) => e.toJson()).toList(),
     if (generationConfig != null)
       'generation_config': generationConfig!.toJson(),
     if (responseModalities != null)

@@ -9,7 +9,7 @@ class ThoughtContent extends InteractionContent {
   final String? signature;
 
   /// A summary of the thought.
-  final List<dynamic>? summary;
+  final List<InteractionContent>? summary;
 
   /// Creates a [ThoughtContent] instance.
   const ThoughtContent({this.signature, this.summary});
@@ -17,14 +17,16 @@ class ThoughtContent extends InteractionContent {
   /// Creates a [ThoughtContent] from JSON.
   factory ThoughtContent.fromJson(Map<String, dynamic> json) => ThoughtContent(
     signature: json['signature'] as String?,
-    summary: json['summary'] as List<dynamic>?,
+    summary: (json['summary'] as List<dynamic>?)
+        ?.map((e) => InteractionContent.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 
   @override
   Map<String, dynamic> toJson() => {
     'type': type,
     if (signature != null) 'signature': signature,
-    if (summary != null) 'summary': summary,
+    if (summary != null) 'summary': summary!.map((e) => e.toJson()).toList(),
   };
 
   /// Creates a copy with replaced values.
@@ -38,7 +40,7 @@ class ThoughtContent extends InteractionContent {
           : signature as String?,
       summary: summary == unsetCopyWithValue
           ? this.summary
-          : summary as List<dynamic>?,
+          : summary as List<InteractionContent>?,
     );
   }
 }
