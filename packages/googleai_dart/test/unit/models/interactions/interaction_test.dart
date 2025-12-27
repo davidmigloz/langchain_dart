@@ -17,12 +17,7 @@ void main() {
             'total_tokens': 150,
           },
           'outputs': [
-            {
-              'role': 'model',
-              'content': [
-                {'type': 'text', 'text': 'Hello!'},
-              ],
-            },
+            {'type': 'text', 'text': 'Hello!'},
           ],
         };
 
@@ -37,6 +32,8 @@ void main() {
         expect(interaction.usage!.totalInputTokens, 100);
         expect(interaction.outputs, isNotNull);
         expect(interaction.outputs!.length, 1);
+        expect(interaction.outputs!.first, isA<TextContent>());
+        expect((interaction.outputs!.first as TextContent).text, 'Hello!');
       });
 
       test('creates Interaction with minimal required fields', () {
@@ -132,6 +129,113 @@ void main() {
         restored.usage!.totalInputTokens,
         original.usage!.totalInputTokens,
       );
+    });
+
+    group('outputs type safety', () {
+      test('parses TextContent correctly', () {
+        final json = {
+          'id': 'test-id',
+          'status': 'completed',
+          'outputs': [
+            {'type': 'text', 'text': 'Hello world'},
+          ],
+        };
+        final interaction = Interaction.fromJson(json);
+
+        expect(interaction.outputs, isNotNull);
+        expect(interaction.outputs, hasLength(1));
+        expect(interaction.outputs!.first, isA<TextContent>());
+        expect((interaction.outputs!.first as TextContent).text, 'Hello world');
+      });
+
+      test('parses FunctionCallContent correctly', () {
+        final json = {
+          'id': 'test-id',
+          'status': 'completed',
+          'outputs': [
+            {
+              'type': 'function_call',
+              'id': 'call-1',
+              'name': 'get_weather',
+              'arguments': {'city': 'Tokyo'},
+            },
+          ],
+        };
+        final interaction = Interaction.fromJson(json);
+
+        expect(interaction.outputs!.first, isA<FunctionCallContent>());
+        final call = interaction.outputs!.first as FunctionCallContent;
+        expect(call.name, 'get_weather');
+        expect(call.arguments, {'city': 'Tokyo'});
+      });
+
+      test('parses ThoughtContent correctly', () {
+        final json = {
+          'id': 'test-id',
+          'status': 'completed',
+          'outputs': [
+            {'type': 'thought', 'signature': 'sig-123'},
+          ],
+        };
+        final interaction = Interaction.fromJson(json);
+
+        expect(interaction.outputs!.first, isA<ThoughtContent>());
+        final thought = interaction.outputs!.first as ThoughtContent;
+        expect(thought.signature, 'sig-123');
+      });
+
+      test('parses mixed output types', () {
+        final json = {
+          'id': 'test-id',
+          'status': 'completed',
+          'outputs': [
+            {'type': 'thought', 'signature': 'sig-1'},
+            {'type': 'text', 'text': 'Response'},
+            {
+              'type': 'function_call',
+              'id': 'call-1',
+              'name': 'search',
+              'arguments': <String, dynamic>{},
+            },
+          ],
+        };
+        final interaction = Interaction.fromJson(json);
+
+        expect(interaction.outputs, hasLength(3));
+        expect(interaction.outputs![0], isA<ThoughtContent>());
+        expect(interaction.outputs![1], isA<TextContent>());
+        expect(interaction.outputs![2], isA<FunctionCallContent>());
+      });
+
+      test('handles null outputs', () {
+        final json = {'id': 'test-id', 'status': 'pending'};
+        final interaction = Interaction.fromJson(json);
+        expect(interaction.outputs, isNull);
+      });
+
+      test('round-trip serialization preserves typed outputs', () {
+        const original = Interaction(
+          id: 'roundtrip-outputs',
+          status: InteractionStatus.completed,
+          outputs: [
+            TextContent(text: 'Hello'),
+            FunctionCallContent(
+              id: 'call-1',
+              name: 'test_fn',
+              arguments: {'key': 'value'},
+            ),
+          ],
+        );
+
+        final json = original.toJson();
+        final restored = Interaction.fromJson(json);
+
+        expect(restored.outputs, hasLength(2));
+        expect(restored.outputs![0], isA<TextContent>());
+        expect((restored.outputs![0] as TextContent).text, 'Hello');
+        expect(restored.outputs![1], isA<FunctionCallContent>());
+        expect((restored.outputs![1] as FunctionCallContent).name, 'test_fn');
+      });
     });
   });
 
@@ -255,6 +359,111 @@ void main() {
 
       expect(turn.role, 'user');
       expect(turn.content, 'Hello');
+    });
+  });
+
+  group('CreateModelInteractionParams tools type safety', () {
+    test('parses GoogleSearchTool correctly', () {
+      final json = {
+        'model': 'gemini-2.0-flash',
+        'tools': [
+          {'type': 'google_search'},
+        ],
+      };
+      final params = CreateModelInteractionParams.fromJson(json);
+
+      expect(params.tools, hasLength(1));
+      expect(params.tools!.first, isA<GoogleSearchTool>());
+    });
+
+    test('parses FunctionTool correctly', () {
+      final json = {
+        'model': 'gemini-2.0-flash',
+        'tools': [
+          {
+            'type': 'function',
+            'name': 'get_weather',
+            'description': 'Gets weather for a city',
+            'parameters': {
+              'type': 'object',
+              'properties': {
+                'city': {'type': 'string'},
+              },
+            },
+          },
+        ],
+      };
+      final params = CreateModelInteractionParams.fromJson(json);
+
+      expect(params.tools!.first, isA<FunctionTool>());
+      final tool = params.tools!.first as FunctionTool;
+      expect(tool.name, 'get_weather');
+      expect(tool.description, 'Gets weather for a city');
+    });
+
+    test('parses CodeExecutionTool correctly', () {
+      final json = {
+        'model': 'gemini-2.0-flash',
+        'tools': [
+          {'type': 'code_execution'},
+        ],
+      };
+      final params = CreateModelInteractionParams.fromJson(json);
+
+      expect(params.tools!.first, isA<CodeExecutionTool>());
+    });
+
+    test('parses UrlContextTool correctly', () {
+      final json = {
+        'model': 'gemini-2.0-flash',
+        'tools': [
+          {'type': 'url_context'},
+        ],
+      };
+      final params = CreateModelInteractionParams.fromJson(json);
+
+      expect(params.tools!.first, isA<UrlContextTool>());
+    });
+
+    test('parses multiple tools', () {
+      final json = {
+        'model': 'gemini-2.0-flash',
+        'tools': [
+          {'type': 'google_search'},
+          {'type': 'code_execution'},
+          {'type': 'function', 'name': 'test', 'description': 'Test function'},
+        ],
+      };
+      final params = CreateModelInteractionParams.fromJson(json);
+
+      expect(params.tools, hasLength(3));
+      expect(params.tools![0], isA<GoogleSearchTool>());
+      expect(params.tools![1], isA<CodeExecutionTool>());
+      expect(params.tools![2], isA<FunctionTool>());
+    });
+
+    test('handles null tools', () {
+      final json = {'model': 'gemini-2.0-flash'};
+      final params = CreateModelInteractionParams.fromJson(json);
+      expect(params.tools, isNull);
+    });
+
+    test('round-trip serialization preserves typed tools', () {
+      const original = CreateModelInteractionParams(
+        model: 'gemini-2.0-flash',
+        tools: [
+          GoogleSearchTool(),
+          FunctionTool(name: 'get_weather', description: 'Gets weather'),
+        ],
+      );
+
+      final json = original.toJson();
+      final restored = CreateModelInteractionParams.fromJson(json);
+
+      expect(restored.tools, hasLength(2));
+      expect(restored.tools![0], isA<GoogleSearchTool>());
+      expect(restored.tools![1], isA<FunctionTool>());
+      expect((restored.tools![1] as FunctionTool).name, 'get_weather');
     });
   });
 }

@@ -145,16 +145,53 @@ void main() {
       });
 
       test('deserializes from JSON', () {
-        final json = {
-          'type': 'thought',
-          'signature': 'sig789',
-          'summary': ['Reasoning step 1', 'Reasoning step 2'],
-        };
+        final json = {'type': 'thought', 'signature': 'sig789'};
         final content = InteractionContent.fromJson(json);
         expect(content, isA<ThoughtContent>());
         expect((content as ThoughtContent).signature, 'sig789');
-        expect(content.summary, isNotNull);
-        expect(content.summary!.length, 2);
+      });
+
+      test('deserializes from JSON with summary', () {
+        final json = {
+          'type': 'thought',
+          'signature': 'sig789',
+          'summary': [
+            {'type': 'text', 'text': 'Reasoning step 1'},
+            {'type': 'text', 'text': 'Reasoning step 2'},
+          ],
+        };
+        final content = InteractionContent.fromJson(json);
+        expect(content, isA<ThoughtContent>());
+        final thought = content as ThoughtContent;
+        expect(thought.signature, 'sig789');
+        expect(thought.summary, isNotNull);
+        expect(thought.summary!.length, 2);
+        expect(thought.summary![0], isA<TextContent>());
+        expect((thought.summary![0] as TextContent).text, 'Reasoning step 1');
+        expect((thought.summary![1] as TextContent).text, 'Reasoning step 2');
+      });
+
+      test('handles null summary', () {
+        final json = {'type': 'thought', 'signature': 'sig'};
+        final content = InteractionContent.fromJson(json);
+        expect((content as ThoughtContent).summary, isNull);
+      });
+
+      test('round-trip serialization preserves typed summary', () {
+        const original = ThoughtContent(
+          signature: 'sig-test',
+          summary: [
+            TextContent(text: 'Step 1'),
+            TextContent(text: 'Step 2'),
+          ],
+        );
+        final json = original.toJson();
+        final restored = InteractionContent.fromJson(json);
+        expect(restored, isA<ThoughtContent>());
+        final thought = restored as ThoughtContent;
+        expect(thought.summary, hasLength(2));
+        expect(thought.summary![0], isA<TextContent>());
+        expect((thought.summary![0] as TextContent).text, 'Step 1');
       });
     });
 
