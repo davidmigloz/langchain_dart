@@ -10,9 +10,6 @@ workspace:
   - examples/hello_world_flutter
   - examples/vertex_ai_matching_engine_setup
   - examples/wikivoyage_eu
-  - packages/anthropic_sdk_dart
-  - packages/chromadb
-  - packages/googleai_dart
   - packages/langchain
   - packages/langchain_amazon
   - packages/langchain_anthropic
@@ -33,12 +30,6 @@ workspace:
   - packages/langchain_wikipedia
   - packages/langchain_wolfram
   - packages/langgraph
-  - packages/mistralai_dart
-  - packages/ollama_dart
-  - packages/openai_dart
-  - packages/openai_realtime_dart
-  - packages/tavily_dart
-  - packages/vertex_ai
   - packages/langchain_firebase/example
 
 dev_dependencies:
