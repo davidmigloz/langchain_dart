@@ -22,7 +22,7 @@ The type of the input and output varies by component:
 | `Tool`                      | `Map<String, dynamic>` | `String`               |
 | `Chain`                     | `Map<String, dynamic>` | `Map<String, dynamic>` |
 
-There are also several useful primitives for working with runnables, which you can read about in [this section](/expression_language/primitives.md).
+There are also several useful primitives for working with runnables, which you can read about in [this section](/expression_language/primitives).
 
 ## Runnable interface
 
@@ -38,7 +38,7 @@ final promptTemplate = ChatPromptTemplate.fromTemplate(
 final chain = promptTemplate.pipe(model).pipe(StringOutputParser());
 ```
 
-In this example, we use the method `pipe` to combine runnables into a sequence. You can read more about this in the [RunnableSequence: Chaining runnables](/expression_language/primitives/sequence.md) section.
+In this example, we use the method `pipe` to combine runnables into a sequence. You can read more about this in the [RunnableSequence: Chaining runnables](/expression_language/primitives/sequence) section.
 
 ### Invoke
 

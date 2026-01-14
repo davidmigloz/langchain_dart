@@ -1,0 +1,662 @@
+{
+  "name": "LangChain.dart",
+  "description": "Build Dart/Flutter applications powered by language models",
+  "logo": "/img/langchain.dart.png",
+  "favicon": "/favicon.ico",
+  "theme": {
+    "primary": "#0175C2"
+  },
+  "sidebar": [
+    {
+      "group": "Get Started",
+      "pages": [
+        {
+          "title": "Introduction",
+          "href": "/",
+          "icon": "rocket"
+        },
+        {
+          "title": "Installation",
+          "href": "/get_started/installation",
+          "icon": "download"
+        },
+        {
+          "title": "Quickstart",
+          "href": "/get_started/quickstart",
+          "icon": "bolt"
+        },
+        {
+          "title": "Security",
+          "href": "/get_started/security",
+          "icon": "shield"
+        }
+      ]
+    },
+    {
+      "group": "LangChain Expression Language",
+      "pages": [
+        {
+          "title": "Overview",
+          "href": "/expression_language/expression_language",
+          "icon": "code"
+        },
+        {
+          "title": "Get Started",
+          "href": "/expression_language/get_started"
+        },
+        {
+          "title": "Runnable Interface",
+          "href": "/expression_language/interface"
+        },
+        {
+          "group": "Primitives",
+          "pages": [
+            {
+              "title": "Overview",
+              "href": "/expression_language/primitives"
+            },
+            {
+              "title": "Sequence: Chaining runnables",
+              "href": "/expression_language/primitives/sequence"
+            },
+            {
+              "title": "Map: Formatting inputs & concurrency",
+              "href": "/expression_language/primitives/map"
+            },
+            {
+              "title": "Passthrough: Passing inputs through",
+              "href": "/expression_language/primitives/passthrough"
+            },
+            {
+              "title": "Mapper: Mapping inputs",
+              "href": "/expression_language/primitives/mapper"
+            },
+            {
+              "title": "Function: Run custom logic",
+              "href": "/expression_language/primitives/function"
+            },
+            {
+              "title": "Binding: Configuring runnables",
+              "href": "/expression_language/primitives/binding"
+            },
+            {
+              "title": "Router: Routing inputs",
+              "href": "/expression_language/primitives/router"
+            },
+            {
+              "title": "Retry: Retrying runnables",
+              "href": "/expression_language/primitives/retry"
+            }
+          ]
+        },
+        {
+          "title": "Streaming",
+          "href": "/expression_language/streaming"
+        },
+        {
+          "title": "Fallbacks",
+          "href": "/expression_language/fallbacks"
+        },
+        {
+          "group": "Cookbook",
+          "pages": [
+            {
+              "title": "Prompt + LLM",
+              "href": "/expression_language/cookbook/prompt_llm_parser"
+            },
+            {
+              "title": "Multiple Chains",
+              "href": "/expression_language/cookbook/multiple_chains"
+            },
+            {
+              "title": "Adding Memory",
+              "href": "/expression_language/cookbook/adding_memory"
+            },
+            {
+              "title": "Retrieval",
+              "href": "/expression_language/cookbook/retrieval"
+            },
+            {
+              "title": "Using Tools",
+              "href": "/expression_language/cookbook/tools"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Modules",
+      "pages": [
+        {
+          "title": "Overview",
+          "href": "/modules/modules",
+          "icon": "cube"
+        },
+        {
+          "group": "Model I/O",
+          "pages": [
+            {
+              "title": "Overview",
+              "href": "/modules/model_io/model_io"
+            },
+            {
+              "group": "Prompts",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/model_io/prompts/prompts"
+                },
+                {
+                  "group": "Prompt Templates",
+                  "pages": [
+                    {
+                      "title": "Overview",
+                      "href": "/modules/model_io/prompts/prompt_templates/prompt_templates"
+                    },
+                    {
+                      "title": "Connecting to a Feature Store",
+                      "href": "/modules/model_io/prompts/prompt_templates/connecting_to_a_feature_store"
+                    },
+                    {
+                      "title": "Custom Prompt Template",
+                      "href": "/modules/model_io/prompts/prompt_templates/custom_prompt_template"
+                    },
+                    {
+                      "title": "Few-shot Prompt Templates",
+                      "href": "/modules/model_io/prompts/prompt_templates/few_shot_examples"
+                    },
+                    {
+                      "title": "Format Template Output",
+                      "href": "/modules/model_io/prompts/prompt_templates/format_output"
+                    },
+                    {
+                      "title": "Template Formats",
+                      "href": "/modules/model_io/prompts/prompt_templates/formats"
+                    },
+                    {
+                      "title": "Types of MessagePromptTemplate",
+                      "href": "/modules/model_io/prompts/prompt_templates/msg_prompt_templates"
+                    },
+                    {
+                      "title": "Partial Prompt Templates",
+                      "href": "/modules/model_io/prompts/prompt_templates/partial"
+                    },
+                    {
+                      "title": "Composition",
+                      "href": "/modules/model_io/prompts/prompt_templates/prompt_composition"
+                    },
+                    {
+                      "title": "Serialization",
+                      "href": "/modules/model_io/prompts/prompt_templates/prompt_serialization"
+                    },
+                    {
+                      "title": "Validate Template",
+                      "href": "/modules/model_io/prompts/prompt_templates/validate"
+                    }
+                  ]
+                },
+                {
+                  "title": "Example Selectors",
+                  "href": "/modules/model_io/prompts/example_selectors/example_selectors"
+                }
+              ]
+            },
+            {
+              "group": "Language Models",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/model_io/models/models"
+                },
+                {
+                  "group": "LLMs",
+                  "pages": [
+                    {
+                      "title": "Overview",
+                      "href": "/modules/model_io/models/llms/llms"
+                    },
+                    {
+                      "group": "How-to",
+                      "pages": [
+                        {
+                          "title": "Custom LLM",
+                          "href": "/modules/model_io/models/llms/how_to/custom_llm"
+                        },
+                        {
+                          "title": "Fake LLM",
+                          "href": "/modules/model_io/models/llms/how_to/fake_llm"
+                        },
+                        {
+                          "title": "Human Input LLM",
+                          "href": "/modules/model_io/models/llms/how_to/human_input_llm"
+                        },
+                        {
+                          "title": "Caching",
+                          "href": "/modules/model_io/models/llms/how_to/llm_caching"
+                        },
+                        {
+                          "title": "Serialization",
+                          "href": "/modules/model_io/models/llms/how_to/llm_serialization"
+                        },
+                        {
+                          "title": "Streaming",
+                          "href": "/modules/model_io/models/llms/how_to/llm_streaming"
+                        },
+                        {
+                          "title": "Tracking Token Usage",
+                          "href": "/modules/model_io/models/llms/how_to/token_usage_tracking"
+                        }
+                      ]
+                    },
+                    {
+                      "group": "Integrations",
+                      "pages": [
+                        {
+                          "title": "OpenAI",
+                          "href": "/modules/model_io/models/llms/integrations/openai"
+                        },
+                        {
+                          "title": "GCP Vertex AI",
+                          "href": "/modules/model_io/models/llms/integrations/gcp_vertex_ai"
+                        },
+                        {
+                          "title": "Ollama",
+                          "href": "/modules/model_io/models/llms/integrations/ollama"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "group": "Chat Models",
+                  "pages": [
+                    {
+                      "title": "Overview",
+                      "href": "/modules/model_io/models/chat_models/chat_models"
+                    },
+                    {
+                      "group": "How-to",
+                      "pages": [
+                        {
+                          "title": "Prompts",
+                          "href": "/modules/model_io/models/chat_models/how_to/prompts"
+                        },
+                        {
+                          "title": "Streaming",
+                          "href": "/modules/model_io/models/chat_models/how_to/streaming"
+                        },
+                        {
+                          "title": "Tool Calling",
+                          "href": "/modules/model_io/models/chat_models/how_to/tools"
+                        },
+                        {
+                          "title": "LLMChain",
+                          "href": "/modules/model_io/models/chat_models/how_to/llm_chain"
+                        }
+                      ]
+                    },
+                    {
+                      "group": "Integrations",
+                      "pages": [
+                        {
+                          "title": "Anthropic",
+                          "href": "/modules/model_io/models/chat_models/integrations/anthropic"
+                        },
+                        {
+                          "title": "OpenAI",
+                          "href": "/modules/model_io/models/chat_models/integrations/openai"
+                        },
+                        {
+                          "title": "Firebase Vertex AI",
+                          "href": "/modules/model_io/models/chat_models/integrations/firebase_vertex_ai"
+                        },
+                        {
+                          "title": "GCP Vertex AI",
+                          "href": "/modules/model_io/models/chat_models/integrations/gcp_vertex_ai"
+                        },
+                        {
+                          "title": "Google AI",
+                          "href": "/modules/model_io/models/chat_models/integrations/googleai"
+                        },
+                        {
+                          "title": "Ollama",
+                          "href": "/modules/model_io/models/chat_models/integrations/ollama"
+                        },
+                        {
+                          "title": "Mistral AI",
+                          "href": "/modules/model_io/models/chat_models/integrations/mistralai"
+                        },
+                        {
+                          "title": "OpenRouter",
+                          "href": "/modules/model_io/models/chat_models/integrations/open_router"
+                        },
+                        {
+                          "title": "Together AI",
+                          "href": "/modules/model_io/models/chat_models/integrations/together_ai"
+                        },
+                        {
+                          "title": "Anyscale",
+                          "href": "/modules/model_io/models/chat_models/integrations/anyscale"
+                        },
+                        {
+                          "title": "Prem App",
+                          "href": "/modules/model_io/models/chat_models/integrations/prem"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "Output Parsers",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/model_io/output_parsers/output_parsers"
+                },
+                {
+                  "title": "String Output Parser",
+                  "href": "/modules/model_io/output_parsers/string"
+                },
+                {
+                  "title": "JSON Output Parser",
+                  "href": "/modules/model_io/output_parsers/json"
+                },
+                {
+                  "title": "Tools Output Parser",
+                  "href": "/modules/model_io/output_parsers/tools"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Retrieval",
+          "pages": [
+            {
+              "title": "Overview",
+              "href": "/modules/retrieval/retrieval"
+            },
+            {
+              "group": "Document Loaders",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/retrieval/document_loaders/document_loaders"
+                },
+                {
+                  "group": "How-to",
+                  "pages": [
+                    {
+                      "title": "Text",
+                      "href": "/modules/retrieval/document_loaders/how_to/text"
+                    },
+                    {
+                      "title": "JSON",
+                      "href": "/modules/retrieval/document_loaders/how_to/json"
+                    },
+                    {
+                      "title": "Web Page",
+                      "href": "/modules/retrieval/document_loaders/how_to/web"
+                    },
+                    {
+                      "title": "Directory",
+                      "href": "/modules/retrieval/document_loaders/how_to/directory"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "Document Transformers",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/retrieval/document_transformers/document_transformers"
+                },
+                {
+                  "group": "Text Splitters",
+                  "pages": [
+                    {
+                      "title": "Split by Character",
+                      "href": "/modules/retrieval/document_transformers/text_splitters/character_text_splitter"
+                    },
+                    {
+                      "title": "Recursively Split by Character",
+                      "href": "/modules/retrieval/document_transformers/text_splitters/recursive_character_text_splitter"
+                    },
+                    {
+                      "title": "Split Code",
+                      "href": "/modules/retrieval/document_transformers/text_splitters/code_text_splitter"
+                    },
+                    {
+                      "title": "Split Markdown",
+                      "href": "/modules/retrieval/document_transformers/text_splitters/markdown_text_splitter"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "Text Embedding Models",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/retrieval/text_embedding/text_embedding"
+                },
+                {
+                  "group": "Integrations",
+                  "pages": [
+                    {
+                      "title": "OpenAI",
+                      "href": "/modules/retrieval/text_embedding/integrations/openai"
+                    },
+                    {
+                      "title": "GCP Vertex AI",
+                      "href": "/modules/retrieval/text_embedding/integrations/gcp_vertex_ai"
+                    },
+                    {
+                      "title": "Google AI",
+                      "href": "/modules/retrieval/text_embedding/integrations/google_ai"
+                    },
+                    {
+                      "title": "Ollama",
+                      "href": "/modules/retrieval/text_embedding/integrations/ollama"
+                    },
+                    {
+                      "title": "Mistral AI",
+                      "href": "/modules/retrieval/text_embedding/integrations/mistralai"
+                    },
+                    {
+                      "title": "Together AI",
+                      "href": "/modules/retrieval/text_embedding/integrations/together_ai"
+                    },
+                    {
+                      "title": "Anyscale",
+                      "href": "/modules/retrieval/text_embedding/integrations/anyscale"
+                    },
+                    {
+                      "title": "Prem App",
+                      "href": "/modules/retrieval/text_embedding/integrations/prem"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "Vector Stores",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/retrieval/vector_stores/vector_stores"
+                },
+                {
+                  "group": "Integrations",
+                  "pages": [
+                    {
+                      "title": "Memory",
+                      "href": "/modules/retrieval/vector_stores/integrations/memory"
+                    },
+                    {
+                      "title": "ObjectBox",
+                      "href": "/modules/retrieval/vector_stores/integrations/objectbox"
+                    },
+                    {
+                      "title": "Chroma",
+                      "href": "/modules/retrieval/vector_stores/integrations/chroma"
+                    },
+                    {
+                      "title": "Pinecone",
+                      "href": "/modules/retrieval/vector_stores/integrations/pinecone"
+                    },
+                    {
+                      "title": "Supabase",
+                      "href": "/modules/retrieval/vector_stores/integrations/supabase"
+                    },
+                    {
+                      "title": "Vertex AI Vector Search",
+                      "href": "/modules/retrieval/vector_stores/integrations/vertex_ai"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Retrievers",
+              "href": "/modules/retrieval/retrievers/retrievers"
+            }
+          ]
+        },
+        {
+          "group": "Chains",
+          "pages": [
+            {
+              "title": "Overview",
+              "href": "/modules/chains/chains"
+            },
+            {
+              "group": "How-to",
+              "pages": [
+                {
+                  "title": "Different Call Methods",
+                  "href": "/modules/chains/how_to/call_methods"
+                },
+                {
+                  "title": "Custom Chain",
+                  "href": "/modules/chains/how_to/custom_chain"
+                },
+                {
+                  "title": "Debugging Chains",
+                  "href": "/modules/chains/how_to/debugging"
+                },
+                {
+                  "title": "Loading from LangChainHub",
+                  "href": "/modules/chains/how_to/from_hub"
+                },
+                {
+                  "title": "Adding Memory",
+                  "href": "/modules/chains/how_to/memory"
+                },
+                {
+                  "title": "Serialization",
+                  "href": "/modules/chains/how_to/serialization"
+                }
+              ]
+            },
+            {
+              "group": "Foundational",
+              "pages": [
+                {
+                  "title": "LLM",
+                  "href": "/modules/chains/foundational/llm"
+                },
+                {
+                  "title": "Sequential",
+                  "href": "/modules/chains/foundational/sequential"
+                }
+              ]
+            },
+            {
+              "group": "Documents",
+              "pages": [
+                {
+                  "title": "Stuff",
+                  "href": "/modules/chains/documents/stuff"
+                },
+                {
+                  "title": "MapReduce",
+                  "href": "/modules/chains/documents/map_reduce"
+                }
+              ]
+            },
+            {
+              "group": "Popular",
+              "pages": [
+                {
+                  "title": "Summarize",
+                  "href": "/modules/chains/popular/summarize"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Memory",
+          "href": "/modules/memory/memory"
+        },
+        {
+          "group": "Agents",
+          "pages": [
+            {
+              "title": "Overview",
+              "href": "/modules/agents/agents"
+            },
+            {
+              "group": "Agent Types",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/agents/agent_types/agent_types"
+                },
+                {
+                  "title": "Tools Agent",
+                  "href": "/modules/agents/agent_types/tools_agent"
+                }
+              ]
+            },
+            {
+              "group": "Tools",
+              "pages": [
+                {
+                  "title": "Overview",
+                  "href": "/modules/agents/tools/tools"
+                },
+                {
+                  "title": "Calculator",
+                  "href": "/modules/agents/tools/calculator"
+                },
+                {
+                  "title": "DALL-E Image Generator",
+                  "href": "/modules/agents/tools/openai_dall_e"
+                },
+                {
+                  "title": "Tavily Answer",
+                  "href": "/modules/agents/tools/tavily_answer"
+                },
+                {
+                  "title": "Tavily Search Results",
+                  "href": "/modules/agents/tools/tavily_search_results"
+                }
+              ]
+            },
+            {
+              "title": "Toolkits",
+              "href": "/modules/agents/toolkits/toolkits"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

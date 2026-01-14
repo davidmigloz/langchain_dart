@@ -11,7 +11,7 @@ That's a fair amount to cover! Let's dive in.
 
 ## Setup
 
-To get started, follow the [installation instructions](/get_started/installation.md) to install LangChain.dart.
+To get started, follow the [installation instructions](/get_started/installation) to install LangChain.dart.
 
 Using LangChain.dart will usually require integrations with one or more model providers, data stores, APIs, etc. For this example, we'll use OpenAI's model APIs.
 
@@ -98,7 +98,7 @@ print(res2.output);
 // AIChatMessage(content='RainbowSock Co.')
 ```
 
-?> `LLM.invoke` and `ChatModel.invoke` take as input a `PromptValue`. This is an object that defines its own custom logic for returning its inputs either as a string or as messages. `LLM`s have logic for coercing any of these into a string, and `ChatModel`s have logic for coercing any of these to messages. The fact that `LLM` and `ChatModel` accept the same inputs means that you can directly swap them for one another in most chains without breaking anything, though it's of course important to think about how inputs are being coerced and how that may affect model performance. To dive deeper on models head to the [Language models](/modules/model_io/models/models.md) section.
+?> `LLM.invoke` and `ChatModel.invoke` take as input a `PromptValue`. This is an object that defines its own custom logic for returning its inputs either as a string or as messages. `LLM`s have logic for coercing any of these into a string, and `ChatModel`s have logic for coercing any of these to messages. The fact that `LLM` and `ChatModel` accept the same inputs means that you can directly swap them for one another in most chains without breaking anything, though it's of course important to think about how inputs are being coerced and how that may affect model performance. To dive deeper on models head to the [Language models](/modules/model_io/models/models) section.
 
 ## Prompt templates
 
@@ -117,7 +117,7 @@ print(res);
 // 'What is a good name for a company that makes colorful socks?'
 ```
 
-However, the advantages of using these over raw string formatting are several. You can "partial" out variables - e.g. you can format only some of the variables at a time. You can compose them together, easily combining different templates into a single prompt. For explanations of these functionalities, see the [prompts](/modules/model_io/prompts/prompts.md) for more detail.
+However, the advantages of using these over raw string formatting are several. You can "partial" out variables - e.g. you can format only some of the variables at a time. You can compose them together, easily combining different templates into a single prompt. For explanations of these functionalities, see the [prompts](/modules/model_io/prompts/prompts) for more detail.
 
 `PromptTemplates` can also be used to produce a list of messages. In this case, the prompt not only contains information about the content, but also each message (its role, its position in the list, etc) Here, what happens most often is a `ChatPromptTemplate` is a list of `ChatMessagePromptTemplates`. Each `ChatMessagePromptTemplate` contains instructions for how to format that `ChatMessage` - its role, and then also its content. Let's take a look at this below:
 
@@ -142,7 +142,7 @@ print(res);
 // ]
 ```
 
-`ChatPromptTemplates` can also be constructed in other ways - see the section on [prompts](/modules/model_io/prompts/prompts.md) for more detail.
+`ChatPromptTemplates` can also be constructed in other ways - see the section on [prompts](/modules/model_io/prompts/prompts) for more detail.
 
 ## Output parsers
 
@@ -152,7 +152,7 @@ print(res);
 - Convert a `ChatMessage` into just a string.
 - Convert the extra information returned from a call besides the message (like OpenAI function invocation) into a string.
 
-For full information on this, see the section on [output parsers](/modules/model_io/output_parsers/output_parsers.md).
+For full information on this, see the section on [output parsers](/modules/model_io/output_parsers/output_parsers).
 
 In this getting started guide, we will write our own output parser - one that converts a comma separated list into a list.
 
@@ -215,12 +215,12 @@ final res = await chain.invoke({'text': 'colors'});
 print(res); // ['red', 'blue', 'green', 'yellow', 'orange']
 ```
 
-Note that we are using the `.pipe` syntax (or alternatively the `|` syntax) to join these components together. This syntax is powered by the LangChain Expression Language (LCEL) and relies on the universal `Runnable` interface that all of these objects implement. To learn more about this syntax, read the documentation [here](/expression_language/expression_language.md).
+Note that we are using the `.pipe` syntax (or alternatively the `|` syntax) to join these components together. This syntax is powered by the LangChain Expression Language (LCEL) and relies on the universal `Runnable` interface that all of these objects implement. To learn more about this syntax, read the documentation [here](/expression_language/expression_language).
 
 ## Next steps
 
 This is it! We've now gone over how to create the core building block of LangChain applications. There are a lot more features in all three of these than we can cover here. To continue on your journey:
 
-- Read up on [LangChain Expression Language](/expression_language/expression_language.md) to learn how to chain these components together.
-- [Dive deeper](/modules/model_io/model_io.md) into LLMs, prompts, and output parsers and learn the other [key components](/modules/modules.md).
+- Read up on [LangChain Expression Language](/expression_language/expression_language) to learn how to chain these components together.
+- [Dive deeper](/modules/model_io/model_io) into LLMs, prompts, and output parsers and learn the other [key components](/modules/modules).
 - Explore common [end-to-end use cases](https://python.langchain.com/docs/use_cases).

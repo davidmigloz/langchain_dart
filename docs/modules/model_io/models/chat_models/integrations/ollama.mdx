@@ -118,7 +118,7 @@ print(res.output.content);
 
 ### Tool calling
 
-`ChatOllama` offers support for native tool calling. This enables a model to answer a given prompt using tool(s) it knows about, making it possible for models to perform more complex tasks or interact with the outside world. It follows the standard [LangChain.dart tools API](/modules/model_io/models/chat_models/how_to/tools.md), so you can use it in the same way as you would with other providers that support tool-calling (e.g. `ChatOpenAI`, `ChatAnthropic`, etc.).
+`ChatOllama` offers support for native tool calling. This enables a model to answer a given prompt using tool(s) it knows about, making it possible for models to perform more complex tasks or interact with the outside world. It follows the standard [LangChain.dart tools API](/modules/model_io/models/chat_models/how_to/tools), so you can use it in the same way as you would with other providers that support tool-calling (e.g. `ChatOpenAI`, `ChatAnthropic`, etc.).
 
 **Notes:**
 - Tool calling requires [Ollama 0.3.0](https://github.com/ollama/ollama/releases/tag/v0.3.0) or newer.
@@ -181,7 +181,7 @@ final chatModel = ChatOllama(
 );
 ```
 
-**Pro-tip:** You can improve tool-calling performance of small models by using few-shot prompting. You can find out how to do this [here](https://langchaindart.dev/#/modules/model_io/models/chat_models/how_to/tools?id=few-shot-prompting) and in this [blog post](https://blog.langchain.dev/few-shot-prompting-to-improve-tool-calling-performance).
+**Pro-tip:** You can improve tool-calling performance of small models by using few-shot prompting. You can find out how to do this [here](/modules/model_io/models/chat_models/how_to/tools#few-shot-prompting) and in this [blog post](https://blog.langchain.dev/few-shot-prompting-to-improve-tool-calling-performance).
 
 ### JSON mode
 

@@ -3,17 +3,17 @@
 > We use the term "tool calling" interchangeably with "function calling". Although function calling is sometimes meant to refer to invocations of a single function, we treat all models as though they can return multiple tool or function calls in each message.
 
 > Tool calling is currently supported by:
-> - [`ChatAnthropic`](/modules/model_io/models/chat_models/integrations/anthropic.md)
-> - [`ChatFirebaseVertexAI`](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai.md)
-> - [`ChatGoogleGenerativeAI`](/modules/model_io/models/chat_models/integrations/googleai.md)
-> - [`ChatOllama`](/modules/model_io/models/chat_models/integrations/ollama.md)
-> - [`ChatOpenAI`](/modules/model_io/models/chat_models/integrations/openai.md)
+> - [`ChatAnthropic`](/modules/model_io/models/chat_models/integrations/anthropic)
+> - [`ChatFirebaseVertexAI`](/modules/model_io/models/chat_models/integrations/firebase_vertex_ai)
+> - [`ChatGoogleGenerativeAI`](/modules/model_io/models/chat_models/integrations/googleai)
+> - [`ChatOllama`](/modules/model_io/models/chat_models/integrations/ollama)
+> - [`ChatOpenAI`](/modules/model_io/models/chat_models/integrations/openai)
 
 Tool calling allows a model to respond to a given prompt by generating output that matches a user-defined schema. While the name implies that the model is performing some action, this is actually not the case! The model is coming up with the arguments to a tool, and actually running the tool (or not) is up to the user - for example, if you want to extract output matching some schema from unstructured text, you could give the model an “extraction” tool that takes parameters matching the desired schema, then treat the generated output as your final result.
 
 A tool call includes an `id` of the call, the `name` of the tool to call, and a map with the `arguments` to pass to the tool. The `arguments` map is structured like `{argument_name: argument_value}`.
 
-Many LLM providers, including Anthropic, Cohere, Google, Mistral, OpenAI, and others, support variants of a tool calling feature. These features typically allow requests to the LLM to include available tools and their schemas, and for responses to include calls to these tools. For instance, given a search engine tool, an LLM might handle a query by first issuing a call to the search engine. The system calling the LLM can receive the tool call, execute it, and return the output to the LLM to inform its response. LangChain.dart includes a suite of [built-in tools](/modules/agents/tools/tools.md) and supports several methods for defining your own custom tools. Tool-calling is extremely useful for building tool-using chains and agents, and for getting structured outputs from models more generally.
+Many LLM providers, including Anthropic, Cohere, Google, Mistral, OpenAI, and others, support variants of a tool calling feature. These features typically allow requests to the LLM to include available tools and their schemas, and for responses to include calls to these tools. For instance, given a search engine tool, an LLM might handle a query by first issuing a call to the search engine. The system calling the LLM can receive the tool call, execute it, and return the output to the LLM to inform its response. LangChain.dart includes a suite of [built-in tools](/modules/agents/tools/tools) and supports several methods for defining your own custom tools. Tool-calling is extremely useful for building tool-using chains and agents, and for getting structured outputs from models more generally.
 
 Providers adopt different conventions for formatting tool schemas and tool calls. For instance, Anthropic returns tool calls as parsed structures within a larger content block:
 
