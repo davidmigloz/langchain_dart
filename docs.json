@@ -3,7 +3,8 @@
   "name": "LangChain.dart",
   "description": "Build Dart/Flutter applications powered by language models",
   "logo": {
-    "light": "/img/langchain.dart.png"
+    "light": "/img/langchain_dart_logo.png",
+    "dark": "/img/langchain_dart_logo.png"
   },
   "favicon": "/favicon.ico",
   "theme": {
