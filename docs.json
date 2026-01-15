@@ -1,7 +1,10 @@
 {
+  "$schema": "https://docs.page/schema.json",
   "name": "LangChain.dart",
   "description": "Build Dart/Flutter applications powered by language models",
-  "logo": "/img/langchain.dart.png",
+  "logo": {
+    "light": "/img/langchain.dart.png"
+  },
   "favicon": "/favicon.ico",
   "theme": {
     "primary": "#0175C2"

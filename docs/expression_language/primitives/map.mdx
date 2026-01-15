@@ -1,3 +1,12 @@
+---
+title: "Map: Formatting Inputs & Concurrency"
+description: Run operations concurrently and format outputs to match input requirements
+previous: /expression_language/primitives/sequence
+previousTitle: Sequence
+next: /expression_language/primitives/passthrough
+nextTitle: Passthrough
+---
+
 # RunnableMap: Formatting inputs & concurrency
 
 The `RunnableMap` primitive is essentially a map whose values are runnables. It runs all of its values concurrently, and each value is called with the overall input of the `RunnableMap`. The final return value is a map with the results of each value under its appropriate key.

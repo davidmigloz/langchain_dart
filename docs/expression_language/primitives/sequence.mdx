@@ -1,3 +1,12 @@
+---
+title: "Sequence: Chaining Runnables"
+description: Chain runnables together using the pipe operator to build complex chains
+previous: /expression_language/primitives
+previousTitle: Primitives
+next: /expression_language/primitives/map
+nextTitle: "Map: Formatting Inputs"
+---
+
 # RunnableSequence: Chaining runnables
 
 One key advantage of the `Runnable` interface is that any two runnables can be “chained” together into sequences. The output of the previous runnable’s `.invoke()` call is passed as input to the next runnable. This can be done using the `.pipe()` method (or the `|` operator, which is a convenient shorthand for `.pipe()`). The resulting `RunnableSequence` is itself a runnable, which means it can be invoked, streamed, or piped just like any other runnable.
