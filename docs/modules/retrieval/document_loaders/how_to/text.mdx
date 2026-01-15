@@ -1,0 +1,17 @@
+---
+title: Text Loader
+description: Load documents from text files
+previous: /modules/retrieval/document_loaders/how_to/json
+previousTitle: JSON Loader
+next: /modules/retrieval/document_loaders/how_to/web
+nextTitle: Web Loader
+---
+
+# Text
+
+Use `TextLoader` to load data from a text file.
+
+```dart
+final loader = TextLoader('path/to/file.txt');
+final documents = await loader.load();
+```
