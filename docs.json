@@ -54,7 +54,7 @@
       "pages": [
         {
           "title": "Overview",
-          "href": "/expression_language/expression_language",
+          "href": "/expression_language",
           "icon": "code"
         },
         {
@@ -147,7 +147,7 @@
       "pages": [
         {
           "title": "Overview",
-          "href": "/modules/model_io/model_io",
+          "href": "/modules/model_io",
           "icon": "cube"
         },
         {
@@ -155,14 +155,14 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/model_io/prompts/prompts"
+              "href": "/modules/model_io/prompts"
             },
             {
               "group": "Prompt Templates",
               "pages": [
                 {
                   "title": "Overview",
-                  "href": "/modules/model_io/prompts/prompt_templates/prompt_templates"
+                  "href": "/modules/model_io/prompts/prompt_templates"
                 },
                 {
                   "title": "Connecting to a Feature Store",
@@ -208,7 +208,7 @@
             },
             {
               "title": "Example Selectors",
-              "href": "/modules/model_io/prompts/example_selectors/example_selectors"
+              "href": "/modules/model_io/prompts/example_selectors"
             }
           ]
         },
@@ -217,14 +217,14 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/model_io/models/models"
+              "href": "/modules/model_io/models"
             },
             {
               "group": "LLMs",
               "pages": [
                 {
                   "title": "Overview",
-                  "href": "/modules/model_io/models/llms/llms"
+                  "href": "/modules/model_io/models/llms"
                 },
                 {
                   "group": "How-to",
@@ -266,7 +266,7 @@
               "pages": [
                 {
                   "title": "Overview",
-                  "href": "/modules/model_io/models/chat_models/chat_models"
+                  "href": "/modules/model_io/models/chat_models"
                 },
                 {
                   "group": "How-to",
@@ -298,7 +298,7 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/model_io/output_parsers/output_parsers"
+              "href": "/modules/model_io/output_parsers"
             },
             {
               "title": "String Output Parser",
@@ -322,7 +322,7 @@
       "pages": [
         {
           "title": "Overview",
-          "href": "/modules/retrieval/retrieval",
+          "href": "/modules/retrieval",
           "icon": "database"
         },
         {
@@ -330,7 +330,7 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/retrieval/document_loaders/document_loaders"
+              "href": "/modules/retrieval/document_loaders"
             },
             {
               "title": "Text",
@@ -355,7 +355,7 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/retrieval/document_transformers/document_transformers"
+              "href": "/modules/retrieval/document_transformers"
             },
             {
               "title": "Split by Character",
@@ -380,7 +380,7 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/retrieval/text_embedding/text_embedding"
+              "href": "/modules/retrieval/text_embedding"
             }
           ]
         },
@@ -389,13 +389,13 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/retrieval/vector_stores/vector_stores"
+              "href": "/modules/retrieval/vector_stores"
             }
           ]
         },
         {
           "title": "Retrievers",
-          "href": "/modules/retrieval/retrievers/retrievers"
+          "href": "/modules/retrieval/retrievers"
         }
       ]
     },
@@ -405,7 +405,7 @@
       "pages": [
         {
           "title": "Overview",
-          "href": "/modules/chains/chains",
+          "href": "/modules/chains",
           "icon": "link"
         },
         {
@@ -480,7 +480,7 @@
       "pages": [
         {
           "title": "Overview",
-          "href": "/modules/memory/memory",
+          "href": "/modules/memory",
           "icon": "brain"
         }
       ]
@@ -491,7 +491,7 @@
       "pages": [
         {
           "title": "Overview",
-          "href": "/modules/agents/agents",
+          "href": "/modules/agents",
           "icon": "robot"
         },
         {
@@ -499,7 +499,7 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/agents/agent_types/agent_types"
+              "href": "/modules/agents/agent_types"
             },
             {
               "title": "Tools Agent",
@@ -512,7 +512,7 @@
           "pages": [
             {
               "title": "Overview",
-              "href": "/modules/agents/tools/tools"
+              "href": "/modules/agents/tools"
             },
             {
               "title": "Calculator",
@@ -534,7 +534,7 @@
         },
         {
           "title": "Toolkits",
-          "href": "/modules/agents/toolkits/toolkits"
+          "href": "/modules/agents/toolkits"
         }
       ]
     },
