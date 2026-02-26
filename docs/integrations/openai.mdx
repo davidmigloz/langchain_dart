@@ -39,7 +39,7 @@ final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
 final chatModel = ChatOpenAI(
   apiKey: openaiApiKey,
   defaultOptions: ChatOpenAIOptions(
-    model: 'gpt-4o'
+    model: 'gpt-4o',
     temperature: 0,
     // ...other options
   ),

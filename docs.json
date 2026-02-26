@@ -44,7 +44,7 @@
     },
     {
       "title": "Discord",
-      "href": "https://discord.gg/6adMQxSpJS",
+      "href": "https://discord.gg/ndvtbfT7",
       "icon": "discord"
     }
   ],
@@ -68,11 +68,6 @@
       "id": "lcel",
       "title": "LCEL",
       "href": "/expression_language"
-    },
-    {
-      "id": "api",
-      "title": "API Reference",
-      "href": "https://pub.dev/documentation/langchain/latest"
     }
   ],
   "sidebar": [
