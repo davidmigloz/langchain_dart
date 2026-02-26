@@ -16,5 +16,6 @@ final embeddings = VertexAIEmbeddings(
 );
 const text = 'This is a test document.';
 final res = await embeddings.embedQuery(text);
-final res = await embeddings.embedDocuments([text]);
+// or for multiple documents
+// final res = await embeddings.embedDocuments([text]);
 ```

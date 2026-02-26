@@ -46,7 +46,7 @@ final res = await vectorStore.similaritySearch(
   config: PineconeSimilaritySearch(
     k: 5,
     scoreThreshold: 0.8,
-    filter: {'class: 'cat'},
+    filter: {'class': 'cat'},
   ),
 );
 ```

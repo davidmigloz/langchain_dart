@@ -15,7 +15,7 @@ All classes inherited from `BaseChain` offer a few ways of running chain logic. 
 is by `call()` (a chain is a [callable object](https://dart.dev/language/callable-objects)):
 
 ```dart
-final chat = final chat = ChatOpenAI(
+final chat = ChatOpenAI(
   apiKey: openaiApiKey,
   defaultOptions: const ChatOpenAIOptions(
     temperature: 0,
@@ -70,7 +70,7 @@ Tips: You can easily integrate a Chain object as a Tool in your Agent via its ru
 persist data across multiple calls. In other words, it makes `Chain` a stateful object.
 
 ```dart
-final chat = final chat = ChatOpenAI(
+final chat = ChatOpenAI(
   apiKey: openaiApiKey,
   defaultOptions: const ChatOpenAIOptions(
     temperature: 0,
