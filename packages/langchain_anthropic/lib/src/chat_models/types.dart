@@ -50,10 +50,7 @@ class ChatAnthropicThinkingEnabled extends ChatAnthropicThinking {
 
   @override
   a.ThinkingConfig toThinkingConfig() {
-    return a.ThinkingConfig.enabled(
-      type: a.ThinkingConfigEnabledType.enabled,
-      budgetTokens: budgetTokens,
-    );
+    return a.ThinkingConfig.enabled(budgetTokens: budgetTokens);
   }
 
   @override
@@ -75,9 +72,7 @@ class ChatAnthropicThinkingDisabled extends ChatAnthropicThinking {
 
   @override
   a.ThinkingConfig toThinkingConfig() {
-    return const a.ThinkingConfig.disabled(
-      type: a.ThinkingConfigDisabledType.disabled,
-    );
+    return a.ThinkingConfig.disabled();
   }
 
   @override

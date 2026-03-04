@@ -112,11 +112,9 @@ class CsvLoader extends BaseDocumentLoader {
         .cast<List<int>>()
         .transform(utf8.decoder)
         .transform(
-          CsvToListConverter(
+          CsvDecoder(
             fieldDelimiter: fieldDelimiter,
-            textDelimiter: fieldTextDelimiter,
-            textEndDelimiter: fieldTextEndDelimiter,
-            eol: eol,
+            quoteCharacter: fieldTextDelimiter,
           ),
         );
 

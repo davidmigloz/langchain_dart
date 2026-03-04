@@ -3,7 +3,7 @@ import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
-import 'package:ollama_dart/ollama_dart.dart' hide ModelInfo;
+import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
 import 'mappers.dart';
@@ -33,7 +33,7 @@ import 'types.dart';
 ///
 /// ### Ollama base URL
 ///
-/// By default, [Ollama] uses 'http://localhost:11434/api' as base URL
+/// By default, [Ollama] uses 'http://localhost:11434' as base URL
 /// (default Ollama API URL). But if you are running Ollama on a different
 /// one, you can override it using the [baseUrl] parameter.
 ///
@@ -52,11 +52,11 @@ import 'types.dart';
 ///   defaultOptions: const OllamaOptions(
 ///     model: 'llama3.2',
 ///     temperature: 0,
-///     format: 'json',
+///     format: OllamaResponseFormat.json,
 ///   ),
 /// );
 /// final prompt = PromptValue.string('Hello world!');
-/// final result = await openai.invoke(prompt);
+/// final result = await llm.invoke(prompt);
 /// ```
 ///
 /// **Call options:**
@@ -148,17 +148,21 @@ class Ollama extends BaseLLM<OllamaOptions> {
   ///   you need further customization (e.g. to use a Socks5 proxy).
   /// - [Ollama.encoding]
   Ollama({
-    final String baseUrl = 'http://localhost:11434/api',
+    final String baseUrl = 'http://localhost:11434',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OllamaOptions(model: defaultModel),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
+         config: OllamaConfig(
+           baseUrl: baseUrl,
+           defaultHeaders: headers ?? const {},
+           defaultQueryParams:
+               queryParams?.map((k, v) => MapEntry(k, v.toString())) ??
+               const {},
+         ),
+         httpClient: client,
        );
 
   /// A client for interacting with Ollama API.
@@ -185,8 +189,8 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final OllamaOptions? options,
   }) async {
     final id = _uuid.v4();
-    final completion = await _client.generateCompletion(
-      request: _generateCompletionRequest(input.toString(), options: options),
+    final completion = await _client.completions.generate(
+      request: _createGenerateRequest(input.toString(), options: options),
     );
     return completion.toLLMResult(id);
   }
@@ -197,45 +201,48 @@ class Ollama extends BaseLLM<OllamaOptions> {
     final OllamaOptions? options,
   }) {
     final id = _uuid.v4();
-    return _client
-        .generateCompletionStream(
-          request: _generateCompletionRequest(
+    return _client.completions
+        .generateStream(
+          request: _createGenerateRequest(
             input.toString(),
             options: options,
+            stream: true,
           ),
         )
         .map((final completion) => completion.toLLMResult(id, streaming: true));
   }
 
-  /// Creates a [GenerateCompletionRequest] from the given input.
-  GenerateCompletionRequest _generateCompletionRequest(
+  /// Creates a [GenerateRequest] from the given input.
+  GenerateRequest _createGenerateRequest(
     final String prompt, {
     final bool stream = false,
     final OllamaOptions? options,
   }) {
-    return GenerateCompletionRequest(
+    return GenerateRequest(
       model: options?.model ?? defaultOptions.model ?? defaultModel,
       prompt: prompt,
       system: options?.system ?? defaultOptions.system,
       suffix: options?.suffix ?? defaultOptions.suffix,
       template: options?.template ?? defaultOptions.template,
       context: options?.context ?? defaultOptions.context,
-      format: (options?.format ?? defaultOptions.format)?.toResponseFormat(),
+      format: (options?.format ?? defaultOptions.format)?.toFormat(),
       raw: options?.raw ?? defaultOptions.raw,
       keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
-      think: (options?.think ?? defaultOptions.think)?.toThinkRequest(),
+      think: (options?.think ?? defaultOptions.think)?.toThinkValue(),
       stream: stream,
-      options: RequestOptions(
-        numKeep: options?.numKeep ?? defaultOptions.numKeep,
+      options: ModelOptions(
         seed: options?.seed ?? defaultOptions.seed,
         numPredict: options?.numPredict ?? defaultOptions.numPredict,
         topK: options?.topK ?? defaultOptions.topK,
         topP: options?.topP ?? defaultOptions.topP,
         minP: options?.minP ?? defaultOptions.minP,
+        temperature: options?.temperature ?? defaultOptions.temperature,
+        stop: options?.stop ?? defaultOptions.stop,
+        numCtx: options?.numCtx ?? defaultOptions.numCtx,
+        numKeep: options?.numKeep ?? defaultOptions.numKeep,
         tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
         typicalP: options?.typicalP ?? defaultOptions.typicalP,
         repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
-        temperature: options?.temperature ?? defaultOptions.temperature,
         repeatPenalty: options?.repeatPenalty ?? defaultOptions.repeatPenalty,
         presencePenalty:
             options?.presencePenalty ?? defaultOptions.presencePenalty,
@@ -246,9 +253,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
         mirostatEta: options?.mirostatEta ?? defaultOptions.mirostatEta,
         penalizeNewline:
             options?.penalizeNewline ?? defaultOptions.penalizeNewline,
-        stop: options?.stop ?? defaultOptions.stop,
         numa: options?.numa ?? defaultOptions.numa,
-        numCtx: options?.numCtx ?? defaultOptions.numCtx,
         numBatch: options?.numBatch ?? defaultOptions.numBatch,
         numGpu: options?.numGpu ?? defaultOptions.numGpu,
         mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
@@ -297,15 +302,15 @@ class Ollama extends BaseLLM<OllamaOptions> {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return (response.models ?? [])
-        .where((final m) => m.model != null)
-        .map((final m) => ModelInfo(id: m.model!, ownedBy: m.details?.family))
+        .where((final m) => m.name != null)
+        .map((final m) => ModelInfo(id: m.name!, ownedBy: m.details?.family))
         .toList();
   }
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }

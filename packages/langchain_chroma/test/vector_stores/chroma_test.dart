@@ -15,7 +15,7 @@ void main() {
   final embeddings = OpenAIEmbeddings(apiKey: openaiApiKey);
   final vectorStore = Chroma(embeddings: embeddings);
 
-  group('Chroma tests', skip: true, () {
+  group('Chroma tests', skip: Platform.environment.containsKey('CI'), () {
     test('Test Chroma add new vectors', () async {
       final res = await vectorStore.addDocuments(
         documents: const [

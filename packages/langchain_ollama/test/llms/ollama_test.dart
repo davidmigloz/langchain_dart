@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 void main() {
   group('Ollama tests', skip: Platform.environment.containsKey('CI'), () {
     late Ollama llm;
-    const defaultModel = 'llama3.2';
+    const defaultModel = 'gpt-oss:latest';
 
     setUp(() {
       llm = Ollama(
@@ -124,7 +124,6 @@ void main() {
       expect(res.metadata['model'], defaultModel);
       expect(res.metadata['created_at'], isNotNull);
       expect(res.metadata['done'], isTrue);
-      expect(res.metadata['context'], isNotEmpty);
       expect(res.metadata['total_duration'], greaterThan(0));
       expect(res.metadata['load_duration'], greaterThan(0));
       expect(res.metadata['eval_count'], greaterThan(0));

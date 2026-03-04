@@ -13,58 +13,54 @@ import 'chat_ollama.dart';
 import 'types.dart';
 
 extension _OllamaResponseFormatChatMapper on OllamaResponseFormat {
-  o.GenerateChatCompletionRequestFormat? toChatResponseFormat() {
-    final format = o.ResponseFormat.values
-        .where((final f) => f.name.toLowerCase() == name.toLowerCase())
-        .firstOrNull;
-    if (format == null) return null;
-    return o.GenerateChatCompletionRequestFormat.json(
-      o.GenerateChatCompletionRequestFormatEnum.values.firstWhere(
-        (final e) => e.name == format.name,
-      ),
-    );
+  o.ResponseFormat toChatFormat() {
+    return switch (this) {
+      OllamaResponseFormat.json => const o.JsonFormat(),
+    };
   }
 }
 
 extension _OllamaThinkingLevelChatMapper on OllamaThinkingLevel {
-  o.GenerateChatCompletionRequestThink toThinkRequest() {
-    return o.GenerateChatCompletionRequestThink.level(
-      o.GenerateChatCompletionRequestThinkEnum.values.firstWhere(
-        (final e) => e.name == name,
-      ),
-    );
+  o.ThinkValue toThinkValue() {
+    return switch (this) {
+      OllamaThinkingLevel.high => const o.ThinkWithLevel(o.ThinkLevel.high),
+      OllamaThinkingLevel.medium => const o.ThinkWithLevel(o.ThinkLevel.medium),
+      OllamaThinkingLevel.low => const o.ThinkWithLevel(o.ThinkLevel.low),
+    };
   }
 }
 
-/// Creates a [GenerateChatCompletionRequest] from the given input.
-o.GenerateChatCompletionRequest generateChatCompletionRequest(
+/// Creates a [ChatRequest] from the given input.
+o.ChatRequest createChatRequest(
   final List<ChatMessage> messages, {
   required final ChatOllamaOptions? options,
   required final ChatOllamaOptions defaultOptions,
   final bool stream = false,
 }) {
-  return o.GenerateChatCompletionRequest(
+  return o.ChatRequest(
     model: options?.model ?? defaultOptions.model ?? ChatOllama.defaultModel,
     messages: messages.toMessages(),
-    format: (options?.format ?? defaultOptions.format)?.toChatResponseFormat(),
+    format: (options?.format ?? defaultOptions.format)?.toChatFormat(),
     keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
-    think: (options?.think ?? defaultOptions.think)?.toThinkRequest(),
+    think: (options?.think ?? defaultOptions.think)?.toThinkValue(),
     tools: _mapTools(
       tools: options?.tools ?? defaultOptions.tools,
       toolChoice: options?.toolChoice ?? defaultOptions.toolChoice,
     ),
     stream: stream,
-    options: o.RequestOptions(
-      numKeep: options?.numKeep ?? defaultOptions.numKeep,
+    options: o.ModelOptions(
       seed: options?.seed ?? defaultOptions.seed,
       numPredict: options?.numPredict ?? defaultOptions.numPredict,
       topK: options?.topK ?? defaultOptions.topK,
       topP: options?.topP ?? defaultOptions.topP,
       minP: options?.minP ?? defaultOptions.minP,
+      temperature: options?.temperature ?? defaultOptions.temperature,
+      stop: options?.stop ?? defaultOptions.stop,
+      numCtx: options?.numCtx ?? defaultOptions.numCtx,
+      numKeep: options?.numKeep ?? defaultOptions.numKeep,
       tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
       typicalP: options?.typicalP ?? defaultOptions.typicalP,
       repeatLastN: options?.repeatLastN ?? defaultOptions.repeatLastN,
-      temperature: options?.temperature ?? defaultOptions.temperature,
       repeatPenalty: options?.repeatPenalty ?? defaultOptions.repeatPenalty,
       presencePenalty:
           options?.presencePenalty ?? defaultOptions.presencePenalty,
@@ -75,9 +71,7 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
       mirostatEta: options?.mirostatEta ?? defaultOptions.mirostatEta,
       penalizeNewline:
           options?.penalizeNewline ?? defaultOptions.penalizeNewline,
-      stop: options?.stop ?? defaultOptions.stop,
       numa: options?.numa ?? defaultOptions.numa,
-      numCtx: options?.numCtx ?? defaultOptions.numCtx,
       numBatch: options?.numBatch ?? defaultOptions.numBatch,
       numGpu: options?.numGpu ?? defaultOptions.numGpu,
       mainGpu: options?.mainGpu ?? defaultOptions.mainGpu,
@@ -92,7 +86,7 @@ o.GenerateChatCompletionRequest generateChatCompletionRequest(
   );
 }
 
-List<o.Tool>? _mapTools({
+List<o.ToolDefinition>? _mapTools({
   final List<ToolSpec>? tools,
   final ChatToolChoice? toolChoice,
 }) {
@@ -111,8 +105,8 @@ List<o.Tool>? _mapTools({
   };
 }
 
-o.Tool _mapTool(final ToolSpec tool) {
-  return o.Tool(
+o.ToolDefinition _mapTool(final ToolSpec tool) {
+  return o.ToolDefinition(
     function: o.ToolFunction(
       name: tool.name,
       description: tool.description,
@@ -122,39 +116,31 @@ o.Tool _mapTool(final ToolSpec tool) {
 }
 
 extension OllamaChatMessagesMapper on List<ChatMessage> {
-  List<o.Message> toMessages() {
+  List<o.ChatMessage> toMessages() {
     return map(_mapMessage).expand((final msg) => msg).toList(growable: false);
   }
 
-  List<o.Message> _mapMessage(final ChatMessage msg) {
+  List<o.ChatMessage> _mapMessage(final ChatMessage msg) {
     return switch (msg) {
-      final SystemChatMessage msg => [
-        o.Message(role: o.MessageRole.system, content: msg.content),
-      ],
+      final SystemChatMessage msg => [o.ChatMessage.system(msg.content)],
       final HumanChatMessage msg => _mapHumanMessage(msg),
       final AIChatMessage msg => _mapAIMessage(msg),
-      final ToolChatMessage msg => [
-        o.Message(role: o.MessageRole.tool, content: msg.content),
-      ],
+      final ToolChatMessage msg => [o.ChatMessage.tool(msg.content)],
       CustomChatMessage() => throw UnsupportedError(
         'Ollama does not support custom messages',
       ),
     };
   }
 
-  List<o.Message> _mapHumanMessage(final HumanChatMessage message) {
+  List<o.ChatMessage> _mapHumanMessage(final HumanChatMessage message) {
     return switch (message.content) {
-      final ChatMessageContentText c => [
-        o.Message(role: o.MessageRole.user, content: c.text),
-      ],
-      final ChatMessageContentImage c => [
-        o.Message(role: o.MessageRole.user, content: c.data),
-      ],
+      final ChatMessageContentText c => [o.ChatMessage.user(c.text)],
+      final ChatMessageContentImage c => [o.ChatMessage.user(c.data)],
       final ChatMessageContentMultiModal c => _mapContentMultiModal(c),
     };
   }
 
-  List<o.Message> _mapContentMultiModal(
+  List<o.ChatMessage> _mapContentMultiModal(
     final ChatMessageContentMultiModal content,
   ) {
     final parts = content.parts.groupListsBy((final p) => p.runtimeType);
@@ -168,11 +154,8 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
     // If there's only one text part and the rest are images, then we combine them in one message
     if ((parts[ChatMessageContentText]?.length ?? 0) == 1) {
       return [
-        o.Message(
-          role: o.MessageRole.user,
-          content:
-              (parts[ChatMessageContentText]!.first as ChatMessageContentText)
-                  .text,
+        o.ChatMessage.user(
+          (parts[ChatMessageContentText]!.first as ChatMessageContentText).text,
           images: parts[ChatMessageContentImage]
               ?.map((final p) => (p as ChatMessageContentImage).data)
               .toList(growable: false),
@@ -184,14 +167,8 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
     return content.parts
         .map(
           (final p) => switch (p) {
-            final ChatMessageContentText c => o.Message(
-              role: o.MessageRole.user,
-              content: c.text,
-            ),
-            final ChatMessageContentImage c => o.Message(
-              role: o.MessageRole.user,
-              content: c.data,
-            ),
+            final ChatMessageContentText c => o.ChatMessage.user(c.text),
+            final ChatMessageContentImage c => o.ChatMessage.user(c.data),
             ChatMessageContentMultiModal() => throw UnsupportedError(
               'Cannot have multimodal content in multimodal content',
             ),
@@ -200,11 +177,10 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
         .toList(growable: false);
   }
 
-  List<o.Message> _mapAIMessage(final AIChatMessage message) {
+  List<o.ChatMessage> _mapAIMessage(final AIChatMessage message) {
     return [
-      o.Message(
-        role: o.MessageRole.assistant,
-        content: message.content,
+      o.ChatMessage.assistant(
+        message.content,
         toolCalls: message.toolCalls.isNotEmpty
             ? message.toolCalls.map(_mapToolCall).toList(growable: false)
             : null,
@@ -222,14 +198,18 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   }
 }
 
-extension ChatResultMapper on o.GenerateChatCompletionResponse {
+extension ChatResultMapper on o.ChatResponse {
   ChatResult toChatResult(final String id, {final bool streaming = false}) {
+    final content = [
+      if (message?.thinking != null) message!.thinking!,
+      message?.content ?? '',
+    ].join('');
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: message.content,
+        content: content,
         toolCalls:
-            message.toolCalls?.map(_mapToolCall).toList(growable: false) ??
+            message?.toolCalls?.map(_mapToolCall).toList(growable: false) ??
             const [],
       ),
       finishReason: _mapFinishReason(doneReason),
@@ -272,6 +252,38 @@ extension ChatResultMapper on o.GenerateChatCompletionResponse {
     o.DoneReason.stop => FinishReason.stop,
     o.DoneReason.length => FinishReason.length,
     o.DoneReason.load => FinishReason.unspecified,
+    o.DoneReason.unload => FinishReason.unspecified,
     null => FinishReason.unspecified,
   };
+}
+
+extension ChatStreamResultMapper on o.ChatStreamEvent {
+  ChatResult toChatResult(final String id, {final bool streaming = false}) {
+    final content = [
+      if (message?.thinking != null) message!.thinking!,
+      message?.content ?? '',
+    ].join('');
+    return ChatResult(
+      id: id,
+      output: AIChatMessage(
+        content: content,
+        toolCalls:
+            message?.toolCalls?.map(_mapToolCall).toList(growable: false) ??
+            const [],
+      ),
+      finishReason: FinishReason.unspecified,
+      metadata: {'model': model, 'created_at': createdAt, 'done': done},
+      usage: const LanguageModelUsage(),
+      streaming: streaming,
+    );
+  }
+
+  AIChatMessageToolCall _mapToolCall(final o.ToolCall toolCall) {
+    return AIChatMessageToolCall(
+      id: const Uuid().v4(),
+      name: toolCall.function?.name ?? '',
+      argumentsRaw: json.encode(toolCall.function?.arguments ?? const {}),
+      arguments: toolCall.function?.arguments ?? const {},
+    );
+  }
 }

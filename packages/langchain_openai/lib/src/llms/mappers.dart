@@ -2,9 +2,9 @@
 import 'package:collection/collection.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/llms.dart';
-import 'package:openai_dart/openai_dart.dart';
+import 'package:openai_dart/openai_dart.dart' as oai;
 
-extension CreateCompletionResponseMapper on CreateCompletionResponse {
+extension CompletionMapper on oai.Completion {
   List<LLMResult> toLLMResults({final bool streaming = false}) {
     final metadata = {
       'created': created,
@@ -43,15 +43,15 @@ extension CreateCompletionResponseMapper on CreateCompletionResponse {
         .toList(growable: false);
   }
 
-  FinishReason _mapFinishReason(final CompletionFinishReason? reason) =>
+  FinishReason _mapFinishReason(final oai.FinishReason? reason) =>
       switch (reason) {
-        CompletionFinishReason.stop => FinishReason.stop,
-        CompletionFinishReason.length => FinishReason.length,
-        CompletionFinishReason.contentFilter => FinishReason.contentFilter,
-        null => FinishReason.unspecified,
+        oai.FinishReason.stop => FinishReason.stop,
+        oai.FinishReason.length => FinishReason.length,
+        oai.FinishReason.contentFilter => FinishReason.contentFilter,
+        _ => FinishReason.unspecified,
       };
 
-  LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
+  LanguageModelUsage _mapUsage(final oai.Usage? usage) {
     return LanguageModelUsage(
       promptTokens: usage?.promptTokens,
       responseTokens: usage?.completionTokens,

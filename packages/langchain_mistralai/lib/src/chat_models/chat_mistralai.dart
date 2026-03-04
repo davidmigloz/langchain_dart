@@ -43,7 +43,7 @@ import 'types.dart';
 ///    and code and obtains a score of 8.6 on MT-Bench.
 ///
 /// Mind that this list may not be up-to-date.
-/// Refer to the [documentation](https://docs.mistral.ai/models) for the updated list.
+/// Refer to the [documentation](https://docs.mistral.ai/getting-started/models) for the updated list.
 ///
 /// ### Call options
 ///
@@ -152,22 +152,28 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   /// - [ChatMistralAI.encoding]
   ChatMistralAI({
     final String? apiKey,
-    final String baseUrl = 'https://api.mistral.ai/v1',
+    final String baseUrl = 'https://api.mistral.ai',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatMistralAIOptions(model: defaultModel),
     this.encoding = 'cl100k_base',
-  }) : _client = mistral.MistralAIClient(
-         apiKey: apiKey,
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
+  }) : _client = mistral.MistralClient(
+         config: mistral.MistralConfig(
+           authProvider: apiKey != null && apiKey.isNotEmpty
+               ? mistral.ApiKeyProvider(apiKey)
+               : null,
+           baseUrl: baseUrl,
+           defaultHeaders: headers ?? const {},
+           defaultQueryParams:
+               queryParams?.map((k, v) => MapEntry(k, v.toString())) ??
+               const {},
+         ),
+         httpClient: client,
        );
 
   /// A client for interacting with Mistral AI API.
-  final mistral.MistralAIClient _client;
+  final mistral.MistralClient _client;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -186,7 +192,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final PromptValue input, {
     final ChatMistralAIOptions? options,
   }) async {
-    final completion = await _client.createChatCompletion(
+    final completion = await _client.chat.create(
       request: _generateCompletionRequest(
         input.toChatMessages(),
         options: options,
@@ -200,8 +206,8 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final PromptValue input, {
     final ChatMistralAIOptions? options,
   }) {
-    return _client
-        .createChatCompletionStream(
+    return _client.chat
+        .createStream(
           request: _generateCompletionRequest(
             input.toChatMessages(),
             options: options,
@@ -210,7 +216,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
         .map((final completion) => completion.toChatResult());
   }
 
-  /// Creates a [GenerateCompletionRequest] from the given input.
+  /// Creates a [ChatCompletionRequest] from the given input.
   mistral.ChatCompletionRequest _generateCompletionRequest(
     final List<ChatMessage> messages, {
     final bool stream = false,
@@ -220,10 +226,8 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
     final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
 
     return mistral.ChatCompletionRequest(
-      model: mistral.ChatCompletionModel.modelId(
-        options?.model ?? defaultOptions.model ?? defaultModel,
-      ),
-      messages: messages.toChatCompletionMessages(),
+      model: options?.model ?? defaultOptions.model ?? defaultModel,
+      messages: messages.toChatMessages(),
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
       maxTokens: options?.maxTokens ?? defaultOptions.maxTokens,
@@ -257,7 +261,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 
   /// {@template chat_mistralai_list_models}
@@ -277,7 +281,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return response.data
         .map(
           (final m) =>

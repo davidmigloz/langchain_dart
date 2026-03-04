@@ -13,7 +13,7 @@ class OpenAIDallEToolOptions extends ToolOptions {
     this.model = 'dall-e-3',
     this.quality = ImageQuality.standard,
     this.responseFormat = ImageResponseFormat.url,
-    this.size = ImageSize.v1024x1024,
+    this.size = ImageSize.size1024x1024,
     this.style = ImageStyle.vivid,
     this.user,
     super.concurrencyLimit,
@@ -38,11 +38,11 @@ class OpenAIDallEToolOptions extends ToolOptions {
 
   /// The size of the generated images.
   ///
-  /// Must be one of [ImageSize.v256x256], [ImageSize.v512x512], or
-  /// [ImageSize.v1024x1024] for `dall-e-2`.
+  /// Must be one of [ImageSize.size256x256], [ImageSize.size512x512], or
+  /// [ImageSize.size1024x1024] for `dall-e-2`.
   ///
-  /// Must be one of [ImageSize.v1024x1024], [ImageSize.v1792x1024], or
-  /// [ImageSize.v1024x1792] for `dall-e-3` models.
+  /// Must be one of [ImageSize.size1024x1024], [ImageSize.size1792x1024], or
+  /// [ImageSize.size1024x1792] for `dall-e-3` models.
   ///
   /// See https://platform.openai.com/docs/api-reference/images/create#images-create-size
   final ImageSize size;
