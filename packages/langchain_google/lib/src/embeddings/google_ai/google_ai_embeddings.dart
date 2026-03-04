@@ -167,7 +167,7 @@ class GoogleGenerativeAIEmbeddings extends Embeddings {
           // Fallback to sequential requests if batch API fails with specific error
           // This can happen if the API expects model field in each request,
           // which is an API/client schema mismatch
-          if (e.code == 400 &&
+          if (e.statusCode == 400 &&
               (e.message.contains('model is not specified') ||
                   e.message.contains('model'))) {
             // Use sequential requests as fallback

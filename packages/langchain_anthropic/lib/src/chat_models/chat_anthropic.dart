@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
-import 'package:langchain_tiktoken/langchain_tiktoken.dart';
-
 import 'mappers.dart';
 import 'types.dart';
 
@@ -33,15 +31,12 @@ import 'types.dart';
 /// ### Available models
 ///
 /// The following models are available:
-/// - `claude-3-5-sonnet-20240620`
-/// - `claude-3-haiku-20240307`
-/// - `claude-3-opus-20240229`
-/// - `claude-3-sonnet-20240229`
-/// - `claude-2.0`
-/// - `claude-2.1`
+/// - `claude-sonnet-4-5`
+/// - `claude-haiku-4-5`
+/// - `claude-opus-4-5`
 ///
 /// Mind that the list may not be up-to-date.
-/// See https://docs.anthropic.com/en/docs/about-claude/models for the updated list.
+/// See https://platform.claude.com/docs/en/about-claude/models for the updated list.
 ///
 /// ### Call options
 ///
@@ -88,8 +83,8 @@ import 'types.dart';
 /// final prompt1 = PromptTemplate.fromTemplate('How are you {name}?');
 /// final prompt2 = PromptTemplate.fromTemplate('How old are you {name}?');
 /// final chain = Runnable.fromMap({
-///   'q1': prompt1 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-3-5-sonnet-20241022)) | outputParser,
-///   'q2': prompt2 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-3-sonnet-20240229)) | outputParser,
+///   'q1': prompt1 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-sonnet-4-5')) | outputParser,
+///   'q2': prompt2 | chatModel.bind(const ChatAnthropicOptions(model: 'claude-haiku-4-5')) | outputParser,
 /// });
 /// final res = await chain.invoke({'name': 'David'});
 /// ```
@@ -104,7 +99,7 @@ import 'types.dart';
 /// final chatModel = ChatAnthropic(
 ///   apiKey: anthropicApiKey,
 ///   defaultOptions: ChatAnthropicOptions(
-///     model: 'claude-3-5-sonnet-20241022',
+///     model: 'claude-sonnet-4-5',
 ///     maxTokens: 8192,
 ///     thinking: ChatAnthropicThinking.enabled(budgetTokens: 4096),
 ///   ),
@@ -162,7 +157,6 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   /// Main configuration options:
   /// - `apiKey`: your Anthropic API key. You can find your API key in the
   ///   [Anthropic dashboard](https://console.anthropic.com/settings/keys).
-  /// - [ChatAnthropic.encoding]
   /// - [ChatAnthropic.defaultOptions]
   ///
   /// Advance configuration options:
@@ -176,7 +170,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   ///   you need further customization (e.g. to use a Socks5 proxy).
   ChatAnthropic({
     final String? apiKey,
-    final String baseUrl = 'https://api.anthropic.com/v1',
+    final String baseUrl = 'https://api.anthropic.com',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
@@ -184,29 +178,28 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
       model: defaultModel,
       maxTokens: defaultMaxTokens,
     ),
-    this.encoding = 'cl100k_base',
   }) : _client = a.AnthropicClient(
-         apiKey: apiKey ?? '',
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
+         config: a.AnthropicConfig(
+           authProvider: apiKey != null && apiKey.isNotEmpty
+               ? a.ApiKeyProvider(apiKey)
+               : null,
+           baseUrl: baseUrl,
+           defaultHeaders: headers ?? const {},
+           defaultQueryParams:
+               queryParams?.map((k, v) => MapEntry(k, v.toString())) ??
+               const {},
+         ),
+         httpClient: client,
        );
 
   /// A client for interacting with Anthropic API.
   final a.AnthropicClient _client;
 
-  /// The encoding to use by tiktoken when [tokenize] is called.
-  ///
-  /// Anthropic does not provide any API to count tokens, so we use tiktoken
-  /// to get an estimation of the number of tokens in a prompt.
-  String encoding;
-
   @override
   String get modelType => 'anthropic-chat';
 
   /// The default model to use unless another is specified.
-  static const defaultModel = 'claude-3-5-sonnet-20241022';
+  static const defaultModel = 'claude-sonnet-4-5';
 
   /// The default max tokens to use unless another is specified.
   static const defaultMaxTokens = 1024;
@@ -216,8 +209,8 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     final PromptValue input, {
     final ChatAnthropicOptions? options,
   }) async {
-    final completion = await _client.createMessage(
-      request: createMessageRequest(
+    final completion = await _client.messages.create(
+      createMessageRequest(
         input.toChatMessages(),
         options: options,
         defaultOptions: defaultOptions,
@@ -231,9 +224,9 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     final PromptValue input, {
     final ChatAnthropicOptions? options,
   }) {
-    return _client
-        .createMessageStream(
-          request: createMessageRequest(
+    return _client.messages
+        .createStream(
+          createMessageRequest(
             input.toChatMessages(),
             options: options,
             defaultOptions: defaultOptions,
@@ -243,15 +236,12 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
         .transform(MessageStreamEventTransformer());
   }
 
-  /// Tokenizes the given prompt using tiktoken.
+  /// Counts the number of tokens in the given prompt using the Anthropic
+  /// token counting API.
   ///
-  /// Currently Anthropic does not provide a tokenizer for the models it supports.
-  /// So we use tiktoken and [encoding] model to get an approximation
-  /// for counting tokens. Mind that the actual tokens will be totally
-  /// different from the ones used by the Anthropic model.
-  ///
-  /// If an encoding model is specified in [encoding] field, that
-  /// encoding is used instead.
+  /// Returns a list with a single element representing the total input token
+  /// count for the prompt. This uses the actual Anthropic tokenizer via the
+  /// `count_tokens` API endpoint.
   ///
   /// - [promptValue] The prompt to tokenize.
   @override
@@ -259,8 +249,15 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     final PromptValue promptValue, {
     final ChatAnthropicOptions? options,
   }) async {
-    final encoding = getEncoding(this.encoding);
-    return encoding.encode(promptValue.toString());
+    final request = createMessageRequest(
+      promptValue.toChatMessages(),
+      options: options,
+      defaultOptions: defaultOptions,
+    );
+    final response = await _client.messages.countTokens(
+      a.TokenCountRequest.fromMessageCreateRequest(request),
+    );
+    return List.filled(response.inputTokens, 0);
   }
 
   /// Lists the models available to the Anthropic API.
@@ -277,21 +274,18 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   /// ```
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return response.data.map((final m) {
-      final createdAt = DateTime.tryParse(m.createdAt);
       return ModelInfo(
         id: m.id,
         displayName: m.displayName,
-        created: createdAt != null
-            ? createdAt.millisecondsSinceEpoch ~/ 1000
-            : null,
+        created: m.createdAt.millisecondsSinceEpoch ~/ 1000,
       );
     }).toList();
   }
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }

@@ -10,7 +10,7 @@ void main() {
     skip: Platform.environment.containsKey('CI'),
     () {
       late OllamaEmbeddings embeddings;
-      const defaultModel = 'llama3.2';
+      const defaultModel = 'nomic-embed-text:latest';
 
       setUp(() {
         embeddings = OllamaEmbeddings(model: defaultModel);
@@ -22,7 +22,7 @@ void main() {
 
       test('Test OllamaEmbeddings.embedQuery', () async {
         final res = await embeddings.embedQuery('Hello world');
-        expect(res.length, 4096);
+        expect(res.length, 768);
       });
 
       test('Test OllamaEmbeddings.embedDocuments', () async {
@@ -31,8 +31,8 @@ void main() {
           const Document(id: '2', pageContent: 'Bye bye'),
         ]);
         expect(res.length, 2);
-        expect(res[0].length, 4096);
-        expect(res[1].length, 4096);
+        expect(res[0].length, 768);
+        expect(res[1].length, 768);
       });
     },
   );

@@ -86,23 +86,29 @@ class MistralAIEmbeddings extends Embeddings {
   ///   you need further customization (e.g. to use a Socks5 proxy).
   MistralAIEmbeddings({
     final String? apiKey,
-    final String baseUrl = 'https://api.mistral.ai/v1',
+    final String baseUrl = 'https://api.mistral.ai',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     this.model = 'mistral-embed',
     this.dimensions,
     this.batchSize = 512,
-  }) : _client = MistralAIClient(
-         apiKey: apiKey,
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
+  }) : _client = MistralClient(
+         config: MistralConfig(
+           authProvider: apiKey != null && apiKey.isNotEmpty
+               ? ApiKeyProvider(apiKey)
+               : null,
+           baseUrl: baseUrl,
+           defaultHeaders: headers ?? const {},
+           defaultQueryParams:
+               queryParams?.map((k, v) => MapEntry(k, v.toString())) ??
+               const {},
+         ),
+         httpClient: client,
        );
 
   /// A client for interacting with Mistral AI API.
-  final MistralAIClient _client;
+  final MistralClient _client;
 
   /// The embeddings model to use.
   final String model;
@@ -122,9 +128,9 @@ class MistralAIEmbeddings extends Embeddings {
 
     final embeddings = await Future.wait(
       batches.map((final batch) async {
-        final data = await _client.createEmbedding(
-          request: EmbeddingRequest(
-            model: EmbeddingModel.modelId(model),
+        final data = await _client.embeddings.create(
+          request: EmbeddingRequest.batch(
+            model: model,
             input: batch
                 .map((final doc) => doc.pageContent)
                 .toList(growable: false),
@@ -140,10 +146,10 @@ class MistralAIEmbeddings extends Embeddings {
 
   @override
   Future<List<double>> embedQuery(final String query) async {
-    final data = await _client.createEmbedding(
-      request: EmbeddingRequest(
-        model: EmbeddingModel.modelId(model),
-        input: [query],
+    final data = await _client.embeddings.create(
+      request: EmbeddingRequest.single(
+        model: model,
+        input: query,
         outputDimension: dimensions,
       ),
     );
@@ -167,7 +173,7 @@ class MistralAIEmbeddings extends Embeddings {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return response.data
         .where(_isEmbeddingModel)
         .map(
@@ -185,6 +191,6 @@ class MistralAIEmbeddings extends Embeddings {
 
   /// Closes the client and cleans up any resources associated with it.
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }

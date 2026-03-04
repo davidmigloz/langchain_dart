@@ -40,8 +40,6 @@ linter:
     - avoid_relative_lib_imports
     - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
-    - avoid_returning_null
-    - avoid_returning_null_for_future
     - avoid_returning_null_for_void
     - avoid_returning_this
     - avoid_setters_without_getters
@@ -75,7 +73,6 @@ linter:
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
-    - enable_null_safety
     # - eol_at_end_of_file # Seems to be causing some perf issues (https://github.com/dart-lang/sdk/issues/55281#issuecomment-2519977056)
     - exhaustive_cases
     - file_names
@@ -84,14 +81,12 @@ linter:
     - implicit_call_tearoffs
     - invalid_case_patterns
     - invalid_runtime_check_with_js_interop_types
-    - iterable_contains_unrelated_type
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings
     - library_annotations
     - library_names
     - library_prefixes
     - library_private_types_in_public_api
-    - list_remove_unrelated_type
     - matching_super_parameters
     - missing_code_block_language_in_doc_comment
     - missing_whitespace_between_adjacent_strings

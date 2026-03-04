@@ -6,6 +6,7 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../utils/auth.dart';
 import 'mappers.dart';
 import 'types.dart';
 
@@ -196,18 +197,23 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final http.Client? client,
     super.defaultOptions = const ChatOpenAIOptions(model: defaultModel),
     this.encoding,
-  }) : _client = OpenAIClient(
-         apiKey: apiKey ?? '',
-         organization: organization,
-         beta: null,
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
-       );
+  }) : _authProvider = MutableApiKeyProvider(apiKey ?? '') {
+    _client = OpenAIClient(
+      config: OpenAIConfig(
+        authProvider: _authProvider,
+        organization: organization,
+        baseUrl: buildBaseUrl(baseUrl, queryParams) ?? baseUrl,
+        defaultHeaders: headers ?? const {},
+      ),
+      httpClient: client,
+    );
+  }
+
+  /// The mutable auth provider for API key management.
+  final MutableApiKeyProvider _authProvider;
 
   /// A client for interacting with OpenAI API.
-  final OpenAIClient _client;
+  late final OpenAIClient _client;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -230,10 +236,10 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   late final _uuid = const Uuid();
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(final String value) => _authProvider.apiKey = value;
 
   /// Get the API key.
-  String get apiKey => _client.apiKey;
+  String get apiKey => _authProvider.apiKey;
 
   @override
   String get modelType => 'openai-chat';
@@ -246,8 +252,8 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) async {
-    final completion = await _client.createChatCompletion(
-      request: createChatCompletionRequest(
+    final completion = await _client.chat.completions.create(
+      createChatCompletionRequest(
         input.toChatMessages(),
         options: options,
         defaultOptions: defaultOptions,
@@ -261,9 +267,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) {
-    return _client
-        .createChatCompletionStream(
-          request: createChatCompletionRequest(
+    return _client.chat.completions
+        .createStream(
+          createChatCompletionRequest(
             input.toChatMessages(),
             options: options,
             defaultOptions: defaultOptions,
@@ -365,7 +371,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 
   /// {@template chat_openai_list_models}
@@ -385,7 +391,7 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return response.data
         .where(_isChatModel)
         .map(

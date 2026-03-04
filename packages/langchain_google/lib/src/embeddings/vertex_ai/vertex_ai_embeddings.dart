@@ -204,7 +204,7 @@ class VertexAIEmbeddings extends Embeddings {
           return response.embeddings.map((e) => e.values).toList();
         } on g.ApiException catch (e) {
           // Fallback to sequential requests if batch API fails
-          if (e.code == 400 &&
+          if (e.statusCode == 400 &&
               (e.message.contains('model is not specified') ||
                   e.message.contains('model'))) {
             final results = await Future.wait(
