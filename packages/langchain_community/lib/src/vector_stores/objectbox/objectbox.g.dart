@@ -116,6 +116,7 @@ obx.Store openStore({
 obx_int.ModelDefinition getObjectBoxModel(int dimensions) {
   final entities = _getEntities(dimensions);
   final model = obx_int.ModelInfo(
+    generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _getEntities(dimensions),
     lastEntityId: const obx_int.IdUid(1, 4662034750769022750),
     lastIndexId: const obx_int.IdUid(2, 3016727589204567263),

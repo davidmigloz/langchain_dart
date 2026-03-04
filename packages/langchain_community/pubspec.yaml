@@ -16,7 +16,7 @@ topics:
   - langchain
 
 environment:
-  sdk: ">=3.8.0 <4.0.0"
+  sdk: ">=3.9.0 <4.0.0"
 resolution: workspace
 
 dependencies:
@@ -30,15 +30,15 @@ dependencies:
   langchain_core: 0.4.1
   math_expressions: ^3.0.0
   meta: ^1.16.0
-  objectbox: ^5.0.0
+  objectbox: ^5.1.0
   path: ^1.9.1
-  tavily_dart: ^0.2.0+1
+  tavily_dart: ^0.2.2
   uuid: ^4.5.1
 
 dev_dependencies:
   build_runner: ^2.5.4
   langchain_openai: ^0.8.1+1
-  objectbox_generator: ^5.0.0
+  objectbox_generator: ^5.1.0
   test: ^1.26.2
 
 objectbox:

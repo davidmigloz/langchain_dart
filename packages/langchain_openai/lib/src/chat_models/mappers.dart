@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
-import 'package:openai_dart/openai_dart.dart';
+import 'package:openai_dart/openai_dart.dart' as oai;
 
 import 'chat_openai.dart';
 import 'types.dart';
 
-/// Creates a [CreateChatCompletionRequest] from the given input.
-CreateChatCompletionRequest createChatCompletionRequest(
+/// Creates a [oai.ChatCompletionCreateRequest] from the given input.
+oai.ChatCompletionCreateRequest createChatCompletionRequest(
   final List<ChatMessage> messages, {
   required final ChatOpenAIOptions? options,
   required final ChatOpenAIOptions defaultOptions,
@@ -25,12 +25,10 @@ CreateChatCompletionRequest createChatCompletionRequest(
       (options?.responseFormat ?? defaultOptions.responseFormat)
           ?.toChatCompletionResponseFormat();
   final serviceTierDto = (options?.serviceTier ?? defaultOptions.serviceTier)
-      .toCreateChatCompletionRequestServiceTier();
+      .toServiceTierString();
 
-  return CreateChatCompletionRequest(
-    model: ChatCompletionModel.modelId(
-      options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
-    ),
+  return oai.ChatCompletionCreateRequest(
+    model: options?.model ?? defaultOptions.model ?? ChatOpenAI.defaultModel,
     messages: messagesDtos,
     store: options?.store ?? defaultOptions.store,
     reasoningEffort:
@@ -49,28 +47,23 @@ CreateChatCompletionRequest createChatCompletionRequest(
     presencePenalty: options?.presencePenalty ?? defaultOptions.presencePenalty,
     responseFormat: responseFormatDto,
     seed: options?.seed ?? defaultOptions.seed,
-    stop: (options?.stop ?? defaultOptions.stop) != null
-        ? ChatCompletionStop.listString(options?.stop ?? defaultOptions.stop!)
-        : null,
+    stop: options?.stop ?? defaultOptions.stop,
     temperature: options?.temperature ?? defaultOptions.temperature,
     topP: options?.topP ?? defaultOptions.topP,
     parallelToolCalls:
         options?.parallelToolCalls ?? defaultOptions.parallelToolCalls,
     serviceTier: serviceTierDto,
     user: options?.user ?? defaultOptions.user,
-    verbosity: (options?.verbosity ?? defaultOptions.verbosity).toVerbosity(),
-    streamOptions: stream
-        ? const ChatCompletionStreamOptions(includeUsage: true)
-        : null,
+    streamOptions: stream ? const oai.StreamOptions(includeUsage: true) : null,
   );
 }
 
 extension ChatMessageListMapper on List<ChatMessage> {
-  List<ChatCompletionMessage> toChatCompletionMessages() {
+  List<oai.ChatMessage> toChatCompletionMessages() {
     return map(_mapMessage).toList(growable: false);
   }
 
-  ChatCompletionMessage _mapMessage(final ChatMessage msg) {
+  oai.ChatMessage _mapMessage(final ChatMessage msg) {
     return switch (msg) {
       final SystemChatMessage msg => _mapSystemMessage(msg),
       final HumanChatMessage msg => _mapHumanMessage(msg),
@@ -82,41 +75,30 @@ extension ChatMessageListMapper on List<ChatMessage> {
     };
   }
 
-  ChatCompletionMessage _mapSystemMessage(
-    final SystemChatMessage systemChatMessage,
-  ) {
-    return ChatCompletionMessage.system(content: systemChatMessage.content);
+  oai.ChatMessage _mapSystemMessage(final SystemChatMessage systemChatMessage) {
+    return oai.ChatMessage.system(systemChatMessage.content);
   }
 
-  ChatCompletionMessage _mapHumanMessage(
-    final HumanChatMessage humanChatMessage,
-  ) {
-    return ChatCompletionMessage.user(
-      content: switch (humanChatMessage.content) {
-        final ChatMessageContentText c => _mapMessageContentString(c),
-        final ChatMessageContentImage c =>
-          ChatCompletionUserMessageContent.parts([
-            _mapMessageContentPartImage(c),
-          ]),
-        final ChatMessageContentMultiModal c => _mapMessageContentPart(c),
-      },
-    );
+  oai.ChatMessage _mapHumanMessage(final HumanChatMessage humanChatMessage) {
+    return switch (humanChatMessage.content) {
+      final ChatMessageContentText c => oai.ChatMessage.user(c.text),
+      final ChatMessageContentImage c => oai.ChatMessage.user([
+        _mapMessageContentPartImage(c),
+      ]),
+      final ChatMessageContentMultiModal c => oai.ChatMessage.user(
+        _mapMessageContentParts(c),
+      ),
+    };
   }
 
-  ChatCompletionUserMessageContentString _mapMessageContentString(
-    final ChatMessageContentText c,
-  ) {
-    return ChatCompletionUserMessageContentString(c.text);
-  }
-
-  ChatCompletionMessageContentPartImage _mapMessageContentPartImage(
-    final ChatMessageContentImage c,
-  ) {
+  oai.ContentPart _mapMessageContentPartImage(final ChatMessageContentImage c) {
     final imageData = c.data.trim();
     final isUrl = imageData.startsWith('http');
-    String url;
     if (isUrl) {
-      url = imageData;
+      return oai.ContentPart.imageUrl(
+        imageData,
+        detail: _mapImageDetail(c.detail),
+      );
     } else {
       if (c.mimeType == null) {
         throw ArgumentError(
@@ -124,48 +106,40 @@ extension ChatMessageListMapper on List<ChatMessage> {
           'ChatMessageContentImage.mimeType',
         );
       }
-      url = 'data:${c.mimeType};base64,$imageData';
+      return oai.ContentPart.imageBase64(
+        data: imageData,
+        mediaType: c.mimeType!,
+        detail: _mapImageDetail(c.detail),
+      );
     }
-
-    return ChatCompletionMessageContentPartImage(
-      imageUrl: ChatCompletionMessageImageUrl(
-        url: url,
-        detail: switch (c.detail) {
-          ChatMessageContentImageDetail.auto =>
-            ChatCompletionMessageImageDetail.auto,
-          ChatMessageContentImageDetail.low =>
-            ChatCompletionMessageImageDetail.low,
-          ChatMessageContentImageDetail.high =>
-            ChatCompletionMessageImageDetail.high,
-        },
-      ),
-    );
   }
 
-  ChatCompletionMessageContentParts _mapMessageContentPart(
+  oai.ImageDetail? _mapImageDetail(final ChatMessageContentImageDetail detail) {
+    return switch (detail) {
+      ChatMessageContentImageDetail.auto => oai.ImageDetail.auto,
+      ChatMessageContentImageDetail.low => oai.ImageDetail.low,
+      ChatMessageContentImageDetail.high => oai.ImageDetail.high,
+    };
+  }
+
+  List<oai.ContentPart> _mapMessageContentParts(
     final ChatMessageContentMultiModal c,
   ) {
-    final partsList = c.parts
-        .map(
+    return c.parts
+        .expand(
           (final part) => switch (part) {
-            final ChatMessageContentText c => [
-              ChatCompletionMessageContentPartText(text: c.text),
-            ],
+            final ChatMessageContentText c => [oai.ContentPart.text(c.text)],
             final ChatMessageContentImage img => [
               _mapMessageContentPartImage(img),
             ],
-            final ChatMessageContentMultiModal c => _mapMessageContentPart(
-              c,
-            ).value,
+            final ChatMessageContentMultiModal c => _mapMessageContentParts(c),
           },
         )
-        .expand((final parts) => parts)
         .toList(growable: false);
-    return ChatCompletionMessageContentParts(partsList);
   }
 
-  ChatCompletionMessage _mapAIMessage(final AIChatMessage aiChatMessage) {
-    return ChatCompletionMessage.assistant(
+  oai.ChatMessage _mapAIMessage(final AIChatMessage aiChatMessage) {
+    return oai.ChatMessage.assistant(
       content: aiChatMessage.content,
       toolCalls: aiChatMessage.toolCalls.isNotEmpty
           ? aiChatMessage.toolCalls
@@ -175,28 +149,26 @@ extension ChatMessageListMapper on List<ChatMessage> {
     );
   }
 
-  ChatCompletionMessageToolCall _mapMessageToolCall(
-    final AIChatMessageToolCall toolCall,
-  ) {
-    return ChatCompletionMessageToolCall(
+  oai.ToolCall _mapMessageToolCall(final AIChatMessageToolCall toolCall) {
+    return oai.ToolCall(
       id: toolCall.id,
-      type: ChatCompletionMessageToolCallType.function,
-      function: ChatCompletionMessageFunctionCall(
+      type: 'function',
+      function: oai.FunctionCall(
         name: toolCall.name,
         arguments: json.encode(toolCall.arguments),
       ),
     );
   }
 
-  ChatCompletionMessage _mapToolMessage(final ToolChatMessage toolChatMessage) {
-    return ChatCompletionMessage.tool(
+  oai.ChatMessage _mapToolMessage(final ToolChatMessage toolChatMessage) {
+    return oai.ChatMessage.tool(
       toolCallId: toolChatMessage.toolCallId,
       content: toolChatMessage.content,
     );
   }
 }
 
-extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
+extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
   ChatResult toChatResult(final String id) {
     final choice = choices.first;
     final msg = choice.message;
@@ -218,31 +190,29 @@ extension CreateChatCompletionResponseMapper on CreateChatCompletionResponse {
         'model': model,
         'created': created,
         'system_fingerprint': systemFingerprint,
-        'logprobs': choice.logprobs?.toMap(),
+        'logprobs': choice.logprobs?.toJson(),
       },
       usage: _mapUsage(usage),
     );
   }
 
-  AIChatMessageToolCall _mapMessageToolCall(
-    final ChatCompletionMessageToolCall tooCall,
-  ) {
+  AIChatMessageToolCall _mapMessageToolCall(final oai.ToolCall toolCall) {
     var args = <String, dynamic>{};
     try {
-      args = tooCall.function.arguments.isEmpty
+      args = toolCall.function.arguments.isEmpty
           ? {}
-          : json.decode(tooCall.function.arguments);
+          : json.decode(toolCall.function.arguments);
     } catch (_) {}
     return AIChatMessageToolCall(
-      id: tooCall.id,
-      name: tooCall.function.name,
-      argumentsRaw: tooCall.function.arguments,
+      id: toolCall.id,
+      name: toolCall.function.name,
+      argumentsRaw: toolCall.function.arguments,
       arguments: args,
     );
   }
 }
 
-LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
+LanguageModelUsage _mapUsage(final oai.Usage? usage) {
   return LanguageModelUsage(
     promptTokens: usage?.promptTokens,
     responseTokens: usage?.completionTokens,
@@ -251,46 +221,31 @@ LanguageModelUsage _mapUsage(final CompletionUsage? usage) {
 }
 
 extension ChatToolListMapper on List<ToolSpec> {
-  List<ChatCompletionTool> toChatCompletionTool() {
+  List<oai.Tool> toChatCompletionTool() {
     return map(_mapChatCompletionTool).toList(growable: false);
   }
 
-  ChatCompletionTool _mapChatCompletionTool(final ToolSpec tool) {
-    return ChatCompletionTool(
-      type: ChatCompletionToolType.function,
-      function: FunctionObject(
-        name: tool.name,
-        description: tool.description,
-        parameters: tool.inputJsonSchema,
-      ),
+  oai.Tool _mapChatCompletionTool(final ToolSpec tool) {
+    return oai.Tool.function(
+      name: tool.name,
+      description: tool.description,
+      parameters: tool.inputJsonSchema,
     );
   }
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
-  ChatCompletionToolChoiceOption toChatCompletionToolChoice() {
+  oai.ToolChoice toChatCompletionToolChoice() {
     return switch (this) {
-      ChatToolChoiceNone _ => const ChatCompletionToolChoiceOption.mode(
-        ChatCompletionToolChoiceMode.none,
-      ),
-      ChatToolChoiceAuto _ => const ChatCompletionToolChoiceOption.mode(
-        ChatCompletionToolChoiceMode.auto,
-      ),
-      ChatToolChoiceRequired() => const ChatCompletionToolChoiceOption.mode(
-        ChatCompletionToolChoiceMode.required,
-      ),
-      final ChatToolChoiceForced t => ChatCompletionToolChoiceOption.tool(
-        ChatCompletionNamedToolChoice(
-          type: ChatCompletionNamedToolChoiceType.function,
-          function: ChatCompletionFunctionCallOption(name: t.name),
-        ),
-      ),
+      ChatToolChoiceNone _ => oai.ToolChoice.none(),
+      ChatToolChoiceAuto _ => oai.ToolChoice.auto(),
+      ChatToolChoiceRequired() => oai.ToolChoice.required(),
+      final ChatToolChoiceForced t => oai.ToolChoice.function(t.name),
     };
   }
 }
 
-extension CreateChatCompletionStreamResponseMapper
-    on CreateChatCompletionStreamResponse {
+extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
   ChatResult toChatResult(final String id) {
     final choice = choices?.firstOrNull;
     final delta = choice?.delta;
@@ -311,7 +266,7 @@ extension CreateChatCompletionStreamResponseMapper
       ),
       finishReason: _mapFinishReason(choice?.finishReason),
       metadata: {
-        'created': created,
+        if (created != null) 'created': created,
         if (model != null) 'model': model,
         if (systemFingerprint != null) 'system_fingerprint': systemFingerprint,
       },
@@ -320,9 +275,7 @@ extension CreateChatCompletionStreamResponseMapper
     );
   }
 
-  AIChatMessageToolCall _mapMessageToolCall(
-    final ChatCompletionStreamMessageToolCallChunk toolCall,
-  ) {
+  AIChatMessageToolCall _mapMessageToolCall(final oai.ToolCallDelta toolCall) {
     var args = <String, dynamic>{};
     try {
       args = json.decode(toolCall.function?.arguments ?? '');
@@ -337,57 +290,45 @@ extension CreateChatCompletionStreamResponseMapper
 }
 
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
-  ResponseFormat toChatCompletionResponseFormat() {
+  oai.ResponseFormat toChatCompletionResponseFormat() {
     return switch (this) {
-      ChatOpenAIResponseFormatText() => const ResponseFormat.text(),
-      ChatOpenAIResponseFormatJsonObject() => const ResponseFormat.jsonObject(),
-      final ChatOpenAIResponseFormatJsonSchema res => ResponseFormat.jsonSchema(
-        jsonSchema: JsonSchemaObject(
+      ChatOpenAIResponseFormatText() => oai.ResponseFormat.text(),
+      ChatOpenAIResponseFormatJsonObject() => oai.ResponseFormat.jsonObject(),
+      final ChatOpenAIResponseFormatJsonSchema res =>
+        oai.ResponseFormat.jsonSchema(
           name: res.jsonSchema.name,
           description: res.jsonSchema.description,
           schema: res.jsonSchema.schema,
           strict: res.jsonSchema.strict,
         ),
-      ),
     };
   }
 }
 
 extension ChatOpenAIReasoningEffortX on ChatOpenAIReasoningEffort? {
-  ReasoningEffort? toReasoningEffort() => switch (this) {
-    ChatOpenAIReasoningEffort.minimal => ReasoningEffort.minimal,
-    ChatOpenAIReasoningEffort.low => ReasoningEffort.low,
-    ChatOpenAIReasoningEffort.medium => ReasoningEffort.medium,
-    ChatOpenAIReasoningEffort.high => ReasoningEffort.high,
-    null => null,
-  };
-}
-
-extension ChatOpenAIVerbosityX on ChatOpenAIVerbosity? {
-  Verbosity? toVerbosity() => switch (this) {
-    ChatOpenAIVerbosity.low => Verbosity.low,
-    ChatOpenAIVerbosity.medium => Verbosity.medium,
-    ChatOpenAIVerbosity.high => Verbosity.high,
+  oai.ReasoningEffort? toReasoningEffort() => switch (this) {
+    ChatOpenAIReasoningEffort.minimal => oai.ReasoningEffort.low,
+    ChatOpenAIReasoningEffort.low => oai.ReasoningEffort.low,
+    ChatOpenAIReasoningEffort.medium => oai.ReasoningEffort.medium,
+    ChatOpenAIReasoningEffort.high => oai.ReasoningEffort.high,
     null => null,
   };
 }
 
 extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
-  CreateChatCompletionRequestServiceTier?
-  toCreateChatCompletionRequestServiceTier() => switch (this) {
-    ChatOpenAIServiceTier.auto => CreateChatCompletionRequestServiceTier.auto,
-    ChatOpenAIServiceTier.vDefault =>
-      CreateChatCompletionRequestServiceTier.vDefault,
+  String? toServiceTierString() => switch (this) {
+    ChatOpenAIServiceTier.auto => 'auto',
+    ChatOpenAIServiceTier.vDefault => 'default',
     null => null,
   };
 }
 
-FinishReason _mapFinishReason(final ChatCompletionFinishReason? reason) =>
+FinishReason _mapFinishReason(final oai.FinishReason? reason) =>
     switch (reason) {
-      ChatCompletionFinishReason.stop => FinishReason.stop,
-      ChatCompletionFinishReason.length => FinishReason.length,
-      ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
-      ChatCompletionFinishReason.contentFilter => FinishReason.contentFilter,
-      ChatCompletionFinishReason.functionCall => FinishReason.toolCalls,
+      oai.FinishReason.stop => FinishReason.stop,
+      oai.FinishReason.length => FinishReason.length,
+      oai.FinishReason.toolCalls => FinishReason.toolCalls,
+      oai.FinishReason.contentFilter => FinishReason.contentFilter,
+      oai.FinishReason.functionCall => FinishReason.toolCalls,
       null => FinishReason.unspecified,
     };

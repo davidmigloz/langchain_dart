@@ -110,11 +110,13 @@ class Chroma extends VectorStore {
     final Map<String, String> headers = const {},
     final http.Client? client,
   }) : _client = ChromaClient(
-         tenant: tenant,
-         database: database,
-         baseUrl: baseUrl,
-         headers: headers,
-         client: client,
+         config: ChromaConfig(
+           tenant: tenant,
+           database: database,
+           baseUrl: baseUrl,
+           defaultHeaders: headers,
+         ),
+         httpClient: client,
        );
 
   /// Name of the collection to use.
@@ -130,7 +132,7 @@ class Chroma extends VectorStore {
   final _uuid = const Uuid();
 
   /// The collection to use.
-  Collection? _collection;
+  ChromaCollection? _collection;
 
   @override
   Future<List<String>> addVectors({
@@ -182,7 +184,7 @@ class Chroma extends VectorStore {
       whereDocument: config is ChromaSimilaritySearch
           ? config.whereDocument
           : null,
-      include: const [Include.documents, Include.metadatas, Include.distances],
+      include: Include.defaultQuery,
     );
     final ids = result.ids.first;
     final metadatas = result.metadatas?.first;
@@ -206,7 +208,7 @@ class Chroma extends VectorStore {
     return results;
   }
 
-  Future<Collection> _getCollection() async {
+  Future<ChromaCollection> _getCollection() async {
     if (_collection != null) {
       return _collection!;
     }
@@ -218,5 +220,10 @@ class Chroma extends VectorStore {
 
     _collection = collection;
     return collection;
+  }
+
+  /// Closes the client and cleans up any resources associated with it.
+  void close() {
+    _client.close();
   }
 }

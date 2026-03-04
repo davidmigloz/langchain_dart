@@ -19,7 +19,7 @@ void main() {
         apiKey: openAiKey,
         defaultOptions: const OpenAIDallEToolOptions(
           model: 'dall-e-2',
-          size: ImageSize.v256x256,
+          size: ImageSize.size256x256,
         ),
       );
       final res = await tool.invoke('A cute baby sea otter');
@@ -32,7 +32,7 @@ void main() {
         apiKey: openAiKey,
         defaultOptions: const OpenAIDallEToolOptions(
           model: 'dall-e-2',
-          size: ImageSize.v256x256,
+          size: ImageSize.size256x256,
           responseFormat: ImageResponseFormat.b64Json,
         ),
       );
@@ -60,7 +60,7 @@ void main() {
             apiKey: openAiKey,
             defaultOptions: const OpenAIDallEToolOptions(
               model: 'dall-e-2',
-              size: ImageSize.v256x256,
+              size: ImageSize.size256x256,
             ),
           ),
         ];
