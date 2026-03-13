@@ -19,16 +19,15 @@ oai.CreateResponseRequest createResponseRequest(
   final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toResponseTools();
   final toolChoice = (options?.toolChoice ?? defaultOptions.toolChoice)
       ?.toResponseToolChoice();
-  final textConfig =
-      (options?.responseFormat ?? defaultOptions.responseFormat)
-          ?.toTextConfig();
+  final textConfig = (options?.responseFormat ?? defaultOptions.responseFormat)
+      ?.toTextConfig();
   final reasoningConfig =
       (options?.reasoningEffort ?? defaultOptions.reasoningEffort)
           ?.toReasoningConfig();
-  final serviceTier =
-      (options?.serviceTier ?? defaultOptions.serviceTier)?.toServiceTier();
-  final truncation =
-      (options?.truncation ?? defaultOptions.truncation)?.toTruncation();
+  final serviceTier = (options?.serviceTier ?? defaultOptions.serviceTier)
+      ?.toServiceTier();
+  final truncation = (options?.truncation ?? defaultOptions.truncation)
+      ?.toTruncation();
 
   return oai.CreateResponseRequest(
     model:
@@ -40,8 +39,7 @@ oai.CreateResponseRequest createResponseRequest(
     previousResponseId:
         options?.previousResponseId ?? defaultOptions.previousResponseId,
     store: options?.store ?? defaultOptions.store,
-    metadata:
-        options?.metadata ?? defaultOptions.metadata,
+    metadata: options?.metadata ?? defaultOptions.metadata,
     tools: toolsDtos,
     toolChoice: toolChoice,
     frequencyPenalty:
@@ -85,10 +83,12 @@ extension ChatMessageListResponseMapper on List<ChatMessage> {
   oai.Item _mapHumanMessage(final HumanChatMessage msg) {
     return switch (msg.content) {
       final ChatMessageContentText c => oai.MessageItem.userText(c.text),
-      final ChatMessageContentImage c =>
-        oai.MessageItem.user([_mapContentImage(c)]),
-      final ChatMessageContentMultiModal c =>
-        oai.MessageItem.user(_mapContentParts(c)),
+      final ChatMessageContentImage c => oai.MessageItem.user([
+        _mapContentImage(c),
+      ]),
+      final ChatMessageContentMultiModal c => oai.MessageItem.user(
+        _mapContentParts(c),
+      ),
     };
   }
 
@@ -104,9 +104,7 @@ extension ChatMessageListResponseMapper on List<ChatMessage> {
           'ChatMessageContentImage.mimeType',
         );
       }
-      return oai.InputContent.imageUrl(
-        'data:${c.mimeType};base64,$imageData',
-      );
+      return oai.InputContent.imageUrl('data:${c.mimeType};base64,$imageData');
     }
   }
 
@@ -154,33 +152,25 @@ extension ChatMessageListResponseMapper on List<ChatMessage> {
 extension ResponseMapper on oai.Response {
   ChatResult toChatResult() {
     final toolCalls = functionCalls
-        .map(
-          (fc) {
-            var args = <String, dynamic>{};
-            try {
-              args = fc.arguments.isEmpty ? {} : json.decode(fc.arguments);
-            } catch (_) {}
-            return AIChatMessageToolCall(
-              id: fc.callId,
-              name: fc.name,
-              argumentsRaw: fc.arguments,
-              arguments: args,
-            );
-          },
-        )
+        .map((fc) {
+          var args = <String, dynamic>{};
+          try {
+            args = fc.arguments.isEmpty ? {} : json.decode(fc.arguments);
+          } catch (_) {}
+          return AIChatMessageToolCall(
+            id: fc.callId,
+            name: fc.name,
+            argumentsRaw: fc.arguments,
+            arguments: args,
+          );
+        })
         .toList(growable: false);
 
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: outputText,
-        toolCalls: toolCalls,
-      ),
+      output: AIChatMessage(content: outputText, toolCalls: toolCalls),
       finishReason: _mapFinishReason(status),
-      metadata: {
-        'model': model,
-        'created_at': createdAt,
-      },
+      metadata: {'model': model, 'created_at': createdAt},
       usage: _mapResponseUsage(usage),
     );
   }
@@ -279,8 +269,9 @@ extension ResponseToolChoiceMapper on ChatToolChoice {
       ChatToolChoiceNone _ => oai.ResponseToolChoice.none,
       ChatToolChoiceAuto _ => oai.ResponseToolChoice.auto,
       ChatToolChoiceRequired() => oai.ResponseToolChoice.required,
-      final ChatToolChoiceForced t =>
-        oai.ResponseToolChoice.function(name: t.name),
+      final ChatToolChoiceForced t => oai.ResponseToolChoice.function(
+        name: t.name,
+      ),
     };
   }
 }
@@ -289,19 +280,20 @@ extension ChatOpenAIResponsesResponseFormatMapper
     on ChatOpenAIResponsesResponseFormat {
   oai.TextConfig toTextConfig() {
     return switch (this) {
-      ChatOpenAIResponsesResponseFormatText() =>
-        const oai.TextConfig(format: oai.PlainTextFormat()),
-      ChatOpenAIResponsesResponseFormatJsonObject() =>
-        const oai.TextConfig(format: oai.JsonObjectFormat()),
-      final ChatOpenAIResponsesResponseFormatJsonSchema res =>
-        oai.TextConfig(
-          format: oai.JsonSchemaFormat(
-            name: res.name,
-            description: res.description,
-            schema: res.schema,
-            strict: res.strict,
-          ),
+      ChatOpenAIResponsesResponseFormatText() => const oai.TextConfig(
+        format: oai.PlainTextFormat(),
+      ),
+      ChatOpenAIResponsesResponseFormatJsonObject() => const oai.TextConfig(
+        format: oai.JsonObjectFormat(),
+      ),
+      final ChatOpenAIResponsesResponseFormatJsonSchema res => oai.TextConfig(
+        format: oai.JsonSchemaFormat(
+          name: res.name,
+          description: res.description,
+          schema: res.schema,
+          strict: res.strict,
         ),
+      ),
     };
   }
 }
@@ -309,12 +301,15 @@ extension ChatOpenAIResponsesResponseFormatMapper
 extension ChatOpenAIResponsesReasoningEffortMapper
     on ChatOpenAIResponsesReasoningEffort {
   oai.ReasoningConfig toReasoningConfig() => switch (this) {
-    ChatOpenAIResponsesReasoningEffort.low =>
-      const oai.ReasoningConfig(effort: oai.ReasoningEffort.low),
-    ChatOpenAIResponsesReasoningEffort.medium =>
-      const oai.ReasoningConfig(effort: oai.ReasoningEffort.medium),
-    ChatOpenAIResponsesReasoningEffort.high =>
-      const oai.ReasoningConfig(effort: oai.ReasoningEffort.high),
+    ChatOpenAIResponsesReasoningEffort.low => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.low,
+    ),
+    ChatOpenAIResponsesReasoningEffort.medium => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.medium,
+    ),
+    ChatOpenAIResponsesReasoningEffort.high => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.high,
+    ),
   };
 }
 
@@ -326,8 +321,7 @@ extension ChatOpenAIResponsesServiceTierMapper
   };
 }
 
-extension ChatOpenAIResponsesTruncationMapper
-    on ChatOpenAIResponsesTruncation {
+extension ChatOpenAIResponsesTruncationMapper on ChatOpenAIResponsesTruncation {
   oai.Truncation toTruncation() => switch (this) {
     ChatOpenAIResponsesTruncation.auto => oai.Truncation.auto,
     ChatOpenAIResponsesTruncation.disabled => oai.Truncation.disabled,

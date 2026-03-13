@@ -43,9 +43,13 @@ class CsvLoader extends BaseDocumentLoader {
     this.fieldsOverride,
     this.fieldDelimiter = ',',
     this.fieldTextDelimiter = '"',
-    @Deprecated('No longer supported by the underlying csv library (csv ^7.1.0)')
+    @Deprecated(
+      'No longer supported by the underlying csv library (csv ^7.1.0)',
+    )
     this.fieldTextEndDelimiter,
-    @Deprecated('No longer supported by the underlying csv library (csv ^7.1.0)')
+    @Deprecated(
+      'No longer supported by the underlying csv library (csv ^7.1.0)',
+    )
     this.eol = '\n',
     this.sourceField,
     this.metadataBuilder,

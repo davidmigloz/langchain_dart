@@ -307,7 +307,7 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
 
 extension ChatOpenAIReasoningEffortX on ChatOpenAIReasoningEffort? {
   oai.ReasoningEffort? toReasoningEffort() => switch (this) {
-    ChatOpenAIReasoningEffort.minimal => oai.ReasoningEffort.low,  // deprecated
+    ChatOpenAIReasoningEffort.minimal => oai.ReasoningEffort.low, // deprecated
     ChatOpenAIReasoningEffort.low => oai.ReasoningEffort.low,
     ChatOpenAIReasoningEffort.medium => oai.ReasoningEffort.medium,
     ChatOpenAIReasoningEffort.high => oai.ReasoningEffort.high,

@@ -271,7 +271,9 @@ extension ChatStreamResultMapper on o.ChatStreamEvent {
             message?.toolCalls?.map(_mapToolCall).toList(growable: false) ??
             const [],
       ),
-      finishReason: (done ?? false) ? FinishReason.stop : FinishReason.unspecified,
+      finishReason: (done ?? false)
+          ? FinishReason.stop
+          : FinishReason.unspecified,
       metadata: {'model': model, 'created_at': createdAt, 'done': done},
       usage: const LanguageModelUsage(),
       streaming: streaming,

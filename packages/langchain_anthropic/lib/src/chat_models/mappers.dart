@@ -27,8 +27,9 @@ a.MessageCreateRequest createMessageRequest(
   final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
   // When ChatToolChoiceNone is used, omit both tools and tool_choice
   // to avoid sending tool_choice without a tools array.
-  final toolChoiceDto =
-      toolChoice is ChatToolChoiceNone ? null : toolChoice?.toToolChoice();
+  final toolChoiceDto = toolChoice is ChatToolChoiceNone
+      ? null
+      : toolChoice?.toToolChoice();
   final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toToolDefinitions(
     toolChoice,
   );
@@ -136,9 +137,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
       return a.InputContentBlock.image(a.ImageSource.url(imageData));
     }
     if (i.mimeType == null) {
-      throw ArgumentError(
-        'mimeType is required for base64-encoded images',
-      );
+      throw ArgumentError('mimeType is required for base64-encoded images');
     }
     return a.InputContentBlock.image(
       a.ImageSource.base64(
@@ -152,18 +151,16 @@ extension ChatMessageListMapper on List<ChatMessage> {
     if (msg.toolCalls.isEmpty) {
       return a.InputMessage.assistant(msg.content);
     } else {
-      return a.InputMessage.assistantBlocks(
-        [
-          if (msg.content.isNotEmpty) a.InputContentBlock.text(msg.content),
-          ...msg.toolCalls.map(
-            (final toolCall) => a.InputContentBlock.toolUse(
-              id: toolCall.id,
-              name: toolCall.name,
-              input: toolCall.arguments,
-            ),
+      return a.InputMessage.assistantBlocks([
+        if (msg.content.isNotEmpty) a.InputContentBlock.text(msg.content),
+        ...msg.toolCalls.map(
+          (final toolCall) => a.InputContentBlock.toolUse(
+            id: toolCall.id,
+            name: toolCall.name,
+            input: toolCall.arguments,
           ),
-        ],
-      );
+        ),
+      ]);
     }
   }
 

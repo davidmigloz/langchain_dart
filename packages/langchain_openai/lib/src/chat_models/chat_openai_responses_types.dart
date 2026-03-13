@@ -328,7 +328,9 @@ class ChatOpenAIResponsesResponseFormatJsonSchema
   final bool? strict;
 
   @override
-  bool operator ==(covariant ChatOpenAIResponsesResponseFormatJsonSchema other) {
+  bool operator ==(
+    covariant ChatOpenAIResponsesResponseFormatJsonSchema other,
+  ) {
     return identical(this, other) ||
         runtimeType == other.runtimeType &&
             name == other.name &&

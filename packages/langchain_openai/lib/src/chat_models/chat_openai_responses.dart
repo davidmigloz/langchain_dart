@@ -200,12 +200,10 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
             defaultOptions: defaultOptions,
           ),
         )
-        .expand(
-          (final accumulator) {
-            final result = accumulator.toChatResult();
-            return result != null ? [result] : const <ChatResult>[];
-          },
-        );
+        .expand((final accumulator) {
+          final result = accumulator.toChatResult();
+          return result != null ? [result] : const <ChatResult>[];
+        });
   }
 
   /// Lists the available models that can be used with [ChatOpenAIResponses].

@@ -151,10 +151,7 @@ void main() {
 
       test('should map ChatToolChoiceRequired', () {
         const choice = ChatToolChoiceRequired();
-        expect(
-          choice.toResponseToolChoice(),
-          oai.ResponseToolChoice.required,
-        );
+        expect(choice.toResponseToolChoice(), oai.ResponseToolChoice.required);
       });
 
       test('should map ChatToolChoiceForced', () {
