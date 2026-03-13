@@ -121,13 +121,19 @@ extension ChatMessageListMapper on List<ChatMessage> {
     ChatMessageContentImage i,
   ) {
     final imageData = i.data.trim();
-    if (imageData.startsWith('http')) {
-      return a.InputContentBlock.image(a.ImageSource.url(imageData));
-    }
     if (i.mimeType == 'application/pdf') {
+      if (imageData.startsWith('http')) {
+        throw ArgumentError(
+          'Anthropic does not support PDF URLs. '
+          'Provide the PDF as base64-encoded data instead.',
+        );
+      }
       return a.InputContentBlock.document(
         a.DocumentSource.base64Pdf(imageData),
       );
+    }
+    if (imageData.startsWith('http')) {
+      return a.InputContentBlock.image(a.ImageSource.url(imageData));
     }
     if (i.mimeType == null) {
       throw ArgumentError(

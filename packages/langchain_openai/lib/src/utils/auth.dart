@@ -29,12 +29,10 @@ String? buildBaseUrl(String? baseUrl, Map<String, dynamic>? queryParams) {
     return baseUrl;
   }
   final uri = Uri.parse(baseUrl);
-  return uri
-      .replace(
-        queryParameters: {
-          ...uri.queryParameters,
-          for (final e in queryParams.entries) e.key: e.value.toString(),
-        },
-      )
-      .toString();
+  final filtered = {
+    ...uri.queryParameters,
+    for (final e in queryParams.entries)
+      if (e.value != null) e.key: e.value.toString(),
+  };
+  return uri.replace(queryParameters: filtered).toString();
 }
