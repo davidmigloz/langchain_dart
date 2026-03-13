@@ -14,7 +14,6 @@ oai.CreateResponseRequest createResponseRequest(
   final List<ChatMessage> messages, {
   required final ChatOpenAIResponsesOptions? options,
   required final ChatOpenAIResponsesOptions defaultOptions,
-  final bool stream = false,
 }) {
   final input = messages.toResponseInput();
   final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toResponseTools();

@@ -485,6 +485,7 @@ class ChatOpenAIJsonSchema {
 /// Constrains effort on reasoning for reasoning models.
 enum ChatOpenAIReasoningEffort {
   /// Minimal effort
+  @Deprecated('The OpenAI API no longer supports minimal. Use low instead.')
   minimal,
 
   /// Low effort

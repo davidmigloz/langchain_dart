@@ -198,7 +198,6 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
             input.toChatMessages(),
             options: options,
             defaultOptions: defaultOptions,
-            stream: true,
           ),
         )
         .map(
