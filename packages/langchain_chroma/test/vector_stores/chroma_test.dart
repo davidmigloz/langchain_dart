@@ -11,11 +11,19 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final openaiApiKey = Platform.environment['OPENAI_API_KEY']!;
-  final embeddings = OpenAIEmbeddings(apiKey: openaiApiKey);
-  final vectorStore = Chroma(embeddings: embeddings);
+  final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
+  late final OpenAIEmbeddings embeddings;
+  late final Chroma vectorStore;
 
-  group('Chroma tests', skip: Platform.environment.containsKey('CI'), () {
+  group(
+    'Chroma tests',
+    skip: openaiApiKey == null || Platform.environment.containsKey('CI'),
+    () {
+    setUpAll(() {
+      embeddings = OpenAIEmbeddings(apiKey: openaiApiKey);
+      vectorStore = Chroma(embeddings: embeddings);
+    });
+
     test('Test Chroma add new vectors', () async {
       final res = await vectorStore.addDocuments(
         documents: const [

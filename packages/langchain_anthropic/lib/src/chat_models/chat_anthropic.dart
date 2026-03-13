@@ -239,13 +239,9 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   /// Counts the number of tokens in the given prompt using the Anthropic
   /// token counting API.
   ///
-  /// Returns a list with a single element representing the total input token
-  /// count for the prompt. This uses the actual Anthropic tokenizer via the
-  /// `count_tokens` API endpoint.
-  ///
-  /// - [promptValue] The prompt to tokenize.
+  /// - [promptValue] The prompt to count tokens for.
   @override
-  Future<List<int>> tokenize(
+  Future<int> countTokens(
     final PromptValue promptValue, {
     final ChatAnthropicOptions? options,
   }) async {
@@ -257,7 +253,21 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
     final response = await _client.messages.countTokens(
       a.TokenCountRequest.fromMessageCreateRequest(request),
     );
-    return List.filled(response.inputTokens, 0);
+    return response.inputTokens;
+  }
+
+  /// Anthropic does not expose individual token IDs.
+  ///
+  /// Use [countTokens] instead to get the token count for a prompt.
+  @override
+  Future<List<int>> tokenize(
+    final PromptValue promptValue, {
+    final ChatAnthropicOptions? options,
+  }) {
+    throw UnsupportedError(
+      'Anthropic does not expose token IDs. '
+      'Use countTokens() to get the token count for a prompt.',
+    );
   }
 
   /// Lists the models available to the Anthropic API.

@@ -47,6 +47,24 @@ final res2 = await chatModel.invoke(
 );
 ```
 
+## Exception type change
+
+The re-exported exception type has changed from `OpenAIClientException` to
+`OpenAIException`. If your code catches `OpenAIClientException`, update it to
+catch `OpenAIException` instead:
+
+```dart
+// Before
+try {
+  await chatModel.invoke(prompt);
+} on OpenAIClientException catch (e) { ... }
+
+// After
+try {
+  await chatModel.invoke(prompt);
+} on OpenAIException catch (e) { ... }
+```
+
 ### Which class to use?
 
 - Use `ChatOpenAI` for the Chat Completions API (stable, widely supported by

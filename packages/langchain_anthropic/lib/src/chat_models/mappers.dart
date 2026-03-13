@@ -126,6 +126,11 @@ extension ChatMessageListMapper on List<ChatMessage> {
         a.DocumentSource.base64Pdf(imageData),
       );
     }
+    if (i.mimeType == null) {
+      throw ArgumentError(
+        'mimeType is required for base64-encoded images',
+      );
+    }
     return a.InputContentBlock.image(
       a.ImageSource.base64(
         data: imageData,
