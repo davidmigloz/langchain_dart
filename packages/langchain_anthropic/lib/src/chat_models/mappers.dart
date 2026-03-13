@@ -12,8 +12,8 @@ import 'package:rxdart/rxdart.dart' show WhereNotNullExtension;
 import 'chat_anthropic.dart';
 import 'types.dart';
 
-/// Creates a [CreateMessageRequest] from the given input.
-a.CreateMessageRequest createMessageRequest(
+/// Creates a [MessageCreateRequest] from the given input.
+a.MessageCreateRequest createMessageRequest(
   final List<ChatMessage> messages, {
   required final ChatAnthropicOptions? options,
   required final ChatAnthropicOptions defaultOptions,
@@ -23,34 +23,33 @@ a.CreateMessageRequest createMessageRequest(
       ? messages.firstOrNull?.contentAsString
       : null;
 
-  final messagesDtos = messages.toMessages();
+  final messagesDtos = messages.toInputMessages();
   final toolChoice = options?.toolChoice ?? defaultOptions.toolChoice;
-  final toolChoiceDto = toolChoice?.toToolChoice();
-  final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toTool(
+  // When ChatToolChoiceNone is used, omit both tools and tool_choice
+  // to avoid sending tool_choice without a tools array.
+  final toolChoiceDto = toolChoice is ChatToolChoiceNone
+      ? null
+      : toolChoice?.toToolChoice();
+  final toolsDtos = (options?.tools ?? defaultOptions.tools)?.toToolDefinitions(
     toolChoice,
   );
   final thinking = options?.thinking ?? defaultOptions.thinking;
   final thinkingDto = thinking?.toThinkingConfig();
+  final userId = options?.userId ?? defaultOptions.userId;
 
-  return a.CreateMessageRequest(
-    model: a.Model.modelId(
-      options?.model ?? defaultOptions.model ?? ChatAnthropic.defaultModel,
-    ),
+  return a.MessageCreateRequest(
+    model: options?.model ?? defaultOptions.model ?? ChatAnthropic.defaultModel,
     messages: messagesDtos,
     maxTokens:
         options?.maxTokens ??
         defaultOptions.maxTokens ??
         ChatAnthropic.defaultMaxTokens,
     stopSequences: options?.stopSequences ?? defaultOptions.stopSequences,
-    system: systemMsg != null
-        ? a.CreateMessageRequestSystem.text(systemMsg)
-        : null,
+    system: systemMsg != null ? a.SystemPrompt.text(systemMsg) : null,
     temperature: options?.temperature ?? defaultOptions.temperature,
     topK: options?.topK ?? defaultOptions.topK,
     topP: options?.topP ?? defaultOptions.topP,
-    metadata: a.CreateMessageRequestMetadata(
-      userId: options?.userId ?? defaultOptions.userId,
-    ),
+    metadata: userId != null ? a.Metadata(userId: userId) : null,
     tools: toolsDtos,
     toolChoice: toolChoiceDto,
     thinking: thinkingDto,
@@ -59,8 +58,8 @@ a.CreateMessageRequest createMessageRequest(
 }
 
 extension ChatMessageListMapper on List<ChatMessage> {
-  List<a.Message> toMessages() {
-    final List<a.Message> result = [];
+  List<a.InputMessage> toInputMessages() {
+    final List<a.InputMessage> result = [];
     final List<ToolChatMessage> consecutiveToolMessages = [];
 
     void flushToolMessages() {
@@ -94,100 +93,106 @@ extension ChatMessageListMapper on List<ChatMessage> {
     return result;
   }
 
-  a.Message _mapHumanChatMessage(final HumanChatMessage msg) {
-    return a.Message(
-      role: a.MessageRole.user,
-      content: switch (msg.content) {
-        final ChatMessageContentText t => a.MessageContent.text(t.text),
-        final ChatMessageContentImage i => a.MessageContent.blocks([
-          _mapHumanChatMessageContentImage(i),
-        ]),
-        final ChatMessageContentMultiModal mm => a.MessageContent.blocks(
-          mm.parts
-              .map(
-                (final part) => switch (part) {
-                  final ChatMessageContentText t => a.Block.text(text: t.text),
-                  final ChatMessageContentImage i =>
-                    _mapHumanChatMessageContentImage(i),
-                  ChatMessageContentMultiModal() => throw ArgumentError(
-                    'Cannot have multimodal content in multimodal content',
-                  ),
-                },
-              )
-              .toList(growable: false),
-        ),
-      },
-    );
-  }
-
-  a.Block _mapHumanChatMessageContentImage(ChatMessageContentImage i) {
-    return a.Block.image(
-      source: a.ImageBlockSource.base64ImageSource(
-        type: 'base64',
-        mediaType: switch (i.mimeType) {
-          'image/jpeg' => a.Base64ImageSourceMediaType.imageJpeg,
-          'image/png' => a.Base64ImageSourceMediaType.imagePng,
-          'image/gif' => a.Base64ImageSourceMediaType.imageGif,
-          'image/webp' => a.Base64ImageSourceMediaType.imageWebp,
-          _ => throw AssertionError(
-            'Unsupported image MIME type: ${i.mimeType}',
-          ),
-        },
-        data: i.data.startsWith('http')
-            ? throw AssertionError(
-                'Anthropic only supports base64-encoded images',
-              )
-            : i.data,
-      ),
-    );
-  }
-
-  a.Message _mapAIChatMessage(final AIChatMessage msg) {
-    if (msg.toolCalls.isEmpty) {
-      return a.Message(
-        role: a.MessageRole.assistant,
-        content: a.MessageContent.text(msg.content),
-      );
-    } else {
-      return a.Message(
-        role: a.MessageRole.assistant,
-        content: a.MessageContent.blocks(
-          msg.toolCalls
-              .map(
-                (final toolCall) => a.Block.toolUse(
-                  id: toolCall.id,
-                  name: toolCall.name,
-                  input: toolCall.arguments,
-                ),
-              )
-              .toList(growable: false),
-        ),
-      );
-    }
-  }
-
-  a.Message _mapToolChatMessages(final List<ToolChatMessage> msgs) {
-    return a.Message(
-      role: a.MessageRole.user,
-      content: a.MessageContent.blocks(
-        msgs
+  a.InputMessage _mapHumanChatMessage(final HumanChatMessage msg) {
+    return switch (msg.content) {
+      final ChatMessageContentText t => a.InputMessage.user(t.text),
+      final ChatMessageContentImage i => a.InputMessage.userBlocks([
+        _mapHumanChatMessageContentImage(i),
+      ]),
+      final ChatMessageContentMultiModal mm => a.InputMessage.userBlocks(
+        mm.parts
             .map(
-              (msg) => a.Block.toolResult(
-                toolUseId: msg.toolCallId,
-                content: a.ToolResultBlockContent.text(msg.content),
-              ),
+              (final part) => switch (part) {
+                final ChatMessageContentText t => a.InputContentBlock.text(
+                  t.text,
+                ),
+                final ChatMessageContentImage i =>
+                  _mapHumanChatMessageContentImage(i),
+                ChatMessageContentMultiModal() => throw ArgumentError(
+                  'Cannot have multimodal content in multimodal content',
+                ),
+              },
             )
             .toList(growable: false),
       ),
+    };
+  }
+
+  a.InputContentBlock _mapHumanChatMessageContentImage(
+    ChatMessageContentImage i,
+  ) {
+    final imageData = i.data.trim();
+    if (i.mimeType == 'application/pdf') {
+      if (imageData.startsWith('http')) {
+        throw ArgumentError(
+          'Anthropic does not support PDF URLs. '
+          'Provide the PDF as base64-encoded data instead.',
+        );
+      }
+      return a.InputContentBlock.document(
+        a.DocumentSource.base64Pdf(imageData),
+      );
+    }
+    if (imageData.startsWith('http')) {
+      return a.InputContentBlock.image(a.ImageSource.url(imageData));
+    }
+    if (i.mimeType == null) {
+      throw ArgumentError('mimeType is required for base64-encoded images');
+    }
+    return a.InputContentBlock.image(
+      a.ImageSource.base64(
+        data: imageData,
+        mediaType: a.ImageMediaType.fromMimeType(i.mimeType!),
+      ),
+    );
+  }
+
+  a.InputMessage _mapAIChatMessage(final AIChatMessage msg) {
+    if (msg.toolCalls.isEmpty) {
+      return a.InputMessage.assistant(msg.content);
+    } else {
+      return a.InputMessage.assistantBlocks([
+        if (msg.content.isNotEmpty) a.InputContentBlock.text(msg.content),
+        ...msg.toolCalls.map(
+          (final toolCall) => a.InputContentBlock.toolUse(
+            id: toolCall.id,
+            name: toolCall.name,
+            input: toolCall.arguments,
+          ),
+        ),
+      ]);
+    }
+  }
+
+  a.InputMessage _mapToolChatMessages(final List<ToolChatMessage> msgs) {
+    return a.InputMessage.userBlocks(
+      msgs
+          .map(
+            (msg) => a.InputContentBlock.toolResultText(
+              toolUseId: msg.toolCallId,
+              text: msg.content,
+            ),
+          )
+          .toList(growable: false),
     );
   }
 }
 
 extension MessageMapper on a.Message {
   ChatResult toChatResult() {
-    final (content, toolCalls) = _mapMessageContent(this.content);
+    final content = '$thinking$text';
+    final toolCalls = toolUseBlocks
+        .map(
+          (tu) => AIChatMessageToolCall(
+            id: tu.id,
+            name: tu.name,
+            argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
+            arguments: tu.input,
+          ),
+        )
+        .toList(growable: false);
     return ChatResult(
-      id: id ?? '',
+      id: id,
       output: AIChatMessage(content: content, toolCalls: toolCalls),
       finishReason: _mapFinishReason(stopReason),
       metadata: {'model': model, 'stop_sequence': stopSequence},
@@ -223,21 +228,29 @@ class MessageStreamEventTransformer
 
   ChatResult _mapMessageStartEvent(final a.MessageStartEvent e) {
     final msg = e.message;
-
-    final msgId = msg.id ?? lastMessageId ?? '';
-    lastMessageId = msgId;
-    final (content, toolCalls) = _mapMessageContent(e.message.content);
+    lastMessageId = msg.id;
 
     return ChatResult(
-      id: msgId,
-      output: AIChatMessage(content: content, toolCalls: toolCalls),
-      finishReason: _mapFinishReason(e.message.stopReason),
+      id: msg.id,
+      output: AIChatMessage(
+        content: '${msg.thinking}${msg.text}',
+        toolCalls: msg.toolUseBlocks
+            .map(
+              (tu) => AIChatMessageToolCall(
+                id: tu.id,
+                name: tu.name,
+                argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
+                arguments: tu.input,
+              ),
+            )
+            .toList(growable: false),
+      ),
+      finishReason: _mapFinishReason(msg.stopReason),
       metadata: {
-        if (e.message.model != null) 'model': e.message.model,
-        if (e.message.stopSequence != null)
-          'stop_sequence': e.message.stopSequence,
+        'model': msg.model,
+        if (msg.stopSequence != null) 'stop_sequence': msg.stopSequence,
       },
-      usage: _mapUsage(e.message.usage),
+      usage: _mapUsage(msg.usage),
       streaming: true,
     );
   }
@@ -275,10 +288,10 @@ class MessageStreamEventTransformer
   }
 
   ChatResult _mapContentBlockDeltaEvent(final a.ContentBlockDeltaEvent e) {
-    final (content, toolCals) = _mapContentBlockDelta(lastToolCallId, e.delta);
+    final (content, toolCalls) = _mapContentBlockDelta(lastToolCallId, e.delta);
     return ChatResult(
       id: lastMessageId ?? '',
-      output: AIChatMessage(content: content, toolCalls: toolCals),
+      output: AIChatMessage(content: content, toolCalls: toolCalls),
       finishReason: FinishReason.unspecified,
       metadata: {'index': e.index},
       usage: const LanguageModelUsage(),
@@ -297,40 +310,12 @@ class MessageStreamEventTransformer
   }
 }
 
-(String content, List<AIChatMessageToolCall> toolCalls) _mapMessageContent(
-  final a.MessageContent content,
-) => switch (content) {
-  final a.MessageContentText t => (t.value, const <AIChatMessageToolCall>[]),
-  final a.MessageContentBlocks b => (
-    b.text,
-    b.value
-        .whereType<a.ToolUseBlock>()
-        .map(
-          (toolUse) => AIChatMessageToolCall(
-            id: toolUse.id,
-            name: toolUse.name,
-            argumentsRaw: toolUse.input.isNotEmpty
-                ? json.encode(toolUse.input)
-                : '',
-            arguments: toolUse.input,
-          ),
-        )
-        .toList(growable: false),
-  ),
-};
-
+/// Maps a single content block from stream start event.
 (String content, AIChatMessageToolCall? toolCall) _mapContentBlock(
-  final a.Block contentBlock,
+  final a.ContentBlock contentBlock,
 ) => switch (contentBlock) {
   final a.TextBlock t => (t.text, null),
-  final a.ImageBlock i => (
-    switch (i.source) {
-      final a.Base64ImageSource s => s.data,
-      final a.UrlImageSource s => s.url,
-    },
-    null,
-  ),
-  final a.DocumentBlock _ => ('', null),
+  final a.ThinkingBlock t => (t.thinking, null),
   final a.ToolUseBlock tu => (
     '',
     AIChatMessageToolCall(
@@ -340,74 +325,76 @@ class MessageStreamEventTransformer
       arguments: tu.input,
     ),
   ),
-  final a.ToolResultBlock tr => (tr.content.text, null),
-  final a.ThinkingBlock t => (t.thinking, null),
-  final a.RedactedThinkingBlock _ => ('', null),
-  final a.ServerToolUseBlock _ => ('', null),
-  final a.WebSearchToolResultBlock _ => ('', null),
-  final a.MCPToolUseBlock _ => ('', null),
-  final a.MCPToolResultBlock _ => ('', null),
-  final a.SearchResultBlock _ => ('', null),
-  final a.CodeExecutionToolResultBlock _ => ('', null),
-  final a.ContainerUploadBlock _ => ('', null),
+  a.RedactedThinkingBlock() => ('', null),
+  a.ServerToolUseBlock() => ('', null),
+  a.WebSearchToolResultBlock() => ('', null),
+  _ => ('', null),
 };
 
+/// Maps a content block delta from streaming events.
 (String content, List<AIChatMessageToolCall> toolCalls) _mapContentBlockDelta(
   final String? lastToolId,
-  final a.BlockDelta blockDelta,
+  final a.ContentBlockDelta blockDelta,
 ) => switch (blockDelta) {
-  final a.TextBlockDelta t => (t.text, const <AIChatMessageToolCall>[]),
-  final a.InputJsonBlockDelta jb => (
+  final a.TextDelta t => (t.text, const <AIChatMessageToolCall>[]),
+  final a.InputJsonDelta jb => (
     '',
     [
       AIChatMessageToolCall(
         id: lastToolId ?? '',
         name: '',
-        argumentsRaw: jb.partialJson ?? '',
+        argumentsRaw: jb.partialJson,
         arguments: const {},
       ),
     ],
   ),
-  final a.ThinkingBlockDelta t => (t.thinking, const <AIChatMessageToolCall>[]),
-  final a.SignatureBlockDelta _ => ('', const <AIChatMessageToolCall>[]),
-  final a.CitationsBlockDelta _ => ('', const <AIChatMessageToolCall>[]),
+  final a.ThinkingDelta t => (t.thinking, const <AIChatMessageToolCall>[]),
+  a.SignatureDelta() => ('', const <AIChatMessageToolCall>[]),
+  a.CitationsDelta() => ('', const <AIChatMessageToolCall>[]),
+  _ => ('', const <AIChatMessageToolCall>[]),
 };
 
 extension ToolSpecListMapper on List<ToolSpec> {
-  List<a.Tool> toTool(final ChatToolChoice? toolChoice) {
+  /// Converts tool specs to typed ToolDefinition list for the request.
+  List<a.ToolDefinition>? toToolDefinitions(final ChatToolChoice? toolChoice) {
     if (toolChoice is ChatToolChoiceNone) {
-      return const [];
+      return null;
     }
 
     if (toolChoice is ChatToolChoiceForced) {
       final tool = firstWhereOrNull((final t) => t.name == toolChoice.name);
-      return [if (tool != null) _mapTool(tool)];
+      if (tool == null) {
+        throw ArgumentError(
+          'Forced tool "${toolChoice.name}" not found in the provided tools list',
+        );
+      }
+      return [_mapTool(tool)];
     }
 
     return map(_mapTool).toList(growable: false);
   }
 
-  a.Tool _mapTool(final ToolSpec tool) {
-    return a.Tool.custom(
-      name: tool.name,
-      description: tool.description,
-      inputSchema: tool.inputJsonSchema,
+  a.ToolDefinition _mapTool(final ToolSpec tool) {
+    return a.ToolDefinition.custom(
+      a.Tool(
+        name: tool.name,
+        description: tool.description,
+        inputSchema: a.InputSchema.fromJson(tool.inputJsonSchema),
+      ),
     );
   }
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
+  /// Converts tool choice to typed ToolChoice for the request.
   a.ToolChoice toToolChoice() {
     return switch (this) {
-      ChatToolChoiceNone _ => const a.ToolChoice(type: a.ToolChoiceType.auto),
-      ChatToolChoiceAuto _ => const a.ToolChoice(type: a.ToolChoiceType.auto),
-      ChatToolChoiceRequired _ => const a.ToolChoice(
-        type: a.ToolChoiceType.any,
+      ChatToolChoiceNone() => throw StateError(
+        'ChatToolChoiceNone should be handled before calling toToolChoice()',
       ),
-      final ChatToolChoiceForced t => a.ToolChoice(
-        type: a.ToolChoiceType.tool,
-        name: t.name,
-      ),
+      ChatToolChoiceAuto _ => a.ToolChoice.auto(),
+      ChatToolChoiceRequired _ => a.ToolChoice.any(),
+      final ChatToolChoiceForced t => a.ToolChoice.tool(t.name),
     };
   }
 }
@@ -419,22 +406,21 @@ FinishReason _mapFinishReason(final a.StopReason? reason) => switch (reason) {
   a.StopReason.toolUse => FinishReason.toolCalls,
   a.StopReason.pauseTurn => FinishReason.unspecified,
   a.StopReason.refusal => FinishReason.contentFilter,
-  null => FinishReason.unspecified,
+  a.StopReason.compaction => FinishReason.unspecified,
+  _ => FinishReason.unspecified,
 };
 
-LanguageModelUsage _mapUsage(final a.Usage? usage) {
+LanguageModelUsage _mapUsage(final a.Usage usage) {
   return LanguageModelUsage(
-    promptTokens: usage?.inputTokens,
-    responseTokens: usage?.outputTokens,
-    totalTokens: usage?.inputTokens != null && usage?.outputTokens != null
-        ? usage!.inputTokens + usage.outputTokens
-        : null,
+    promptTokens: usage.inputTokens,
+    responseTokens: usage.outputTokens,
+    totalTokens: usage.inputTokens + usage.outputTokens,
   );
 }
 
-LanguageModelUsage _mapMessageDeltaUsage(final a.MessageDeltaUsage? usage) {
+LanguageModelUsage _mapMessageDeltaUsage(final a.MessageDeltaUsage usage) {
   return LanguageModelUsage(
-    responseTokens: usage?.outputTokens,
-    totalTokens: usage?.outputTokens,
+    responseTokens: usage.outputTokens,
+    totalTokens: usage.outputTokens,
   );
 }

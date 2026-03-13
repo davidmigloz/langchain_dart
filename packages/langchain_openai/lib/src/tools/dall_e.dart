@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:langchain_core/tools.dart';
 import 'package:openai_dart/openai_dart.dart';
 
+import '../utils/auth.dart';
 import 'types.dart';
 
 export 'package:openai_dart/openai_dart.dart'
@@ -30,7 +31,7 @@ export 'package:openai_dart/openai_dart.dart'
 ///     apiKey: openAiKey,
 ///     defaultOptions: const OpenAIDallEToolOptions(
 ///       model: 'dall-e-2',
-///       size: ImageSize.v256x256,
+///       size: ImageSize.size256x256,
 ///     ),
 ///   ),
 /// ];
@@ -55,30 +56,39 @@ final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const OpenAIDallEToolOptions(),
-  }) : _client = OpenAIClient(
-         apiKey: apiKey ?? '',
-         organization: organization,
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
-       ),
+  }) : _authProvider = MutableApiKeyProvider(apiKey ?? ''),
        super(
          name: 'Dall-E-Image-Generator',
          description:
              'A wrapper around OpenAI DALL-E API. '
              'Useful for when you need to generate images from a text '
              'description. Input should be an image description.',
-       );
+       ) {
+    _client = OpenAIClient(
+      config: OpenAIConfig(
+        authProvider: _authProvider,
+        organization: organization,
+        baseUrl:
+            buildBaseUrl(baseUrl ?? 'https://api.openai.com/v1', queryParams) ??
+            baseUrl ??
+            'https://api.openai.com/v1',
+        defaultHeaders: headers ?? const {},
+      ),
+      httpClient: client,
+    );
+  }
 
   /// A client for interacting with OpenAI API.
-  final OpenAIClient _client;
+  late final OpenAIClient _client;
+
+  /// The auth provider for mutable API key access.
+  final MutableApiKeyProvider _authProvider;
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(final String value) => _authProvider.apiKey = value;
 
   /// Get the API key.
-  String get apiKey => _client.apiKey;
+  String get apiKey => _authProvider.apiKey;
 
   @override
   Future<String> invokeInternal(
@@ -88,12 +98,10 @@ final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
     try {
       final responseFormat =
           options?.responseFormat ?? defaultOptions.responseFormat;
-      final res = await _client.createImage(
-        request: CreateImageRequest(
+      final res = await _client.images.generate(
+        ImageGenerationRequest(
           prompt: toolInput,
-          model: CreateImageRequestModel.modelId(
-            options?.model ?? defaultOptions.model,
-          ),
+          model: options?.model ?? defaultOptions.model,
           n: 1,
           quality: options?.quality ?? defaultOptions.quality,
           responseFormat: responseFormat,
@@ -114,6 +122,6 @@ final class OpenAIDallETool extends StringTool<OpenAIDallEToolOptions> {
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }

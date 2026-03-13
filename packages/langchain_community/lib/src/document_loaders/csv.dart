@@ -43,7 +43,13 @@ class CsvLoader extends BaseDocumentLoader {
     this.fieldsOverride,
     this.fieldDelimiter = ',',
     this.fieldTextDelimiter = '"',
+    @Deprecated(
+      'No longer supported by the underlying csv library (csv ^7.1.0)',
+    )
     this.fieldTextEndDelimiter,
+    @Deprecated(
+      'No longer supported by the underlying csv library (csv ^7.1.0)',
+    )
     this.eol = '\n',
     this.sourceField,
     this.metadataBuilder,
@@ -77,12 +83,14 @@ class CsvLoader extends BaseDocumentLoader {
   /// different start / end delimiters: Example:  «abc».
   ///
   /// If null, [fieldTextDelimiter] is used as the end delimiter.
+  @Deprecated('No longer supported by the underlying csv library (csv ^7.1.0)')
   final String? fieldTextEndDelimiter;
 
   /// The end-of-line character used to separate rows in the CSV file. The eol
   /// is optional for the last row.
   ///
   /// By default, it is set to the newline character (`\n`).
+  @Deprecated('No longer supported by the underlying csv library (csv ^7.1.0)')
   final String eol;
 
   /// Optional field to specify a source for the document created from each
@@ -112,11 +120,9 @@ class CsvLoader extends BaseDocumentLoader {
         .cast<List<int>>()
         .transform(utf8.decoder)
         .transform(
-          CsvToListConverter(
+          CsvDecoder(
             fieldDelimiter: fieldDelimiter,
-            textDelimiter: fieldTextDelimiter,
-            textEndDelimiter: fieldTextEndDelimiter,
-            eol: eol,
+            quoteCharacter: fieldTextDelimiter,
           ),
         );
 

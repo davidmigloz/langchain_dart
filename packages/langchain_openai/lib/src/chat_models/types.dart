@@ -100,6 +100,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.parallelToolCalls,
     this.serviceTier,
     this.user,
+    @Deprecated('verbosity is no longer supported by the OpenAI API')
     this.verbosity,
     super.concurrencyLimit,
   });
@@ -226,6 +227,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Supported values are `low`, `medium`, and `high`.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-verbosity
+  @Deprecated('verbosity is no longer supported by the OpenAI API')
   final ChatOpenAIVerbosity? verbosity;
 
   @override
@@ -483,6 +485,7 @@ class ChatOpenAIJsonSchema {
 /// Constrains effort on reasoning for reasoning models.
 enum ChatOpenAIReasoningEffort {
   /// Minimal effort
+  @Deprecated('The OpenAI API no longer supports minimal. Use low instead.')
   minimal,
 
   /// Low effort
@@ -496,6 +499,7 @@ enum ChatOpenAIReasoningEffort {
 }
 
 /// Constrains the verbosity of the model's response.
+@Deprecated('verbosity is no longer supported by the OpenAI API')
 enum ChatOpenAIVerbosity {
   /// More concise responses
   low,

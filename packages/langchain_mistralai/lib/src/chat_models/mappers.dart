@@ -7,31 +7,28 @@ import 'package:langchain_core/tools.dart';
 import 'package:mistralai_dart/mistralai_dart.dart' as mistral;
 
 extension ChatMessageListMapper on List<ChatMessage> {
-  List<mistral.ChatCompletionMessage> toChatCompletionMessages() {
+  List<mistral.ChatMessage> toChatMessages() {
     return map(_mapMessage).toList(growable: false);
   }
 
-  mistral.ChatCompletionMessage _mapMessage(final ChatMessage msg) {
+  mistral.ChatMessage _mapMessage(final ChatMessage msg) {
     return switch (msg) {
-      final SystemChatMessage msg => mistral.ChatCompletionMessage(
-        role: mistral.ChatCompletionMessageRole.system,
-        content: msg.content,
+      final SystemChatMessage msg => mistral.ChatMessage.system(msg.content),
+      final HumanChatMessage msg => mistral.ChatMessage.user(
+        msg.contentAsString,
       ),
-      final HumanChatMessage msg => mistral.ChatCompletionMessage(
-        role: mistral.ChatCompletionMessageRole.user,
-        content: msg.contentAsString,
-      ),
-      final AIChatMessage msg => mistral.ChatCompletionMessage(
-        role: mistral.ChatCompletionMessageRole.assistant,
-        content: msg.content,
-        toolCalls: msg.toolCalls.isNotEmpty
-            ? msg.toolCalls.map(_mapToolCall).toList(growable: false)
-            : null,
-      ),
-      final ToolChatMessage msg => mistral.ChatCompletionMessage(
-        role: mistral.ChatCompletionMessageRole.tool,
-        content: msg.content,
+      final AIChatMessage msg =>
+        msg.toolCalls.isNotEmpty
+            ? mistral.ChatMessage.assistant(
+                msg.content.isNotEmpty ? msg.content : null,
+                toolCalls: msg.toolCalls
+                    .map(_mapToolCall)
+                    .toList(growable: false),
+              )
+            : mistral.ChatMessage.assistant(msg.content),
+      final ToolChatMessage msg => mistral.ChatMessage.tool(
         toolCallId: msg.toolCallId,
+        content: msg.content,
         name: null,
       ),
       CustomChatMessage() => throw UnsupportedError(
@@ -43,7 +40,6 @@ extension ChatMessageListMapper on List<ChatMessage> {
   mistral.ToolCall _mapToolCall(final AIChatMessageToolCall toolCall) {
     return mistral.ToolCall(
       id: toolCall.id,
-      type: mistral.ToolCallType.function,
       function: mistral.FunctionCall(
         name: toolCall.name,
         arguments: json.encode(toolCall.arguments),
@@ -58,58 +54,36 @@ extension ChatToolListMapper on List<ToolSpec> {
   }
 
   mistral.Tool _mapTool(final ToolSpec tool) {
-    return mistral.Tool(
-      type: mistral.ToolType.function,
-      function: mistral.FunctionDefinition(
-        name: tool.name,
-        description: tool.description,
-        parameters: tool.inputJsonSchema,
-      ),
+    return mistral.Tool.function(
+      name: tool.name,
+      description: tool.description,
+      parameters: tool.inputJsonSchema,
     );
   }
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
-  mistral.ChatCompletionToolChoice toMistralToolChoice() {
+  mistral.ToolChoice toMistralToolChoice() {
     return switch (this) {
-      ChatToolChoiceNone() =>
-        const mistral.ChatCompletionToolChoice.enumeration(
-          mistral.ChatCompletionToolChoiceOption.none,
-        ),
-      ChatToolChoiceAuto() =>
-        const mistral.ChatCompletionToolChoice.enumeration(
-          mistral.ChatCompletionToolChoiceOption.auto,
-        ),
-      ChatToolChoiceRequired() =>
-        const mistral.ChatCompletionToolChoice.enumeration(
-          mistral.ChatCompletionToolChoiceOption.any,
-        ),
-      final ChatToolChoiceForced t =>
-        mistral.ChatCompletionToolChoice.toolChoiceTool(
-          mistral.ToolChoiceTool(
-            type: mistral.ToolType.function,
-            function: mistral.ToolChoiceToolFunction(name: t.name),
-          ),
-        ),
+      ChatToolChoiceNone() => mistral.ToolChoice.none,
+      ChatToolChoiceAuto() => mistral.ToolChoice.auto,
+      ChatToolChoiceRequired() => mistral.ToolChoice.any,
+      final ChatToolChoiceForced t => mistral.ToolChoice.function(t.name),
     };
   }
 }
 
 extension ChatResultMapper on mistral.ChatCompletionResponse {
   ChatResult toChatResult({final bool streaming = false}) {
-    final choice = choices.first;
-    final message = choice.message;
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: message.content ?? '',
-        toolCalls:
-            message.toolCalls
-                ?.map(_mapResponseToolCall)
-                .toList(growable: false) ??
-            const [],
+        content: text ?? '',
+        toolCalls: hasToolCalls
+            ? toolCalls.map(_mapResponseToolCall).toList(growable: false)
+            : const [],
       ),
-      finishReason: _mapFinishReason(choice.finishReason),
+      finishReason: _mapFinishReason(finishReason),
       metadata: {'model': model, 'created': created},
       usage: _mapUsage(usage),
       streaming: streaming,
@@ -120,24 +94,24 @@ extension ChatResultMapper on mistral.ChatCompletionResponse {
     final function = toolCall.function;
     var args = <String, dynamic>{};
     try {
-      final arguments = function?.arguments;
-      if (arguments != null && arguments.isNotEmpty) {
+      final arguments = function.arguments;
+      if (arguments.isNotEmpty) {
         args = json.decode(arguments);
       }
     } catch (_) {}
     return AIChatMessageToolCall(
-      id: toolCall.id ?? '',
-      name: function?.name ?? '',
-      argumentsRaw: function?.arguments ?? '',
+      id: toolCall.id,
+      name: function.name,
+      argumentsRaw: function.arguments,
       arguments: args,
     );
   }
 
-  LanguageModelUsage _mapUsage(final mistral.ChatCompletionUsage usage) {
+  LanguageModelUsage _mapUsage(final mistral.UsageInfo? usage) {
     return LanguageModelUsage(
-      promptTokens: usage.promptTokens,
-      responseTokens: usage.completionTokens,
-      totalTokens: usage.totalTokens,
+      promptTokens: usage?.promptTokens,
+      responseTokens: usage?.completionTokens,
+      totalTokens: usage?.totalTokens,
     );
   }
 }
@@ -147,17 +121,15 @@ extension CreateChatCompletionStreamResponseMapper
     on mistral.ChatCompletionStreamResponse {
   /// Converts a [mistral.ChatCompletionStreamResponse] to a [ChatResult].
   ChatResult toChatResult() {
-    final choice = choices.first;
-    final delta = choice.delta;
     return ChatResult(
       id: id,
       output: AIChatMessage(
-        content: delta.content ?? '',
-        toolCalls:
-            delta.toolCalls?.map(_mapStreamToolCall).toList(growable: false) ??
-            const [],
+        content: text ?? '',
+        toolCalls: hasToolCalls
+            ? toolCalls.map(_mapStreamToolCall).toList(growable: false)
+            : const [],
       ),
-      finishReason: _mapFinishReason(choice.finishReason),
+      finishReason: _mapFinishReason(finishReason),
       metadata: {'model': model, 'created': created},
       usage: _mapStreamUsage(usage),
       streaming: true,
@@ -168,20 +140,20 @@ extension CreateChatCompletionStreamResponseMapper
     final function = toolCall.function;
     var args = <String, dynamic>{};
     try {
-      final arguments = function?.arguments;
-      if (arguments != null && arguments.isNotEmpty) {
+      final arguments = function.arguments;
+      if (arguments.isNotEmpty) {
         args = json.decode(arguments);
       }
     } catch (_) {}
     return AIChatMessageToolCall(
-      id: toolCall.id ?? '',
-      name: function?.name ?? '',
-      argumentsRaw: function?.arguments ?? '',
+      id: toolCall.id,
+      name: function.name,
+      argumentsRaw: function.arguments,
       arguments: args,
     );
   }
 
-  LanguageModelUsage _mapStreamUsage(final mistral.ChatCompletionUsage? usage) {
+  LanguageModelUsage _mapStreamUsage(final mistral.UsageInfo? usage) {
     return LanguageModelUsage(
       promptTokens: usage?.promptTokens,
       responseTokens: usage?.completionTokens,
@@ -190,13 +162,13 @@ extension CreateChatCompletionStreamResponseMapper
   }
 }
 
-FinishReason _mapFinishReason(
-  final mistral.ChatCompletionFinishReason? reason,
-) => switch (reason) {
-  mistral.ChatCompletionFinishReason.stop => FinishReason.stop,
-  mistral.ChatCompletionFinishReason.length => FinishReason.length,
-  mistral.ChatCompletionFinishReason.modelLength => FinishReason.length,
-  mistral.ChatCompletionFinishReason.error => FinishReason.unspecified,
-  mistral.ChatCompletionFinishReason.toolCalls => FinishReason.toolCalls,
-  null => FinishReason.unspecified,
-};
+FinishReason _mapFinishReason(final mistral.FinishReason? reason) =>
+    switch (reason) {
+      mistral.FinishReason.stop => FinishReason.stop,
+      mistral.FinishReason.length => FinishReason.length,
+      mistral.FinishReason.modelLength => FinishReason.length,
+      mistral.FinishReason.error => FinishReason.unspecified,
+      mistral.FinishReason.toolCalls => FinishReason.toolCalls,
+      mistral.FinishReason.unknown => FinishReason.unspecified,
+      null => FinishReason.unspecified,
+    };

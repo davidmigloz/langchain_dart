@@ -64,7 +64,7 @@ void main() {
       final output = await llm('Say foo:');
       expect(output, isNotEmpty);
       llm.close();
-      expect(() => llm('Say foo:'), throwsA(isA<OpenAIClientException>()));
+      expect(() => llm('Say foo:'), throwsA(isA<StateError>()));
     });
 
     test('Test invoke to OpenAI', () async {

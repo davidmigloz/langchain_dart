@@ -8,6 +8,7 @@ import 'package:langchain_core/utils.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:openai_dart/openai_dart.dart';
 
+import '../utils/auth.dart';
 import 'mappers.dart';
 import 'types.dart';
 
@@ -194,17 +195,26 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
       concurrencyLimit: defaultConcurrencyLimit,
     ),
     this.encoding,
-  }) : _client = OpenAIClient(
-         apiKey: apiKey ?? '',
-         organization: organization,
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
-       );
+  }) : _authProvider = MutableApiKeyProvider(apiKey ?? '') {
+    _client = OpenAIClient(
+      config: OpenAIConfig(
+        authProvider: _authProvider,
+        organization: organization,
+        baseUrl:
+            buildBaseUrl(baseUrl ?? 'https://api.openai.com/v1', queryParams) ??
+            baseUrl ??
+            'https://api.openai.com/v1',
+        defaultHeaders: headers ?? const {},
+      ),
+      httpClient: client,
+    );
+  }
 
   /// A client for interacting with OpenAI API.
-  final OpenAIClient _client;
+  late final OpenAIClient _client;
+
+  /// The auth provider for mutable API key access.
+  final MutableApiKeyProvider _authProvider;
 
   /// The encoding to use by tiktoken when [tokenize] is called.
   ///
@@ -224,10 +234,10 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   String? encoding;
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(final String value) => _authProvider.apiKey = value;
 
   /// Get the API key.
-  String get apiKey => _client.apiKey;
+  String get apiKey => _authProvider.apiKey;
 
   @override
   String get modelType => 'openai';
@@ -246,8 +256,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final PromptValue input, {
     final OpenAIOptions? options,
   }) async {
-    final completion = await _client.createCompletion(
-      request: _createCompletionRequest([input.toString()], options: options),
+    final completion = await _client.completions.create(
+      _createCompletionRequest([input.toString()], options: options),
     );
     return completion.toLLMResults().first;
   }
@@ -280,8 +290,8 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     var index = 0;
     final results = <LLMResult>[];
     for (final chunk in chunkList(inputs, chunkSize: concurrencyLimit)) {
-      final completion = await _client.createCompletion(
-        request: _createCompletionRequest(
+      final completion = await _client.completions.create(
+        _createCompletionRequest(
           chunk.map((final input) => input.toString()).toList(growable: false),
           options: options?.length == 1 ? options![0] : options?[index++],
         ),
@@ -297,9 +307,9 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
     final PromptValue input, {
     final OpenAIOptions? options,
   }) {
-    return _client
-        .createCompletionStream(
-          request: _createCompletionRequest(
+    return _client.completions
+        .createStream(
+          _createCompletionRequest(
             [input.toString()],
             options: options,
             stream: true,
@@ -310,17 +320,15 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
         );
   }
 
-  /// Creates a [CreateCompletionRequest] from the given input.
-  CreateCompletionRequest _createCompletionRequest(
+  /// Creates a [CompletionRequest] from the given input.
+  CompletionRequest _createCompletionRequest(
     final List<String> prompts, {
     final OpenAIOptions? options,
     final bool stream = false,
   }) {
-    return CreateCompletionRequest(
-      model: CompletionModel.modelId(
-        options?.model ?? defaultOptions.model ?? defaultModel,
-      ),
-      prompt: CompletionPrompt.listString(prompts),
+    return CompletionRequest(
+      model: options?.model ?? defaultOptions.model ?? defaultModel,
+      prompt: CompletionPrompt.texts(prompts),
       bestOf: options?.bestOf ?? defaultOptions.bestOf,
       frequencyPenalty:
           options?.frequencyPenalty ?? defaultOptions.frequencyPenalty,
@@ -333,15 +341,13 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
           options?.presencePenalty ?? defaultOptions.presencePenalty,
       seed: options?.seed ?? defaultOptions.seed,
       stop: (options?.stop ?? defaultOptions.stop) != null
-          ? CompletionStop.listString(options?.stop ?? defaultOptions.stop!)
+          ? StopSequence.multiple(options?.stop ?? defaultOptions.stop!)
           : null,
       suffix: options?.suffix ?? defaultOptions.suffix,
       temperature: options?.temperature ?? defaultOptions.temperature,
       topP: options?.topP ?? defaultOptions.topP,
       user: options?.user ?? defaultOptions.user,
-      streamOptions: stream
-          ? const ChatCompletionStreamOptions(includeUsage: true)
-          : null,
+      streamOptions: stream ? const StreamOptions(includeUsage: true) : null,
     );
   }
 
@@ -380,7 +386,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return response.data
         .where(_isCompletionModel)
         .map(
@@ -401,6 +407,6 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }

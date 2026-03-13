@@ -3,7 +3,7 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_tiktoken/langchain_tiktoken.dart';
-import 'package:ollama_dart/ollama_dart.dart' hide ModelInfo;
+import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
 import 'mappers.dart';
@@ -39,7 +39,7 @@ import 'types.dart';
 ///
 /// ### Ollama base URL
 ///
-/// By default, [ChatOllama] uses 'http://localhost:11434/api' as base URL
+/// By default, [ChatOllama] uses 'http://localhost:11434' as base URL
 /// (default Ollama API URL). But if you are running Ollama on a different
 /// one, you can override it using the [baseUrl] parameter.
 ///
@@ -58,7 +58,7 @@ import 'types.dart';
 ///   defaultOptions: const ChatOllamaOptions(
 ///     model: 'llama3.2',
 ///     temperature: 0,
-///     format: 'json',
+///     format: OllamaResponseFormat.json,
 ///   ),
 /// );
 /// ```
@@ -146,17 +146,21 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   ///   you need further customization (e.g. to use a Socks5 proxy).
   /// - [ChatOllama.encoding]
   ChatOllama({
-    final String baseUrl = 'http://localhost:11434/api',
+    final String baseUrl = 'http://localhost:11434',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
     super.defaultOptions = const ChatOllamaOptions(model: defaultModel),
     this.encoding = 'cl100k_base',
   }) : _client = OllamaClient(
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
+         config: OllamaConfig(
+           baseUrl: baseUrl,
+           defaultHeaders: headers ?? const {},
+           defaultQueryParams:
+               queryParams?.map((k, v) => MapEntry(k, v.toString())) ??
+               const {},
+         ),
+         httpClient: client,
        );
 
   /// A client for interacting with Ollama API.
@@ -183,8 +187,8 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final ChatOllamaOptions? options,
   }) async {
     final id = _uuid.v4();
-    final completion = await _client.generateChatCompletion(
-      request: generateChatCompletionRequest(
+    final completion = await _client.chat.create(
+      request: createChatRequest(
         input.toChatMessages(),
         options: options,
         defaultOptions: defaultOptions,
@@ -199,9 +203,9 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
     final ChatOllamaOptions? options,
   }) {
     final id = _uuid.v4();
-    return _client
-        .generateChatCompletionStream(
-          request: generateChatCompletionRequest(
+    return _client.chat
+        .createStream(
+          request: createChatRequest(
             input.toChatMessages(),
             options: options,
             defaultOptions: defaultOptions,
@@ -235,7 +239,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
 
   @override
   void close() {
-    _client.endSession();
+    _client.close();
   }
 
   /// {@template chat_ollama_list_models}
@@ -255,10 +259,10 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return (response.models ?? [])
-        .where((final m) => m.model != null)
-        .map((final m) => ModelInfo(id: m.model!, ownedBy: m.details?.family))
+        .where((final m) => m.name != null)
+        .map((final m) => ModelInfo(id: m.name!, ownedBy: m.details?.family))
         .toList();
   }
 }

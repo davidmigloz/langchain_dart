@@ -5,6 +5,8 @@ import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/utils.dart';
 import 'package:openai_dart/openai_dart.dart';
 
+import '../utils/auth.dart';
+
 /// Wrapper around OpenAI Embeddings API.
 ///
 /// Example:
@@ -137,17 +139,23 @@ class OpenAIEmbeddings extends Embeddings {
     this.dimensions,
     this.batchSize = 512,
     this.user,
-  }) : _client = OpenAIClient(
-         apiKey: apiKey ?? '',
-         organization: organization,
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
-       );
+  }) : _authProvider = MutableApiKeyProvider(apiKey ?? '') {
+    _client = OpenAIClient(
+      config: OpenAIConfig(
+        authProvider: _authProvider,
+        organization: organization,
+        baseUrl: buildBaseUrl(baseUrl, queryParams) ?? baseUrl,
+        defaultHeaders: headers ?? const {},
+      ),
+      httpClient: client,
+    );
+  }
 
   /// A client for interacting with OpenAI API.
-  final OpenAIClient _client;
+  late final OpenAIClient _client;
+
+  /// The auth provider for mutable API key access.
+  final MutableApiKeyProvider _authProvider;
 
   /// ID of the model to use (e.g. 'text-embedding-3-small').
   ///
@@ -176,10 +184,10 @@ class OpenAIEmbeddings extends Embeddings {
   String? user;
 
   /// Set or replace the API key.
-  set apiKey(final String value) => _client.apiKey = value;
+  set apiKey(final String value) => _authProvider.apiKey = value;
 
   /// Get the API key.
-  String get apiKey => _client.apiKey;
+  String get apiKey => _authProvider.apiKey;
 
   @override
   Future<List<List<double>>> embedDocuments(
@@ -190,17 +198,17 @@ class OpenAIEmbeddings extends Embeddings {
 
     final embeddings = await Future.wait(
       batches.map((final batch) async {
-        final data = await _client.createEmbedding(
-          request: CreateEmbeddingRequest(
-            model: EmbeddingModel.modelId(model),
-            input: EmbeddingInput.listString(
+        final data = await _client.embeddings.create(
+          EmbeddingRequest(
+            model: model,
+            input: EmbeddingInput.textList(
               batch.map((final doc) => doc.pageContent).toList(growable: false),
             ),
             dimensions: dimensions,
             user: user,
           ),
         );
-        return data.data.map((final d) => d.embeddingVector);
+        return data.data.map((final d) => d.embedding);
       }),
     );
 
@@ -209,15 +217,15 @@ class OpenAIEmbeddings extends Embeddings {
 
   @override
   Future<List<double>> embedQuery(final String query) async {
-    final data = await _client.createEmbedding(
-      request: CreateEmbeddingRequest(
-        model: EmbeddingModel.modelId(model),
-        input: EmbeddingInput.string(query),
+    final data = await _client.embeddings.create(
+      EmbeddingRequest(
+        model: model,
+        input: EmbeddingInput.text(query),
         dimensions: dimensions,
         user: user,
       ),
     );
-    return data.data.first.embeddingVector;
+    return data.firstEmbedding;
   }
 
   /// {@template openai_embeddings_list_models}
@@ -237,7 +245,7 @@ class OpenAIEmbeddings extends Embeddings {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return response.data
         .where(_isEmbeddingModel)
         .map(
@@ -255,6 +263,6 @@ class OpenAIEmbeddings extends Embeddings {
 
   /// Closes the client and cleans up any resources associated with it.
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }

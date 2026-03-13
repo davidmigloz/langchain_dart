@@ -48,22 +48,12 @@ import 'types.dart';
 /// ### Available models
 ///
 /// The following models are available:
-/// - `gemini-1.5-flash`:
-///   * text / image / audio -> text model
-///   * Max input token: 1048576
-///   * Max output tokens: 8192
-/// - `gemini-1.5-pro`:
-///   * text / image / audio -> text model
-///   * Max input token: 2097152
-///   * Max output tokens: 8192
-/// - `gemini-1.0-pro-vision`:
-///   * text / image -> text model
-///   * Max input token: 16384
-///   * Max output tokens: 2048
-/// - `gemini-1.0-pro`
-///   * text -> text model
-///   * Max input token: 32760
-///   * Max output tokens: 8192
+/// - `gemini-2.5-pro`
+/// - `gemini-2.5-flash`
+/// - `gemini-2.0-flash`
+/// - `gemini-2.0-flash-lite`
+/// - `gemini-1.5-flash`
+/// - `gemini-1.5-pro`
 ///
 /// Mind that this list may not be up-to-date.
 /// Refer to the [documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models)

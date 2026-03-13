@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:langchain_core/documents.dart';
 import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/language_models.dart';
-import 'package:ollama_dart/ollama_dart.dart' hide ModelInfo;
+import 'package:ollama_dart/ollama_dart.dart';
 
 /// Wrapper around [Ollama](https://ollama.ai) Embeddings API.
 ///
@@ -79,15 +79,19 @@ class OllamaEmbeddings extends Embeddings {
   OllamaEmbeddings({
     this.model = 'llama3.2',
     this.keepAlive,
-    final String baseUrl = 'http://localhost:11434/api',
+    final String baseUrl = 'http://localhost:11434',
     final Map<String, String>? headers,
     final Map<String, dynamic>? queryParams,
     final http.Client? client,
   }) : _client = OllamaClient(
-         baseUrl: baseUrl,
-         headers: headers,
-         queryParams: queryParams,
-         client: client,
+         config: OllamaConfig(
+           baseUrl: baseUrl,
+           defaultHeaders: headers ?? const {},
+           defaultQueryParams:
+               queryParams?.map((k, v) => MapEntry(k, v.toString())) ??
+               const {},
+         ),
+         httpClient: client,
        );
 
   /// A client for interacting with Ollama API.
@@ -108,24 +112,24 @@ class OllamaEmbeddings extends Embeddings {
   Future<List<List<double>>> embedDocuments(
     final List<Document> documents,
   ) async {
-    final embeddings = <List<double>>[];
-    for (final doc in documents) {
-      final data = await _client.generateEmbedding(
-        request: GenerateEmbeddingRequest(
-          model: model,
-          prompt: doc.pageContent,
-          keepAlive: keepAlive,
-        ),
-      );
-      embeddings.add(data.embedding ?? []);
-    }
-    return embeddings;
+    final data = await _client.embeddings.create(
+      request: EmbedRequest(
+        model: model,
+        input: documents.map((final doc) => doc.pageContent).toList(),
+        keepAlive: keepAlive?.toString(),
+      ),
+    );
+    return data.embeddings ?? [];
   }
 
   @override
   Future<List<double>> embedQuery(final String query) async {
-    final data = await _client.generateEmbedding(
-      request: GenerateEmbeddingRequest(model: model, prompt: query),
+    final data = await _client.embeddings.create(
+      request: EmbedRequest(
+        model: model,
+        input: query,
+        keepAlive: keepAlive?.toString(),
+      ),
     );
     return data.embedding ?? [];
   }
@@ -147,15 +151,15 @@ class OllamaEmbeddings extends Embeddings {
   /// {@endtemplate}
   @override
   Future<List<ModelInfo>> listModels() async {
-    final response = await _client.listModels();
+    final response = await _client.models.list();
     return (response.models ?? [])
-        .where((final m) => m.model != null)
-        .map((final m) => ModelInfo(id: m.model!, ownedBy: m.details?.family))
+        .where((final m) => m.name != null)
+        .map((final m) => ModelInfo(id: m.name!, ownedBy: m.details?.family))
         .toList();
   }
 
   /// Closes the client and cleans up any resources associated with it.
   void close() {
-    _client.endSession();
+    _client.close();
   }
 }
