@@ -392,7 +392,9 @@ extension ChatToolChoiceMapper on ChatToolChoice {
   /// Converts tool choice to typed ToolChoice for the request.
   a.ToolChoice toToolChoice() {
     return switch (this) {
-      ChatToolChoiceNone _ => a.ToolChoice.none(),
+      ChatToolChoiceNone() => throw StateError(
+        'ChatToolChoiceNone should be handled before calling toToolChoice()',
+      ),
       ChatToolChoiceAuto _ => a.ToolChoice.auto(),
       ChatToolChoiceRequired _ => a.ToolChoice.any(),
       final ChatToolChoiceForced t => a.ToolChoice.tool(t.name),
