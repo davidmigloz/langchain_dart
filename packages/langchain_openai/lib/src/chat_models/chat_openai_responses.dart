@@ -200,8 +200,11 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
             defaultOptions: defaultOptions,
           ),
         )
-        .map(
-          (final accumulator) => accumulator.toChatResult(),
+        .expand(
+          (final accumulator) {
+            final result = accumulator.toChatResult();
+            return result != null ? [result] : const <ChatResult>[];
+          },
         );
   }
 

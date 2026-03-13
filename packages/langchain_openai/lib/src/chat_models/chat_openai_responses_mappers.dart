@@ -187,7 +187,9 @@ extension ResponseMapper on oai.Response {
 }
 
 extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
-  ChatResult toChatResult() {
+  /// Maps the latest streaming event to a [ChatResult], or returns `null`
+  /// for events that carry no meaningful content (e.g. `response.created`).
+  ChatResult? toChatResult() {
     final event = latestEvent;
 
     final String content;
@@ -240,8 +242,8 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
           streaming: true,
         );
       default:
-        content = '';
-        toolCalls = const [];
+        // Skip events with no content (response.created, response.in_progress, etc.)
+        return null;
     }
 
     return ChatResult(
