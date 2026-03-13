@@ -52,7 +52,7 @@ extension GenerateStreamResultMapper on GenerateStreamEvent {
     return LLMResult(
       id: id,
       output: response ?? '',
-      finishReason: FinishReason.unspecified,
+      finishReason: (done ?? false) ? FinishReason.stop : FinishReason.unspecified,
       metadata: {'model': model, 'created_at': createdAt, 'done': done},
       usage: const LanguageModelUsage(),
       streaming: streaming,

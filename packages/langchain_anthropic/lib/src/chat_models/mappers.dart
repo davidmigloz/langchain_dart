@@ -360,7 +360,12 @@ extension ToolSpecListMapper on List<ToolSpec> {
 
     if (toolChoice is ChatToolChoiceForced) {
       final tool = firstWhereOrNull((final t) => t.name == toolChoice.name);
-      return tool != null ? [_mapTool(tool)] : null;
+      if (tool == null) {
+        throw ArgumentError(
+          'Forced tool "${toolChoice.name}" not found in the provided tools list',
+        );
+      }
+      return [_mapTool(tool)];
     }
 
     return map(_mapTool).toList(growable: false);

@@ -11,7 +11,11 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('ChatOpenAIResponses tests', () {
+  group(
+    'ChatOpenAIResponses tests',
+    skip: Platform.environment['OPENAI_API_KEY'] == null ||
+        Platform.environment.containsKey('CI'),
+    () {
     final openaiApiKey = Platform.environment['OPENAI_API_KEY'];
     const defaultModel = 'gpt-4o-mini';
 
@@ -271,5 +275,6 @@ void main() {
         model.close();
       });
     });
-  });
+  },
+  );
 }

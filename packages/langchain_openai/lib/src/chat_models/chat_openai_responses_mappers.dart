@@ -230,7 +230,15 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
           streaming: true,
         );
       case oai.ResponseCompletedEvent(:final response):
-        return response.toChatResult();
+        final result = response.toChatResult();
+        return ChatResult(
+          id: result.id,
+          output: result.output,
+          finishReason: result.finishReason,
+          metadata: result.metadata,
+          usage: result.usage,
+          streaming: true,
+        );
       default:
         content = '';
         toolCalls = const [];
