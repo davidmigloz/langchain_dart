@@ -210,11 +210,13 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
             arguments: const {},
           ),
         ];
-      case oai.FunctionCallArgumentsDeltaEvent(:final delta, :final itemId):
+      case oai.FunctionCallArgumentsDeltaEvent(:final delta):
         content = '';
+        // Use empty id so AIChatMessage.concat falls back to the last
+        // tool call's id (set by OutputItemAddedEvent with callId).
         toolCalls = [
           AIChatMessageToolCall(
-            id: itemId ?? '',
+            id: '',
             name: '',
             argumentsRaw: delta,
             arguments: const {},
