@@ -24,6 +24,11 @@ void main() {
       vectorStore = Chroma(embeddings: embeddings);
     });
 
+    tearDownAll(() {
+      embeddings.close();
+      vectorStore.close();
+    });
+
     test('Test Chroma add new vectors', () async {
       final res = await vectorStore.addDocuments(
         documents: const [
