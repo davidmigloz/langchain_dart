@@ -23,7 +23,7 @@ resolution: workspace
 dependencies:
   collection: ^1.19.1
   gcloud: ^0.9.0
-  googleai_dart: ^3.5.0
+  googleai_dart: ^5.0.0
   googleapis: ^15.0.0
   googleapis_auth: ^2.0.0
   http: ^1.5.0
