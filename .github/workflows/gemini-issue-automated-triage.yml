@@ -50,7 +50,7 @@ jobs:
         id: 'generate_token'
         if: |-
           ${{ vars.APP_ID }}
-        uses: 'actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859' # ratchet:actions/create-github-app-token@v2
+        uses: 'actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3' # ratchet:actions/create-github-app-token@v2
         with:
           app-id: '${{ vars.APP_ID }}'
           private-key: '${{ secrets.APP_PRIVATE_KEY }}'
@@ -117,7 +117,7 @@ jobs:
       - name: 'Post Issue Triage Failure Comment'
         if: |-
           ${{ failure() && steps.gemini_issue_triage.outcome == 'failure' }}
-        uses: 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd'
+        uses: 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3'
         with:
           github-token: '${{ steps.generate_token.outputs.token || secrets.GITHUB_TOKEN }}'
           script: |-
