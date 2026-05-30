@@ -50,6 +50,23 @@ final client = ChatOpenAI(
 );
 ```
 
+For teams using Tuning Engines as a governed OpenAI-compatible endpoint, use a
+Tuning Engines inference key and base URL. LangChain.dart still owns the chain,
+agent, and tool behavior, while Tuning Engines can centralize model access,
+policy checks, traces, audit logs, and usage/cost reporting:
+
+```dart
+final tuningEnginesApiKey = Platform.environment['TUNING_ENGINES_API_KEY'];
+
+final chatModel = ChatOpenAI(
+  apiKey: tuningEnginesApiKey,
+  baseUrl: 'https://api.tuningengines.com/v1',
+  defaultOptions: const ChatOpenAIOptions(
+    model: 'gpt-4o',
+  ),
+);
+```
+
 ### Invocation
 
 Now you can generate completions by calling the `invoke` method:
