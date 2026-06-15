@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           ref: "${{ github.event.pull_request.base.sha }}" # Required for pull_request_target
           fetch-depth: 0
@@ -37,7 +37,7 @@ jobs:
           dart --disable-analytics
 
       - name: Install Melos
-        uses: bluefireteam/melos-action@705015c3d2bc4ab94201ac24accb2bbe070cf533
+        uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5
         with:
           melos-version: '7.0.0-dev.9'
           run-bootstrap: false
