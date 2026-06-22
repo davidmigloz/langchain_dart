@@ -1,3 +1,0 @@
-# Adding memory (state)
-
-TODO
