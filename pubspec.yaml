@@ -33,7 +33,7 @@ workspace:
   - packages/langchain_firebase/example
 
 dev_dependencies:
-  melos: ^7.3.0
+  melos: ^8.0.0
 
 melos:
   repository: https://github.com/davidmigloz/langchain_dart
