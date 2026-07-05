@@ -1,4 +1,5 @@
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:langchain_openai/src/chat_models/chat_openai_responses_mappers.dart';
@@ -181,6 +182,65 @@ void main() {
         );
         final result = format.toTextConfig();
         expect(result, isA<oai.TextConfig>());
+      });
+    });
+
+    group('Response finish reason mapping', () {
+      oai.Response responseFromJson({
+        required String status,
+        List<Map<String, dynamic>> output = const [],
+        Map<String, dynamic>? incompleteDetails,
+      }) {
+        return oai.Response.fromJson({
+          'id': 'resp_1',
+          'object': 'response',
+          'created_at': 0,
+          'status': status,
+          'output': output,
+          if (incompleteDetails != null)
+            'incomplete_details': incompleteDetails,
+        });
+      }
+
+      const functionCallItem = <String, dynamic>{
+        'type': 'function_call',
+        'id': 'fc_1',
+        'call_id': 'call_1',
+        'name': 'get_weather',
+        'arguments': '{"location":"Barcelona"}',
+      };
+
+      test('maps a completed response without tool calls to stop', () {
+        final result = responseFromJson(status: 'completed').toChatResult();
+        expect(result.finishReason, FinishReason.stop);
+      });
+
+      test('maps a completed response with tool calls to toolCalls', () {
+        final result = responseFromJson(
+          status: 'completed',
+          output: [functionCallItem],
+        ).toChatResult();
+
+        expect(result.finishReason, FinishReason.toolCalls);
+        expect(result.output.toolCalls, isNotEmpty);
+      });
+
+      test('maps an incomplete response to length by default', () {
+        final result = responseFromJson(
+          status: 'incomplete',
+          incompleteDetails: {'reason': 'max_output_tokens'},
+        ).toChatResult();
+
+        expect(result.finishReason, FinishReason.length);
+      });
+
+      test('maps a content-filtered incomplete response to contentFilter', () {
+        final result = responseFromJson(
+          status: 'incomplete',
+          incompleteDetails: {'reason': 'content_filter'},
+        ).toChatResult();
+
+        expect(result.finishReason, FinishReason.contentFilter);
       });
     });
 
