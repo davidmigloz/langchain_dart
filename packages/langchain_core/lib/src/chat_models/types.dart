@@ -394,6 +394,10 @@ class AIChatMessage extends ChatMessage {
               ...?thisToolCall?.arguments,
               ...?otherToolCall?.arguments,
             },
+            providerData: _mergeProviderData(
+              thisToolCall?.providerData ?? const {},
+              otherToolCall?.providerData ?? const {},
+            ),
           ),
         );
       }
@@ -426,6 +430,7 @@ class AIChatMessageToolCall {
     required this.name,
     required this.argumentsRaw,
     required this.arguments,
+    this.providerData = const {},
   });
 
   /// The id of the tool to call.
@@ -449,6 +454,13 @@ class AIChatMessageToolCall {
   /// Validate the arguments in your code before calling your tool.
   final Map<String, dynamic> arguments;
 
+  /// Provider-specific data attached to this tool call.
+  ///
+  /// Data must be nested under a provider namespace to avoid collisions. For
+  /// example, Google's `thoughtSignature` is stored under the `google` key so
+  /// it can survive a tool-call round trip.
+  final Map<String, dynamic> providerData;
+
   /// Converts the [AIChatMessageToolCall] to a [Map].
   Map<String, dynamic> toMap() {
     return {
@@ -456,6 +468,7 @@ class AIChatMessageToolCall {
       'name': name,
       'argumentsRaw': argumentsRaw,
       'arguments': arguments,
+      'providerData': providerData,
     };
   }
 
@@ -466,6 +479,7 @@ class AIChatMessageToolCall {
         name: map['name'] as String,
         argumentsRaw: map['argumentsRaw'] as String,
         arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
+        providerData: (map['providerData'] as Map<String, dynamic>?) ?? {},
       );
 
   @override
@@ -475,12 +489,21 @@ class AIChatMessageToolCall {
         id == other.id &&
             name == other.name &&
             argumentsRaw == other.argumentsRaw &&
-            mapEquals(arguments, other.arguments);
+            mapEquals(arguments, other.arguments) &&
+            mapEquals(providerData, other.providerData);
   }
 
   @override
-  int get hashCode =>
-      id.hashCode ^ name.hashCode ^ argumentsRaw.hashCode ^ arguments.hashCode;
+  int get hashCode {
+    const deepCollectionEquality = DeepCollectionEquality();
+    return Object.hash(
+      id,
+      name,
+      argumentsRaw,
+      deepCollectionEquality.hash(arguments),
+      deepCollectionEquality.hash(providerData),
+    );
+  }
 
   @override
   String toString() {
@@ -490,8 +513,25 @@ AIChatMessageToolCall{
   name: $name,
   argumentsRaw: $argumentsRaw,
   arguments: $arguments,
+  providerData: $providerData,
 }''';
   }
+}
+
+Map<String, dynamic> _mergeProviderData(
+  final Map<String, dynamic> first,
+  final Map<String, dynamic> second,
+) {
+  final merged = <String, dynamic>{...first};
+  for (final entry in second.entries) {
+    final previous = merged[entry.key];
+    final next = entry.value;
+    merged[entry.key] =
+        previous is Map<String, dynamic> && next is Map<String, dynamic>
+        ? _mergeProviderData(previous, next)
+        : next;
+  }
+  return merged;
 }
 
 /// {@template tool_chat_message}
