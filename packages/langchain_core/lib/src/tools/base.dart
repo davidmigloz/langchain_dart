@@ -206,7 +206,7 @@ abstract base class Tool<
   @override
   Future<Output> invoke(final Input input, {final Options? options}) async {
     try {
-      return invokeInternal(input, options: options);
+      return await invokeInternal(input, options: options);
     } on ToolException catch (e) {
       if (handleToolError != null) {
         return handleToolError!(e);
