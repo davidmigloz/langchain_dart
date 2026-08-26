@@ -3,6 +3,9 @@ import 'package:meta/meta.dart';
 
 import '../language_models/language_models.dart';
 import '../tools/base.dart';
+import 'content_blocks.dart';
+
+export 'content_blocks.dart';
 
 /// {@template chat_model_options}
 /// Generation options to pass into the Chat Model.
@@ -317,16 +320,41 @@ HumanChatMessage{
 @immutable
 class AIChatMessage extends ChatMessage {
   /// {@macro ai_chat_message}
-  const AIChatMessage({required this.content, this.toolCalls = const []});
+  const AIChatMessage({
+    required String content,
+    List<AIChatMessageToolCall> toolCalls = const [],
+  }) : _legacyContent = content,
+       _legacyToolCalls = toolCalls,
+       _contentBlocks = null;
+
+  /// Creates an AI message from its canonical ordered content blocks.
+  const AIChatMessage.withBlocks({
+    required List<AIChatMessageContentBlock> contentBlocks,
+    String? legacyContent,
+  }) : _contentBlocks = contentBlocks,
+       _legacyContent = legacyContent,
+       _legacyToolCalls = const [];
 
   /// Converts a map to a [AIChatMessage].
-  factory AIChatMessage.fromMap(Map<String, dynamic> map) => AIChatMessage(
-    content: map['content'] as String,
-    toolCalls: (map['toolCalls'] as List<dynamic>)
-        .map((i) => i as Map<String, dynamic>)
-        .map(AIChatMessageToolCall.fromMap)
-        .toList(growable: false),
-  );
+  factory AIChatMessage.fromMap(Map<String, dynamic> map) {
+    final blocks = map['contentBlocks'] as List<dynamic>?;
+    if (blocks != null) {
+      return AIChatMessage.withBlocks(
+        contentBlocks: blocks
+            .map((item) => (item as Map).cast<String, dynamic>())
+            .map(AIChatMessageContentBlock.fromMap)
+            .toList(growable: false),
+        legacyContent: map['content'] as String?,
+      );
+    }
+    return AIChatMessage(
+      content: map['content'] as String? ?? '',
+      toolCalls: (map['toolCalls'] as List<dynamic>? ?? const [])
+          .map((item) => (item as Map).cast<String, dynamic>())
+          .map(AIChatMessageToolCall.fromMap)
+          .toList(growable: false),
+    );
+  }
 
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
   @override
@@ -334,33 +362,78 @@ class AIChatMessage extends ChatMessage {
     ...super.toMap(),
     'content': content,
     'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
+    'contentBlocks': contentBlocks
+        .map((block) => block.toMap())
+        .toList(growable: false),
     'type': 'ai',
   };
 
-  /// The content of the message.
-  final String content;
+  final String? _legacyContent;
+  final List<AIChatMessageToolCall> _legacyToolCalls;
+  final List<AIChatMessageContentBlock>? _contentBlocks;
+
+  /// The legacy string projection of the message.
+  String get content =>
+      _legacyContent ?? contentBlocks.map((b) => b.legacyContent).join();
+
+  /// The canonical ordered content blocks.
+  List<AIChatMessageContentBlock> get contentBlocks =>
+      _contentBlocks ??
+      [
+        if ((_legacyContent ?? '').isNotEmpty)
+          AIChatMessageTextBlock(text: _legacyContent!),
+        ..._legacyToolCalls,
+      ];
 
   /// The list of tool that the model wants to call.
   /// If the model does not want to call any tool, this list will be empty.
-  final List<AIChatMessageToolCall> toolCalls;
+  List<AIChatMessageToolCall> get toolCalls =>
+      _contentBlocks?.whereType<AIChatMessageToolCall>().toList(
+        growable: false,
+      ) ??
+      _legacyToolCalls;
 
   /// Default prefix for [AIChatMessage].
   static const defaultPrefix = 'AI';
 
   @override
   bool operator ==(covariant final AIChatMessage other) {
-    final listEquals = const DeepCollectionEquality().equals;
+    const listEquals = DeepCollectionEquality();
     return identical(this, other) ||
-        content == other.content && listEquals(toolCalls, other.toolCalls);
+        content == other.content &&
+            listEquals.equals(contentBlocks, other.contentBlocks);
   }
 
   @override
-  int get hashCode => content.hashCode ^ toolCalls.hashCode;
+  int get hashCode {
+    const listEquals = DeepCollectionEquality();
+    return Object.hash(content, listEquals.hash(contentBlocks));
+  }
 
   @override
   AIChatMessage concat(final ChatMessage other) {
     if (other is! AIChatMessage) {
       return this;
+    }
+
+    if (_contentBlocks != null || other._contentBlocks != null) {
+      final mergedBlocks = [...contentBlocks];
+      for (final otherBlock in other.contentBlocks) {
+        final matchingIndex = mergedBlocks.indexWhere(
+          (block) => block.canMerge(otherBlock),
+        );
+        if (matchingIndex == -1) {
+          mergedBlocks.add(otherBlock);
+        } else {
+          mergedBlocks[matchingIndex] = mergedBlocks[matchingIndex].concat(
+            otherBlock,
+          );
+        }
+      }
+      return AIChatMessage.withBlocks(
+        contentBlocks: mergedBlocks,
+        legacyContent: content + other.content,
+      );
     }
 
     final toolCalls = <AIChatMessageToolCall>[];
@@ -394,7 +467,7 @@ class AIChatMessage extends ChatMessage {
               ...?thisToolCall?.arguments,
               ...?otherToolCall?.arguments,
             },
-            providerData: _mergeProviderData(
+            providerData: mergeProviderData(
               thisToolCall?.providerData ?? const {},
               otherToolCall?.providerData ?? const {},
             ),
@@ -417,121 +490,6 @@ AIChatMessage{
   toolCalls: $toolCalls,
 }''';
   }
-}
-
-/// {@template ai_chat_message_tool_call}
-/// A tool that the model wants to call.
-/// {@endtemplate}
-@immutable
-class AIChatMessageToolCall {
-  /// {@macro ai_chat_message_tool_call}
-  const AIChatMessageToolCall({
-    required this.id,
-    required this.name,
-    required this.argumentsRaw,
-    required this.arguments,
-    this.providerData = const {},
-  });
-
-  /// The id of the tool to call.
-  ///
-  /// This is used to match up the tool results later.
-  final String id;
-
-  /// The name of the tool to call.
-  final String name;
-
-  /// The raw arguments JSON string (needed to parse streaming responses).
-  final String argumentsRaw;
-
-  /// The arguments to pass to the tool in JSON Map format.
-  ///
-  /// Note that the model does not always generate a valid JSON, in that case,
-  /// [arguments] will be empty but you can still see the raw response in
-  /// [argumentsRaw].
-  ///
-  /// The model may also hallucinate parameters not defined by your tool schema.
-  /// Validate the arguments in your code before calling your tool.
-  final Map<String, dynamic> arguments;
-
-  /// Provider-specific data attached to this tool call.
-  ///
-  /// Data must be nested under a provider namespace to avoid collisions. For
-  /// example, Google's `thoughtSignature` is stored under the `google` key so
-  /// it can survive a tool-call round trip.
-  final Map<String, dynamic> providerData;
-
-  /// Converts the [AIChatMessageToolCall] to a [Map].
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'argumentsRaw': argumentsRaw,
-      'arguments': arguments,
-      'providerData': providerData,
-    };
-  }
-
-  /// Converts a map to a [AIChatMessageToolCall].
-  factory AIChatMessageToolCall.fromMap(Map<String, dynamic> map) =>
-      AIChatMessageToolCall(
-        id: map['id'] as String,
-        name: map['name'] as String,
-        argumentsRaw: map['argumentsRaw'] as String,
-        arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
-        providerData: (map['providerData'] as Map<String, dynamic>?) ?? {},
-      );
-
-  @override
-  bool operator ==(covariant final AIChatMessageToolCall other) {
-    final mapEquals = const DeepCollectionEquality().equals;
-    return identical(this, other) ||
-        id == other.id &&
-            name == other.name &&
-            argumentsRaw == other.argumentsRaw &&
-            mapEquals(arguments, other.arguments) &&
-            mapEquals(providerData, other.providerData);
-  }
-
-  @override
-  int get hashCode {
-    const deepCollectionEquality = DeepCollectionEquality();
-    return Object.hash(
-      id,
-      name,
-      argumentsRaw,
-      deepCollectionEquality.hash(arguments),
-      deepCollectionEquality.hash(providerData),
-    );
-  }
-
-  @override
-  String toString() {
-    return '''
-AIChatMessageToolCall{
-  id: $id,
-  name: $name,
-  argumentsRaw: $argumentsRaw,
-  arguments: $arguments,
-  providerData: $providerData,
-}''';
-  }
-}
-
-Map<String, dynamic> _mergeProviderData(
-  final Map<String, dynamic> first,
-  final Map<String, dynamic> second,
-) {
-  final merged = <String, dynamic>{...first};
-  for (final entry in second.entries) {
-    final previous = merged[entry.key];
-    final next = entry.value;
-    merged[entry.key] =
-        previous is Map<String, dynamic> && next is Map<String, dynamic>
-        ? _mergeProviderData(previous, next)
-        : next;
-  }
-  return merged;
 }
 
 /// {@template tool_chat_message}
