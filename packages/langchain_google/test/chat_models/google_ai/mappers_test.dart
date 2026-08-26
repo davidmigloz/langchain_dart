@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   group('GenerateContentResponseMapper thought signatures', () {
     test(
-      'captures FunctionCallPart.thoughtSignature into tool-call metadata',
+      'round-trips FunctionCallPart.thoughtSignature through provider data',
       () {
         final signature = utf8.encode('signature-bytes');
         final response = g.GenerateContentResponse(
@@ -33,13 +33,18 @@ void main() {
         final result = response.toChatResult('id-1', 'gemini-2.5-flash');
 
         expect(
-          result.output.toolCalls.single.metadata['thought_signature'],
+          (result.output.toolCalls.single.providerData['google']
+              as Map)['thoughtSignature'],
           base64Encode(signature),
         );
+
+        final replayed = <ChatMessage>[result.output].toContentList();
+        final replayedPart = replayed.single.parts.single as g.FunctionCallPart;
+        expect(replayedPart.thoughtSignature, signature);
       },
     );
 
-    test('leaves tool-call metadata empty when there is no signature', () {
+    test('leaves tool-call provider data empty when there is no signature', () {
       const response = g.GenerateContentResponse(
         candidates: [
           g.Candidate(
@@ -57,35 +62,77 @@ void main() {
 
       final result = response.toChatResult('id-1', 'gemini-2.5-flash');
 
-      expect(result.output.toolCalls.single.metadata, isEmpty);
+      expect(result.output.toolCalls.single.providerData, isEmpty);
     });
-  });
 
-  group('ChatMessagesMapper thought signatures', () {
-    test('replays tool-call metadata as FunctionCallPart.thoughtSignature', () {
+    test('preserves thoughtSignature through streamed concatenation', () {
       final signature = utf8.encode('signature-bytes');
-      final messages = <ChatMessage>[
+      final response = g.GenerateContentResponse(
+        candidates: [
+          g.Candidate(
+            content: g.Content(
+              role: 'model',
+              parts: [
+                g.FunctionCallPart(
+                  const g.FunctionCall(name: 'getWeather', args: {}),
+                  thoughtSignature: signature,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+      final first = response.toChatResult('id-1', 'gemini-2.5-flash').output;
+      final merged = first.concat(
         AIChatMessage(
           content: '',
           toolCalls: [
             AIChatMessageToolCall(
-              id: 'getWeather',
-              name: 'getWeather',
-              argumentsRaw: '{"city":"Madrid"}',
+              id: first.toolCalls.single.id,
+              name: '',
+              argumentsRaw: '',
               arguments: const {'city': 'Madrid'},
-              metadata: {'thought_signature': base64Encode(signature)},
             ),
           ],
         ),
-      ];
+      );
 
-      final content = messages.toContentList();
-
-      final part = content.single.parts.single as g.FunctionCallPart;
-      expect(part.thoughtSignature, signature);
+      final replayed = <ChatMessage>[merged].toContentList();
+      final replayedPart = replayed.single.parts.single as g.FunctionCallPart;
+      expect(replayedPart.thoughtSignature, signature);
     });
+  });
 
-    test('maps no thoughtSignature when metadata lacks one', () {
+  group('ChatMessagesMapper thought signatures', () {
+    test(
+      'replays tool-call provider data as FunctionCallPart.thoughtSignature',
+      () {
+        final signature = utf8.encode('signature-bytes');
+        final messages = <ChatMessage>[
+          AIChatMessage(
+            content: '',
+            toolCalls: [
+              AIChatMessageToolCall(
+                id: 'getWeather',
+                name: 'getWeather',
+                argumentsRaw: '{"city":"Madrid"}',
+                arguments: const {'city': 'Madrid'},
+                providerData: {
+                  'google': {'thoughtSignature': base64Encode(signature)},
+                },
+              ),
+            ],
+          ),
+        ];
+
+        final content = messages.toContentList();
+
+        final part = content.single.parts.single as g.FunctionCallPart;
+        expect(part.thoughtSignature, signature);
+      },
+    );
+
+    test('maps no thoughtSignature when provider data lacks one', () {
       final messages = <ChatMessage>[
         const AIChatMessage(
           content: '',

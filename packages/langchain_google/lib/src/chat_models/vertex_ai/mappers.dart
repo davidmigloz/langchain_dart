@@ -105,8 +105,10 @@ extension ChatMessagesMapper on List<ChatMessage> {
             g.FunctionCall(name: call.name, args: call.arguments),
             // Thinking models require the thought signature captured in
             // toChatResult to be echoed back with the function call.
-            thoughtSignature: switch (call.metadata['thought_signature']) {
-              final String signature => base64Decode(signature),
+            thoughtSignature: switch (call.providerData['google']) {
+              {'thoughtSignature': final String signature} => base64Decode(
+                signature,
+              ),
               _ => null,
             },
           ),
@@ -173,11 +175,13 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                     name: part.functionCall.name,
                     argumentsRaw: jsonEncode(part.functionCall.args ?? {}),
                     arguments: part.functionCall.args ?? {},
-                    metadata: {
+                    providerData: {
                       if (part.thoughtSignature != null)
-                        'thought_signature': base64Encode(
-                          part.thoughtSignature!,
-                        ),
+                        'google': {
+                          'thoughtSignature': base64Encode(
+                            part.thoughtSignature!,
+                          ),
+                        },
                     },
                   ),
                 )

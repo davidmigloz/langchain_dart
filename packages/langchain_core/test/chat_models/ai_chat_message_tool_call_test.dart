@@ -2,7 +2,7 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('AIChatMessageToolCall metadata', () {
+  group('AIChatMessageToolCall provider data', () {
     test('defaults to an empty map', () {
       const toolCall = AIChatMessageToolCall(
         id: 'call_1',
@@ -10,7 +10,7 @@ void main() {
         argumentsRaw: '{}',
         arguments: {},
       );
-      expect(toolCall.metadata, isEmpty);
+      expect(toolCall.providerData, isEmpty);
     });
 
     test('stores provider-specific entries', () {
@@ -19,9 +19,14 @@ void main() {
         name: 'getWeather',
         argumentsRaw: '{}',
         arguments: {},
-        metadata: {'thought_signature': 'c2lnbmF0dXJl'},
+        providerData: {
+          'google': {'thoughtSignature': 'c2lnbmF0dXJl'},
+        },
       );
-      expect(toolCall.metadata['thought_signature'], 'c2lnbmF0dXJl');
+      expect(
+        (toolCall.providerData['google'] as Map)['thoughtSignature'],
+        'c2lnbmF0dXJl',
+      );
     });
 
     test('round-trips through toMap/fromMap', () {
@@ -30,11 +35,27 @@ void main() {
         name: 'getWeather',
         argumentsRaw: '{}',
         arguments: {},
-        metadata: {'thought_signature': 'c2lnbmF0dXJl'},
+        providerData: {
+          'google': {'thoughtSignature': 'c2lnbmF0dXJl'},
+        },
       );
       final restored = AIChatMessageToolCall.fromMap(toolCall.toMap());
       expect(restored, toolCall);
-      expect(restored.metadata['thought_signature'], 'c2lnbmF0dXJl');
+      expect(
+        (restored.providerData['google'] as Map)['thoughtSignature'],
+        'c2lnbmF0dXJl',
+      );
+    });
+
+    test('deserializes legacy maps without provider data', () {
+      final restored = AIChatMessageToolCall.fromMap(const {
+        'id': 'call_1',
+        'name': 'getWeather',
+        'argumentsRaw': '{}',
+        'arguments': <String, dynamic>{},
+      });
+
+      expect(restored.providerData, isEmpty);
     });
 
     test('is included in equality', () {
@@ -43,7 +64,9 @@ void main() {
         name: 'getWeather',
         argumentsRaw: '{}',
         arguments: {},
-        metadata: {'thought_signature': 'c2lnbmF0dXJl'},
+        providerData: {
+          'google': {'thoughtSignature': 'c2lnbmF0dXJl'},
+        },
       );
       const withoutMetadata = AIChatMessageToolCall(
         id: 'call_1',
@@ -53,10 +76,34 @@ void main() {
       );
       expect(withMetadata, isNot(equals(withoutMetadata)));
     });
+
+    test('equal values have equal hashes', () {
+      const first = AIChatMessageToolCall(
+        id: 'call_1',
+        name: 'getWeather',
+        argumentsRaw: '{"city":"Madrid"}',
+        arguments: {'city': 'Madrid'},
+        providerData: {
+          'google': {'thoughtSignature': 'c2lnbmF0dXJl'},
+        },
+      );
+      const second = AIChatMessageToolCall(
+        id: 'call_1',
+        name: 'getWeather',
+        argumentsRaw: '{"city":"Madrid"}',
+        arguments: {'city': 'Madrid'},
+        providerData: {
+          'google': {'thoughtSignature': 'c2lnbmF0dXJl'},
+        },
+      );
+
+      expect(first, second);
+      expect(first.hashCode, second.hashCode);
+    });
   });
 
-  group('AIChatMessage.concat tool-call metadata', () {
-    test('preserves metadata when merging streamed chunks', () {
+  group('AIChatMessage.concat tool-call provider data', () {
+    test('preserves provider data when merging streamed chunks', () {
       const first = AIChatMessage(
         content: '',
         toolCalls: [
@@ -65,7 +112,9 @@ void main() {
             name: 'getWea',
             argumentsRaw: '{"city":',
             arguments: {},
-            metadata: {'thought_signature': 'c2lnbmF0dXJl'},
+            providerData: {
+              'google': {'thoughtSignature': 'c2lnbmF0dXJl'},
+            },
           ),
         ],
       );
@@ -85,12 +134,13 @@ void main() {
 
       expect(merged.toolCalls.single.name, 'getWeather');
       expect(
-        merged.toolCalls.single.metadata['thought_signature'],
+        (merged.toolCalls.single.providerData['google']
+            as Map)['thoughtSignature'],
         'c2lnbmF0dXJl',
       );
     });
 
-    test('later chunks win on conflicting metadata keys', () {
+    test('later chunks win on conflicting nested provider-data keys', () {
       const first = AIChatMessage(
         content: '',
         toolCalls: [
@@ -99,7 +149,9 @@ void main() {
             name: 'getWeather',
             argumentsRaw: '{}',
             arguments: {},
-            metadata: {'thought_signature': 'old'},
+            providerData: {
+              'google': {'thoughtSignature': 'old', 'retained': true},
+            },
           ),
         ],
       );
@@ -111,14 +163,20 @@ void main() {
             name: '',
             argumentsRaw: '',
             arguments: {},
-            metadata: {'thought_signature': 'new'},
+            providerData: {
+              'google': {'thoughtSignature': 'new'},
+            },
           ),
         ],
       );
 
       final merged = first.concat(second);
 
-      expect(merged.toolCalls.single.metadata['thought_signature'], 'new');
+      final googleData =
+          merged.toolCalls.single.providerData['google']
+              as Map<String, dynamic>;
+      expect(googleData['thoughtSignature'], 'new');
+      expect(googleData['retained'], isTrue);
     });
   });
 }
