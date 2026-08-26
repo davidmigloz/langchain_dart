@@ -6,9 +6,9 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:ollama_dart/ollama_dart.dart' as o;
-import 'package:uuid/uuid.dart';
 
 import '../../llms/types.dart';
+import '../../utils.dart';
 import 'chat_ollama.dart';
 import 'types.dart';
 
@@ -41,7 +41,7 @@ o.ChatRequest createChatRequest(
     model: options?.model ?? defaultOptions.model ?? ChatOllama.defaultModel,
     messages: messages.toMessages(),
     format: (options?.format ?? defaultOptions.format)?.toChatFormat(),
-    keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
+    keepAlive: mapKeepAlive(options?.keepAlive ?? defaultOptions.keepAlive),
     think: (options?.think ?? defaultOptions.think)?.toThinkValue(),
     tools: _mapTools(
       tools: options?.tools ?? defaultOptions.tools,
@@ -55,7 +55,7 @@ o.ChatRequest createChatRequest(
       topP: options?.topP ?? defaultOptions.topP,
       minP: options?.minP ?? defaultOptions.minP,
       temperature: options?.temperature ?? defaultOptions.temperature,
-      stop: options?.stop ?? defaultOptions.stop,
+      stop: mapStopSequences(options?.stop ?? defaultOptions.stop),
       numCtx: options?.numCtx ?? defaultOptions.numCtx,
       numKeep: options?.numKeep ?? defaultOptions.numKeep,
       tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
@@ -178,9 +178,24 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   }
 
   List<o.ChatMessage> _mapAIMessage(final AIChatMessage message) {
+    final reasoning = message.contentBlocks
+        .whereType<AIChatMessageReasoningBlock>()
+        .map((block) => block.reasoning)
+        .join();
+    final content = message.contentBlocks
+        .whereType<AIChatMessageTextBlock>()
+        .map((block) => block.text)
+        .join();
+    final images = message.contentBlocks
+        .whereType<AIChatMessageMediaBlock>()
+        .map((block) => block.data)
+        .toList(growable: false);
     return [
-      o.ChatMessage.assistant(
-        message.content,
+      o.ChatMessage(
+        role: o.MessageRole.assistant,
+        content: content,
+        thinking: reasoning.isNotEmpty ? reasoning : null,
+        images: images.isNotEmpty ? images : null,
         toolCalls: message.toolCalls.isNotEmpty
             ? message.toolCalls.map(_mapToolCall).toList(growable: false)
             : null,
@@ -200,21 +215,18 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
 
 extension ChatResultMapper on o.ChatResponse {
   ChatResult toChatResult(final String id, {final bool streaming = false}) {
-    final content = [
-      if (message?.thinking != null) message!.thinking!,
-      message?.content ?? '',
-    ].join('');
+    final contentBlocks = _mapOllamaMessage(message, responseId: id);
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: content,
-        toolCalls:
-            message?.toolCalls?.map(_mapToolCall).toList(growable: false) ??
-            const [],
+      output: AIChatMessage.withBlocks(
+        contentBlocks: contentBlocks,
+        legacyContent: '${message?.thinking ?? ''}${message?.content ?? ''}',
       ),
       finishReason: _mapFinishReason(doneReason),
       metadata: {
         'model': model,
+        'remote_model': remoteModel,
+        'remote_host': remoteHost,
         'created_at': createdAt,
         'done': done,
         'total_duration': totalDuration,
@@ -223,18 +235,10 @@ extension ChatResultMapper on o.ChatResponse {
         'prompt_eval_duration': promptEvalDuration,
         'eval_count': evalCount,
         'eval_duration': evalDuration,
+        'logprobs': logprobs?.map((item) => item.toJson()).toList(),
       },
       usage: _mapUsage(),
       streaming: streaming,
-    );
-  }
-
-  AIChatMessageToolCall _mapToolCall(final o.ToolCall toolCall) {
-    return AIChatMessageToolCall(
-      id: const Uuid().v4(),
-      name: toolCall.function?.name ?? '',
-      argumentsRaw: json.encode(toolCall.function?.arguments ?? const {}),
-      arguments: toolCall.function?.arguments ?? const {},
     );
   }
 
@@ -259,33 +263,104 @@ extension ChatResultMapper on o.ChatResponse {
 
 extension ChatStreamResultMapper on o.ChatStreamEvent {
   ChatResult toChatResult(final String id, {final bool streaming = false}) {
-    final content = [
-      if (message?.thinking != null) message!.thinking!,
-      message?.content ?? '',
-    ].join('');
+    final contentBlocks = _mapOllamaMessage(message, responseId: id);
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: content,
-        toolCalls:
-            message?.toolCalls?.map(_mapToolCall).toList(growable: false) ??
-            const [],
+      output: AIChatMessage.withBlocks(
+        contentBlocks: contentBlocks,
+        legacyContent: '${message?.thinking ?? ''}${message?.content ?? ''}',
       ),
-      finishReason: (done ?? false)
+      finishReason: doneReason != null
+          ? _mapOllamaFinishReason(doneReason)
+          : (done ?? false)
           ? FinishReason.stop
           : FinishReason.unspecified,
-      metadata: {'model': model, 'created_at': createdAt, 'done': done},
-      usage: const LanguageModelUsage(),
+      metadata: {
+        'model': model,
+        'remote_model': remoteModel,
+        'remote_host': remoteHost,
+        'created_at': createdAt,
+        'done': done,
+        'total_duration': totalDuration,
+        'load_duration': loadDuration,
+        'prompt_eval_count': promptEvalCount,
+        'prompt_eval_duration': promptEvalDuration,
+        'eval_count': evalCount,
+        'eval_duration': evalDuration,
+        'logprobs': logprobs?.map((item) => item.toJson()).toList(),
+      },
+      usage: LanguageModelUsage(
+        promptTokens: promptEvalCount,
+        responseTokens: evalCount,
+        totalTokens: (promptEvalCount != null || evalCount != null)
+            ? (promptEvalCount ?? 0) + (evalCount ?? 0)
+            : null,
+      ),
       streaming: streaming,
     );
   }
-
-  AIChatMessageToolCall _mapToolCall(final o.ToolCall toolCall) {
-    return AIChatMessageToolCall(
-      id: const Uuid().v4(),
-      name: toolCall.function?.name ?? '',
-      argumentsRaw: json.encode(toolCall.function?.arguments ?? const {}),
-      arguments: toolCall.function?.arguments ?? const {},
-    );
-  }
 }
+
+List<AIChatMessageContentBlock> _mapOllamaMessage(
+  final o.ChatResponseMessage? message, {
+  required final String responseId,
+}) {
+  if (message == null) return const [];
+  final rawMessage = message.toJson();
+  final providerData = {
+    'ollama': {'message': rawMessage},
+  };
+  return [
+    if ((message.thinking ?? '').isNotEmpty)
+      AIChatMessageReasoningBlock(
+        reasoning: message.thinking!,
+        id: 'ollama:$responseId:thinking',
+        index: 0,
+        providerData: providerData,
+      ),
+    if ((message.content ?? '').isNotEmpty)
+      AIChatMessageTextBlock(
+        text: message.content!,
+        id: 'ollama:$responseId:content',
+        index: 1,
+        providerData: providerData,
+      ),
+    for (final (index, image) in (message.images ?? const <String>[]).indexed)
+      AIChatMessageMediaBlock(
+        data: image,
+        id: 'ollama:$responseId:image:$index',
+        index: index + 2,
+        providerData: providerData,
+      ),
+    for (final (index, toolCall)
+        in (message.toolCalls ?? const <o.ToolCall>[]).indexed)
+      _mapOllamaToolCall(toolCall, responseId: responseId, index: index),
+  ];
+}
+
+AIChatMessageToolCall _mapOllamaToolCall(
+  final o.ToolCall toolCall, {
+  required final String responseId,
+  required final int index,
+}) {
+  final arguments = toolCall.function?.arguments ?? const <String, dynamic>{};
+  return AIChatMessageToolCall(
+    id: 'ollama:$responseId:tool:$index',
+    index: index,
+    name: toolCall.function?.name ?? '',
+    argumentsRaw: json.encode(arguments),
+    arguments: arguments,
+    providerData: {
+      'ollama': {'toolCall': toolCall.toJson()},
+    },
+  );
+}
+
+FinishReason _mapOllamaFinishReason(final o.DoneReason? reason) =>
+    switch (reason) {
+      o.DoneReason.stop => FinishReason.stop,
+      o.DoneReason.length => FinishReason.length,
+      o.DoneReason.load => FinishReason.unspecified,
+      o.DoneReason.unload => FinishReason.unspecified,
+      null => FinishReason.unspecified,
+    };

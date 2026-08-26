@@ -4,6 +4,8 @@ import 'package:langchain_core/embeddings.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 
+import '../utils.dart';
+
 /// Wrapper around [Ollama](https://ollama.ai) Embeddings API.
 ///
 /// Ollama allows you to run open-source large language models,
@@ -115,8 +117,10 @@ class OllamaEmbeddings extends Embeddings {
     final data = await _client.embeddings.create(
       request: EmbedRequest(
         model: model,
-        input: documents.map((final doc) => doc.pageContent).toList(),
-        keepAlive: keepAlive?.toString(),
+        input: EmbedInput.list(
+          documents.map((final doc) => doc.pageContent).toList(),
+        ),
+        keepAlive: mapKeepAlive(keepAlive),
       ),
     );
     return data.embeddings ?? [];
@@ -127,8 +131,8 @@ class OllamaEmbeddings extends Embeddings {
     final data = await _client.embeddings.create(
       request: EmbedRequest(
         model: model,
-        input: query,
-        keepAlive: keepAlive?.toString(),
+        input: EmbedInput.string(query),
+        keepAlive: mapKeepAlive(keepAlive),
       ),
     );
     return data.embedding ?? [];
