@@ -33,14 +33,14 @@ void main() {
 
     final message = response.toChatResult('response-1').output;
 
-    expect(message.contentBlocks.map((block) => block.runtimeType), [
+    expect(message.content.map((block) => block.runtimeType), [
       AIChatMessageReasoningBlock,
       AIChatMessageTextBlock,
       AIChatMessageMediaBlock,
       AIChatMessageToolCall,
       AIChatMessageToolCall,
     ]);
-    expect(message.content, 'reasoninganswer');
+    expect(message.contentAsString, 'answer');
     expect(message.toolCalls.map((call) => call.id), [
       'ollama:response-1:tool:0',
       'ollama:response-1:tool:1',
@@ -93,14 +93,11 @@ void main() {
         .concat(second.toChatResult('response-1', streaming: true).output);
 
     expect(
-      message.contentBlocks
-          .whereType<AIChatMessageReasoningBlock>()
-          .single
-          .reasoning,
+      message.content.whereType<AIChatMessageReasoningBlock>().single.reasoning,
       'reasoning',
     );
     expect(
-      message.contentBlocks.whereType<AIChatMessageTextBlock>().single.text,
+      message.content.whereType<AIChatMessageTextBlock>().single.text,
       'answer',
     );
   });

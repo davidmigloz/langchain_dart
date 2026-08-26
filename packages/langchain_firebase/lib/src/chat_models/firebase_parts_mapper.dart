@@ -16,21 +16,8 @@ List<AIChatMessageContentBlock> firebasePartsToContentBlocks(
     ),
 ];
 
-String firebasePartsToLegacyContent(final List<f.Part> parts) => parts
-    .map(
-      (part) => switch (part) {
-        final f.TextPart part => part.text,
-        final f.InlineDataPart part => base64Encode(part.bytes),
-        final f.FileData part => part.fileUri,
-        f.Part() => '',
-      },
-    )
-    .join('\n');
-
-List<f.Part> aiMessageToFirebaseParts(final AIChatMessage message) => message
-    .contentBlocks
-    .map(_contentBlockToFirebasePart)
-    .toList(growable: false);
+List<f.Part> aiMessageToFirebaseParts(final AIChatMessage message) =>
+    message.content.map(_contentBlockToFirebasePart).toList(growable: false);
 
 AIChatMessageContentBlock _firebasePartToContentBlock(
   final f.Part part, {

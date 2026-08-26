@@ -80,7 +80,7 @@ void main() {
       expect(streamList.length, 12);
       expect(streamList, isA<List<ChatResult>>());
 
-      final res = streamList.map((final i) => i.output.content).join();
+      final res = streamList.map((final i) => i.output.contentAsString).join();
       expect(res, 'Hello world!');
     });
 
@@ -233,7 +233,7 @@ void main() {
       output = output?.concat(i) ?? i;
     });
     expect(count, 11);
-    expect(output?.output.content, 'Hello World');
+    expect(output?.output.contentAsString, 'Hello World');
   });
 
   test('Test call to Tool from streaming input', () async {

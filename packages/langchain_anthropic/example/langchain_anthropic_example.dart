@@ -35,5 +35,7 @@ Future<void> _example2() async {
   final Stream<ChatResult> stream = llm.stream(
     PromptValue.string('Tell me a joke'),
   );
-  await stream.forEach((final chunk) => stdout.write(chunk.output.content));
+  await stream.forEach(
+    (final chunk) => stdout.write(chunk.output.contentAsString),
+  );
 }

@@ -17,21 +17,8 @@ List<AIChatMessageContentBlock> googlePartsToContentBlocks(
     ),
 ];
 
-String googlePartsToLegacyContent(final List<g.Part> parts) => parts
-    .map(
-      (part) => switch (part) {
-        final g.TextPart part => part.text,
-        final g.InlineDataPart part => part.inlineData.data,
-        final g.FileDataPart part => part.fileData.fileUri,
-        g.Part() => '',
-      },
-    )
-    .join('\n');
-
-List<g.Part> aiMessageToGoogleParts(final AIChatMessage message) => message
-    .contentBlocks
-    .map(_contentBlockToGooglePart)
-    .toList(growable: false);
+List<g.Part> aiMessageToGoogleParts(final AIChatMessage message) =>
+    message.content.map(_contentBlockToGooglePart).toList(growable: false);
 
 AIChatMessageContentBlock _googlePartToContentBlock(
   final g.Part part, {

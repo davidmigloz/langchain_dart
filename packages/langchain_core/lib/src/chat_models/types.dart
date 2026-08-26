@@ -50,7 +50,7 @@ class ChatResult extends LanguageModelResult<AIChatMessage> {
   });
 
   @override
-  String get outputAsString => output.content;
+  String get outputAsString => output.contentAsString;
 
   @override
   ChatResult concat(final LanguageModelResult<AIChatMessage> other) {
@@ -119,16 +119,21 @@ sealed class ChatMessage {
       HumanChatMessage(content: ChatMessageContent.text(text));
 
   /// Type of message that is spoken by the AI.
-  factory ChatMessage.ai(
-    final String content, {
+  factory ChatMessage.ai(final List<AIChatMessageContentBlock> content) =>
+      AIChatMessage(content: content);
+
+  /// Convenience constructor for a visible-text AI message.
+  factory ChatMessage.aiText(
+    final String text, {
     final List<AIChatMessageToolCall> toolCalls = const [],
-  }) => AIChatMessage(content: content, toolCalls: toolCalls);
+  }) => AIChatMessage.text(text, toolCalls: toolCalls);
 
   /// Type of message that is the response of calling a tool.
   factory ChatMessage.tool({
     required final String toolCallId,
     required final String content,
-  }) => ToolChatMessage(toolCallId: toolCallId, content: content);
+    final String? name,
+  }) => ToolChatMessage(toolCallId: toolCallId, content: content, name: name);
 
   /// Chat message with custom role.
   factory ChatMessage.custom(
@@ -153,7 +158,11 @@ sealed class ChatMessage {
             )
             .join('\n'),
     },
-    final AIChatMessage ai => ai.content,
+    final AIChatMessage ai =>
+      ai.content
+          .whereType<AIChatMessageTextBlock>()
+          .map((block) => block.text)
+          .join(),
     final ToolChatMessage tool => tool.content,
     final CustomChatMessage custom => custom.content,
   };
@@ -320,39 +329,48 @@ HumanChatMessage{
 @immutable
 class AIChatMessage extends ChatMessage {
   /// {@macro ai_chat_message}
-  const AIChatMessage({
-    required String content,
-    List<AIChatMessageToolCall> toolCalls = const [],
-  }) : _legacyContent = content,
-       _legacyToolCalls = toolCalls,
-       _contentBlocks = null;
+  const AIChatMessage({required this.content});
 
-  /// Creates an AI message from its canonical ordered content blocks.
-  const AIChatMessage.withBlocks({
-    required List<AIChatMessageContentBlock> contentBlocks,
-    String? legacyContent,
-  }) : _contentBlocks = contentBlocks,
-       _legacyContent = legacyContent,
-       _legacyToolCalls = const [];
+  /// Creates an AI message containing visible text and optional tool calls.
+  factory AIChatMessage.text(
+    final String text, {
+    final List<AIChatMessageToolCall> toolCalls = const [],
+  }) => AIChatMessage(
+    content: [
+      if (text.isNotEmpty) AIChatMessageTextBlock(text: text),
+      ...toolCalls,
+    ],
+  );
 
   /// Converts a map to a [AIChatMessage].
   factory AIChatMessage.fromMap(Map<String, dynamic> map) {
-    final blocks = map['contentBlocks'] as List<dynamic>?;
-    if (blocks != null) {
-      return AIChatMessage.withBlocks(
-        contentBlocks: blocks
+    final content = map['content'];
+    if (content is List) {
+      return AIChatMessage(
+        content: content
             .map((item) => (item as Map).cast<String, dynamic>())
             .map(AIChatMessageContentBlock.fromMap)
             .toList(growable: false),
-        legacyContent: map['content'] as String?,
       );
     }
+    final transitionalBlocks = map['contentBlocks'] as List<dynamic>?;
+    if (transitionalBlocks != null) {
+      return AIChatMessage(
+        content: transitionalBlocks
+            .map((item) => (item as Map).cast<String, dynamic>())
+            .map(AIChatMessageContentBlock.fromMap)
+            .toList(growable: false),
+      );
+    }
+    final legacyContent = content as String? ?? '';
     return AIChatMessage(
-      content: map['content'] as String? ?? '',
-      toolCalls: (map['toolCalls'] as List<dynamic>? ?? const [])
-          .map((item) => (item as Map).cast<String, dynamic>())
-          .map(AIChatMessageToolCall.fromMap)
-          .toList(growable: false),
+      content: [
+        if (legacyContent.isNotEmpty)
+          AIChatMessageTextBlock(text: legacyContent),
+        ...(map['toolCalls'] as List<dynamic>? ?? const [])
+            .map((item) => (item as Map).cast<String, dynamic>())
+            .map(AIChatMessageToolCall.fromMap),
+      ],
     );
   }
 
@@ -360,38 +378,17 @@ class AIChatMessage extends ChatMessage {
   @override
   Map<String, dynamic> toMap() => {
     ...super.toMap(),
-    'content': content,
-    'toolCalls': toolCalls.map((t) => t.toMap()).toList(growable: false),
-    'contentBlocks': contentBlocks
-        .map((block) => block.toMap())
-        .toList(growable: false),
+    'content': content.map((block) => block.toMap()).toList(growable: false),
     'type': 'ai',
   };
 
-  final String? _legacyContent;
-  final List<AIChatMessageToolCall> _legacyToolCalls;
-  final List<AIChatMessageContentBlock>? _contentBlocks;
-
-  /// The legacy string projection of the message.
-  String get content =>
-      _legacyContent ?? contentBlocks.map((b) => b.legacyContent).join();
-
   /// The canonical ordered content blocks.
-  List<AIChatMessageContentBlock> get contentBlocks =>
-      _contentBlocks ??
-      [
-        if ((_legacyContent ?? '').isNotEmpty)
-          AIChatMessageTextBlock(text: _legacyContent!),
-        ..._legacyToolCalls,
-      ];
+  final List<AIChatMessageContentBlock> content;
 
   /// The list of tool that the model wants to call.
   /// If the model does not want to call any tool, this list will be empty.
   List<AIChatMessageToolCall> get toolCalls =>
-      _contentBlocks?.whereType<AIChatMessageToolCall>().toList(
-        growable: false,
-      ) ??
-      _legacyToolCalls;
+      content.whereType<AIChatMessageToolCall>().toList(growable: false);
 
   /// Default prefix for [AIChatMessage].
   static const defaultPrefix = 'AI';
@@ -399,15 +396,13 @@ class AIChatMessage extends ChatMessage {
   @override
   bool operator ==(covariant final AIChatMessage other) {
     const listEquals = DeepCollectionEquality();
-    return identical(this, other) ||
-        content == other.content &&
-            listEquals.equals(contentBlocks, other.contentBlocks);
+    return identical(this, other) || listEquals.equals(content, other.content);
   }
 
   @override
   int get hashCode {
     const listEquals = DeepCollectionEquality();
-    return Object.hash(content, listEquals.hash(contentBlocks));
+    return listEquals.hash(content);
   }
 
   @override
@@ -416,70 +411,20 @@ class AIChatMessage extends ChatMessage {
       return this;
     }
 
-    if (_contentBlocks != null || other._contentBlocks != null) {
-      final mergedBlocks = [...contentBlocks];
-      for (final otherBlock in other.contentBlocks) {
-        final matchingIndex = mergedBlocks.indexWhere(
-          (block) => block.canMerge(otherBlock),
-        );
-        if (matchingIndex == -1) {
-          mergedBlocks.add(otherBlock);
-        } else {
-          mergedBlocks[matchingIndex] = mergedBlocks[matchingIndex].concat(
-            otherBlock,
-          );
-        }
-      }
-      return AIChatMessage.withBlocks(
-        contentBlocks: mergedBlocks,
-        legacyContent: content + other.content,
+    final mergedBlocks = [...content];
+    for (final otherBlock in other.content) {
+      final matchingIndex = mergedBlocks.indexWhere(
+        (block) => block.canMerge(otherBlock),
       );
-    }
-
-    final toolCalls = <AIChatMessageToolCall>[];
-    if (this.toolCalls.isNotEmpty || other.toolCalls.isNotEmpty) {
-      final thisToolCallsById = {
-        for (final toolCall in this.toolCalls) toolCall.id: toolCall,
-      };
-      final otherToolCallsById = {
-        for (final toolCall in other.toolCalls)
-          (toolCall.id.isNotEmpty
-                  ? toolCall.id
-                  : (this.toolCalls.lastOrNull?.id ?? '')):
-              toolCall,
-      };
-      final toolCallsIds = {
-        ...thisToolCallsById.keys,
-        ...otherToolCallsById.keys,
-      };
-
-      for (final id in toolCallsIds) {
-        final thisToolCall = thisToolCallsById[id];
-        final otherToolCall = otherToolCallsById[id];
-        toolCalls.add(
-          AIChatMessageToolCall(
-            id: id,
-            name: (thisToolCall?.name ?? '') + (otherToolCall?.name ?? ''),
-            argumentsRaw:
-                (thisToolCall?.argumentsRaw ?? '') +
-                (otherToolCall?.argumentsRaw ?? ''),
-            arguments: {
-              ...?thisToolCall?.arguments,
-              ...?otherToolCall?.arguments,
-            },
-            providerData: mergeProviderData(
-              thisToolCall?.providerData ?? const {},
-              otherToolCall?.providerData ?? const {},
-            ),
-          ),
+      if (matchingIndex == -1) {
+        mergedBlocks.add(otherBlock);
+      } else {
+        mergedBlocks[matchingIndex] = mergedBlocks[matchingIndex].concat(
+          otherBlock,
         );
       }
     }
-
-    return AIChatMessage(
-      content: content + other.content,
-      toolCalls: toolCalls,
-    );
+    return AIChatMessage(content: mergedBlocks);
   }
 
   @override
@@ -487,7 +432,6 @@ class AIChatMessage extends ChatMessage {
     return '''
 AIChatMessage{
   content: $content,
-  toolCalls: $toolCalls,
 }''';
   }
 }
@@ -498,12 +442,17 @@ AIChatMessage{
 @immutable
 class ToolChatMessage extends ChatMessage {
   /// {@macro tool_chat_message}
-  const ToolChatMessage({required this.toolCallId, required this.content});
+  const ToolChatMessage({
+    required this.toolCallId,
+    required this.content,
+    this.name,
+  });
 
   /// Converts a map to a [ToolChatMessage].
   factory ToolChatMessage.fromMap(Map<String, dynamic> map) => ToolChatMessage(
     toolCallId: map['toolCallId'] as String,
     content: map['content'] as String,
+    name: map['name'] as String?,
   );
 
   /// Converts this ChatMessage to a map along with a type hint for deserialization.
@@ -512,6 +461,7 @@ class ToolChatMessage extends ChatMessage {
     ...super.toMap(),
     'content': content,
     'toolCallId': toolCallId,
+    if (name != null) 'name': name,
     'type': 'tool',
   };
 
@@ -521,16 +471,21 @@ class ToolChatMessage extends ChatMessage {
   /// The response of the tool call.
   final String content;
 
+  /// The name of the tool that produced this response, when known.
+  final String? name;
+
   /// Default prefix for [ToolChatMessage].
   static const defaultPrefix = 'Tool';
 
   @override
   bool operator ==(covariant final ToolChatMessage other) =>
       identical(this, other) ||
-      toolCallId == other.toolCallId && content == other.content;
+      toolCallId == other.toolCallId &&
+          content == other.content &&
+          name == other.name;
 
   @override
-  int get hashCode => toolCallId.hashCode ^ content.hashCode;
+  int get hashCode => Object.hash(toolCallId, content, name);
 
   @override
   ToolChatMessage concat(final ChatMessage other) {
@@ -541,6 +496,7 @@ class ToolChatMessage extends ChatMessage {
     return ToolChatMessage(
       toolCallId: toolCallId,
       content: content + other.content,
+      name: other.name ?? name,
     );
   }
 
@@ -549,6 +505,7 @@ class ToolChatMessage extends ChatMessage {
     return '''
 ToolChatMessage{
   toolCallId: $toolCallId,
+  name: $name,
   content: $content,
 }''';
   }

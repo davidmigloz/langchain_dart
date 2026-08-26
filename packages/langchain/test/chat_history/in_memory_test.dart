@@ -29,7 +29,7 @@ void main() {
     test('Test removeLast', () async {
       final history = ChatMessageHistory();
       final message = ChatMessage.humanText('This is a test');
-      final message2 = ChatMessage.ai('This is an AI msg');
+      final message2 = ChatMessage.aiText('This is an AI msg');
       await history.addChatMessage(message);
       await history.addChatMessage(message2);
       final oldestMessage = await history.removeLast();
@@ -44,7 +44,7 @@ void main() {
     test('Test removeFirst', () async {
       final history = ChatMessageHistory();
       final message = ChatMessage.humanText('This is a test');
-      final message2 = ChatMessage.ai('This is an AI msg');
+      final message2 = ChatMessage.aiText('This is an AI msg');
       await history.addChatMessage(message);
       await history.addChatMessage(message2);
       final oldestMessage = await history.removeFirst();

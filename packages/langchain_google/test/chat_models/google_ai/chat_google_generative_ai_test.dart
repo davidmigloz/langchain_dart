@@ -53,7 +53,7 @@ void main() {
         expect(res.metadata['model'], startsWith(model));
         expect(res.metadata['block_reason'], isNull);
         expect(
-          res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          res.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
         );
       }
@@ -70,7 +70,7 @@ void main() {
           temperature: 0,
         ),
       );
-      expect(res.output.content, isNotEmpty);
+      expect(res.output.contentAsString, isNotEmpty);
     });
 
     test('Text-and-image input', () async {
@@ -92,7 +92,7 @@ void main() {
         ]),
       );
 
-      expect(res.output.content.toLowerCase(), contains('apple'));
+      expect(res.output.contentAsString.toLowerCase(), contains('apple'));
     });
 
     test('Test stop sequence', () async {
@@ -106,7 +106,7 @@ void main() {
           stopSequences: ['4'],
         ),
       );
-      final text = res.output.content;
+      final text = res.output.contentAsString;
       expect(text, contains('123'));
       expect(text, isNot(contains('456789')));
     });
@@ -119,7 +119,7 @@ void main() {
           maxOutputTokens: 2,
         ),
       );
-      expect(res.output.content.length, lessThan(20));
+      expect(res.output.contentAsString.length, lessThan(20));
       expect(res.finishReason, FinishReason.length);
     });
 
@@ -129,7 +129,7 @@ void main() {
           'List the numbers from 1 to 9 in order '
           'without any spaces, commas or additional explanations.',
         ),
-        ChatMessage.ai('123456789'),
+        ChatMessage.aiText('123456789'),
         ChatMessage.humanText('Remove the number 4 from the list'),
       ]);
       final res = await chatModel.invoke(
@@ -139,7 +139,7 @@ void main() {
           temperature: 0,
         ),
       );
-      expect(res.output.content, contains('12356789'));
+      expect(res.output.contentAsString, contains('12356789'));
     });
 
     test('Test streaming', () async {
@@ -153,7 +153,7 @@ void main() {
       var content = '';
       var count = 0;
       await for (final res in stream) {
-        content += res.output.content;
+        content += res.output.contentAsString;
         count++;
       }
       expect(count, greaterThan(1));
@@ -180,7 +180,7 @@ void main() {
 
         expect(chunks, hasLength(greaterThan(1)));
         final merged = chunks.reduce((first, next) => first.concat(next));
-        final signedBlocks = merged.output.contentBlocks
+        final signedBlocks = merged.output.content
             .where((block) {
               final googleData = block.providerData['google'];
               final rawPart = googleData is Map ? googleData['part'] : null;
@@ -270,6 +270,7 @@ void main() {
         final functionMessage1 = ChatMessage.tool(
           toolCallId: toolCall1.id,
           content: json.encode(functionResult1),
+          name: toolCall1.name,
         );
 
         final functionResult2 = {
@@ -280,6 +281,7 @@ void main() {
         final functionMessage2 = ChatMessage.tool(
           toolCallId: toolCall2.id,
           content: json.encode(functionResult2),
+          name: toolCall2.name,
         );
 
         final res2 = await model.invoke(
@@ -294,8 +296,8 @@ void main() {
         final aiMessage2 = res2.output;
 
         expect(aiMessage2.toolCalls, isEmpty);
-        expect(aiMessage2.content, contains('22'));
-        expect(aiMessage2.content, contains('25'));
+        expect(aiMessage2.contentAsString, contains('22'));
+        expect(aiMessage2.contentAsString, contains('25'));
       },
     );
 
@@ -309,7 +311,7 @@ void main() {
           enableCodeExecution: true,
         ),
       );
-      final text = res.output.content;
+      final text = res.output.contentAsString;
       expect(text, contains('34'));
       expect(res.metadata['executable_code'], isNotNull);
       expect(res.metadata['code_execution_result'], isNotNull);
@@ -365,6 +367,7 @@ void main() {
           ChatMessage.tool(
             toolCallId: call.id,
             content: json.encode({'result': result}),
+            name: call.name,
           ),
         );
       }
@@ -377,8 +380,8 @@ void main() {
       final aiMessage2 = res2.output;
       expect(aiMessage2.toolCalls, isEmpty);
       // The final answer should incorporate both tool results: 3 and 13.
-      expect(aiMessage2.content, contains('3'));
-      expect(aiMessage2.content, contains('13'));
+      expect(aiMessage2.contentAsString, contains('3'));
+      expect(aiMessage2.contentAsString, contains('13'));
     });
   });
 }

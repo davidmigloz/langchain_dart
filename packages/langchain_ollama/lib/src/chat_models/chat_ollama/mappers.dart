@@ -178,15 +178,15 @@ extension OllamaChatMessagesMapper on List<ChatMessage> {
   }
 
   List<o.ChatMessage> _mapAIMessage(final AIChatMessage message) {
-    final reasoning = message.contentBlocks
+    final reasoning = message.content
         .whereType<AIChatMessageReasoningBlock>()
         .map((block) => block.reasoning)
         .join();
-    final content = message.contentBlocks
+    final content = message.content
         .whereType<AIChatMessageTextBlock>()
         .map((block) => block.text)
         .join();
-    final images = message.contentBlocks
+    final images = message.content
         .whereType<AIChatMessageMediaBlock>()
         .map((block) => block.data)
         .toList(growable: false);
@@ -218,10 +218,7 @@ extension ChatResultMapper on o.ChatResponse {
     final contentBlocks = _mapOllamaMessage(message, responseId: id);
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: contentBlocks,
-        legacyContent: '${message?.thinking ?? ''}${message?.content ?? ''}',
-      ),
+      output: AIChatMessage(content: contentBlocks),
       finishReason: _mapFinishReason(doneReason),
       metadata: {
         'model': model,
@@ -266,10 +263,7 @@ extension ChatStreamResultMapper on o.ChatStreamEvent {
     final contentBlocks = _mapOllamaMessage(message, responseId: id);
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: contentBlocks,
-        legacyContent: '${message?.thinking ?? ''}${message?.content ?? ''}',
-      ),
+      output: AIChatMessage(content: contentBlocks),
       finishReason: doneReason != null
           ? _mapOllamaFinishReason(doneReason)
           : (done ?? false)

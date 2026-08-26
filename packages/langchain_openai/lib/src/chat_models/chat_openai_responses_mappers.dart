@@ -61,9 +61,8 @@ oai.CreateResponseRequest createResponseRequest(
 extension ChatMessageListResponseMapper on List<ChatMessage> {
   oai.ResponseInput toResponseInput() {
     final containsResponseOutput = whereType<AIChatMessage>().any(
-      (message) => message.contentBlocks.any(
-        (block) => _openAIOutputItem(block) != null,
-      ),
+      (message) =>
+          message.content.any((block) => _openAIOutputItem(block) != null),
     );
     if (containsResponseOutput) {
       return oai.ResponseInput.fromOutputItems(
@@ -82,7 +81,7 @@ extension ChatMessageListResponseMapper on List<ChatMessage> {
       return;
     }
     final emittedItems = <String>{};
-    for (final block in message.contentBlocks) {
+    for (final block in message.content) {
       final rawItem = _openAIOutputItem(block);
       if (rawItem != null) {
         final key = '${rawItem['type']}:${rawItem['id'] ?? block.index}';
@@ -166,7 +165,7 @@ extension ChatMessageListResponseMapper on List<ChatMessage> {
   // as separate items (unlike Chat Completions which groups them in one message).
   Iterable<oai.Item> _mapAIMessage(final AIChatMessage msg) {
     final items = <oai.Item>[];
-    for (final block in msg.contentBlocks) {
+    for (final block in msg.content) {
       switch (block) {
         case final AIChatMessageTextBlock text:
           if (text.text.isNotEmpty) {
@@ -199,10 +198,7 @@ extension ResponseMapper on oai.Response {
   ChatResult toChatResult() {
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: _mapOpenAIOutputItems(output),
-        legacyContent: outputText,
-      ),
+      output: AIChatMessage(content: _mapOpenAIOutputItems(output)),
       finishReason: _mapFinishReason(status),
       metadata: {'model': model, 'created_at': createdAt},
       usage: _mapResponseUsage(usage),
@@ -305,8 +301,8 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
       case oai.RefusalDeltaEvent(:final delta):
         return ChatResult(
           id: responseId ?? '',
-          output: AIChatMessage.withBlocks(
-            contentBlocks: [
+          output: AIChatMessage(
+            content: [
               AIChatMessageNonStandardBlock(
                 value: event.toJson(),
                 id: _responseContentBlockId(
@@ -334,7 +330,7 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
         final result = response.toChatResult();
         return ChatResult(
           id: result.id,
-          output: const AIChatMessage.withBlocks(contentBlocks: []),
+          output: const AIChatMessage(content: []),
           finishReason: result.finishReason,
           metadata: result.metadata,
           usage: result.usage,
@@ -349,13 +345,7 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
 
     return ChatResult(
       id: responseId ?? '',
-      output: AIChatMessage.withBlocks(
-        contentBlocks: blocks,
-        legacyContent: blocks
-            .whereType<AIChatMessageTextBlock>()
-            .map((block) => block.legacyContent)
-            .join(),
-      ),
+      output: AIChatMessage(content: blocks),
       finishReason: _mapStreamFinishReason(status),
       metadata: const {},
       usage: _mapResponseUsage(usage),

@@ -314,7 +314,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       _generatedContent.add((image: null, text: message, fromUser: true));
 
       final response = await _chain.invoke(chatMessage);
-      final text = response.output.content;
+      final text = response.output.contentAsString;
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text.isEmpty) {
@@ -377,7 +377,7 @@ class _ChatWidgetState extends State<ChatWidget> {
 
       final response = await _chain.invoke(chatMessage);
 
-      final text = response.output.content;
+      final text = response.output.contentAsString;
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text.isEmpty) {
@@ -418,7 +418,7 @@ class _ChatWidgetState extends State<ChatWidget> {
 
       _generatedContent.add((image: null, text: message, fromUser: true));
       final response = await _chain.invoke(chatMessage);
-      final text = response.output.content;
+      final text = response.output.contentAsString;
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text.isEmpty) {
@@ -481,6 +481,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       final toolMessage = ChatMessage.tool(
         toolCallId: toolCall.id,
         content: jsonEncode(result),
+        name: toolCall.name,
       );
 
       response = await _chain.invoke(toolMessage);
@@ -490,10 +491,10 @@ class _ChatWidgetState extends State<ChatWidget> {
       );
     }
     // When the model responds with non-null text content, print it.
-    if (response.output.content.isNotEmpty) {
+    if (response.output.contentAsString.isNotEmpty) {
       _generatedContent.add((
         image: null,
-        text: response.output.content,
+        text: response.output.contentAsString,
         fromUser: false,
       ));
       setState(() {

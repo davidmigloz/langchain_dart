@@ -42,7 +42,7 @@ void main() {
           final res = await chatModel.invoke(
             PromptValue.chat([ChatMessage.humanText('Say "hi"')]),
           );
-          expect(res.output.content, isNotEmpty);
+          expect(res.output.contentAsString, isNotEmpty);
           expect(res.id, isNotEmpty);
           expect(res.finishReason, FinishReason.stop);
           expect(res.metadata, containsPair('model', contains('gpt-4o-mini')));
@@ -55,7 +55,7 @@ void main() {
               ChatMessage.humanText('Hello'),
             ]),
           );
-          expect(res.output.content.toLowerCase(), contains('ok'));
+          expect(res.output.contentAsString.toLowerCase(), contains('ok'));
         });
       });
 
@@ -74,7 +74,7 @@ void main() {
 
           expect(count, greaterThan(1));
           expect(result, isNotNull);
-          expect(result!.output.content, isNotEmpty);
+          expect(result!.output.contentAsString, isNotEmpty);
           expect(result.finishReason, FinishReason.stop);
         });
       });
@@ -138,17 +138,18 @@ void main() {
           final res2 = await model.invoke(
             PromptValue.chat([
               ChatMessage.humanText('What is the weather in Barcelona?'),
-              ChatMessage.ai(
-                res1.output.content,
+              ChatMessage.aiText(
+                res1.output.contentAsString,
                 toolCalls: res1.output.toolCalls,
               ),
               ChatMessage.tool(
                 toolCallId: toolCall.id,
                 content: '{"temperature": 22, "condition": "sunny"}',
+                name: toolCall.name,
               ),
             ]),
           );
-          expect(res2.output.content, isNotEmpty);
+          expect(res2.output.contentAsString, isNotEmpty);
 
           model.close();
         });
@@ -228,10 +229,10 @@ void main() {
             ]),
           );
 
-          expect(res.output.content, isNotEmpty);
+          expect(res.output.contentAsString, isNotEmpty);
           // Should be valid JSON
-          expect(res.output.content, contains('"name"'));
-          expect(res.output.content, contains('"country"'));
+          expect(res.output.contentAsString, contains('"name"'));
+          expect(res.output.contentAsString, contains('"country"'));
 
           model.close();
         });
@@ -259,7 +260,10 @@ void main() {
             PromptValue.chat([ChatMessage.humanText('What is my name?')]),
             options: ChatOpenAIResponsesOptions(previousResponseId: res1.id),
           );
-          expect(res2.output.content.toLowerCase(), contains('langchaindart'));
+          expect(
+            res2.output.contentAsString.toLowerCase(),
+            contains('langchaindart'),
+          );
 
           model.close();
         });

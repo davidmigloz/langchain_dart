@@ -111,7 +111,7 @@ void main() {
         ]),
       );
       expect(
-        res.output.content.replaceAll(RegExp(r'[\s\n-]'), ''),
+        res.output.contentAsString.replaceAll(RegExp(r'[\s\n-]'), ''),
         contains('123456789'),
       );
       expect(res.finishReason, FinishReason.stop);
@@ -131,8 +131,8 @@ void main() {
         PromptValue.string('write an ordered list of five items'),
         options: const ChatOllamaOptions(temperature: 0, stop: ['3']),
       );
-      expect(res.output.content.contains('2.'), isTrue);
-      expect(res.output.content.contains('3.'), isFalse);
+      expect(res.output.contentAsString.contains('2.'), isTrue);
+      expect(res.output.contentAsString.contains('3.'), isFalse);
       expect(res.finishReason, FinishReason.stop);
     });
 
@@ -203,7 +203,7 @@ void main() {
     test('Test Multi-turn conversations', () async {
       final prompt = PromptValue.chat([
         ChatMessage.humanText('List the numbers from 1 to 9 in order.'),
-        ChatMessage.ai('123456789'),
+        ChatMessage.aiText('123456789'),
         ChatMessage.humanText(
           'Remove the number "4" from the list. Output only the remaining numbers in ascending order.',
         ),
@@ -213,7 +213,7 @@ void main() {
         options: const ChatOllamaOptions(temperature: 0),
       );
       expect(
-        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('12356789'),
       );
     });
@@ -238,7 +238,7 @@ void main() {
         options: const ChatOllamaOptions(model: visionModel, temperature: 0),
       );
 
-      expect(res.output.content.toLowerCase(), contains('apple'));
+      expect(res.output.contentAsString.toLowerCase(), contains('apple'));
     });
 
     const tool1 = ToolSpec(
@@ -314,6 +314,7 @@ void main() {
         final functionMessage1 = ChatMessage.tool(
           toolCallId: toolCall1.id,
           content: json.encode(functionResult1),
+          name: toolCall1.name,
         );
 
         final functionResult2 = {
@@ -324,6 +325,7 @@ void main() {
         final functionMessage2 = ChatMessage.tool(
           toolCallId: toolCall2.id,
           content: json.encode(functionResult2),
+          name: toolCall2.name,
         );
 
         final res2 = await model.invoke(
@@ -338,8 +340,8 @@ void main() {
         final aiMessage2 = res2.output;
 
         expect(aiMessage2.toolCalls, isEmpty);
-        expect(aiMessage2.content, contains('22'));
-        expect(aiMessage2.content, contains('25'));
+        expect(aiMessage2.contentAsString, contains('22'));
+        expect(aiMessage2.contentAsString, contains('25'));
       },
     );
 
@@ -379,7 +381,7 @@ void main() {
         ),
       );
       expect(res.output.toolCalls, isEmpty);
-      expect(res.output.content, isNotEmpty);
+      expect(res.output.contentAsString, isNotEmpty);
     });
 
     test('Test ChatToolChoice.forced', () async {

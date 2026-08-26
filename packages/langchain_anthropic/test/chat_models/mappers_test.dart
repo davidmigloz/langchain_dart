@@ -30,15 +30,15 @@ void main() {
       final output = message.toChatResult().output;
       final replayed = <ChatMessage>[output].toInputMessages().single;
 
-      expect(output.contentBlocks.map((block) => block.runtimeType), [
+      expect(output.content.map((block) => block.runtimeType), [
         AIChatMessageReasoningBlock,
         AIChatMessageToolCall,
         AIChatMessageTextBlock,
         AIChatMessageServerToolCall,
       ]);
-      expect(output.content, 'reasoningIt is sunny.');
+      expect(output.contentAsString, 'It is sunny.');
       expect(
-        (output.contentBlocks.first.providerData['anthropic']
+        (output.content.first.providerData['anthropic']
             as Map<String, dynamic>)['signature'],
         'opaque-signature',
       );
@@ -66,8 +66,8 @@ void main() {
       final output = message.toChatResult().output;
       final replayed = <ChatMessage>[output].toInputMessages().single;
 
-      expect(output.contentBlocks.first, isA<AIChatMessageReasoningBlock>());
-      expect(output.contentBlocks.last, isA<AIChatMessageNonStandardBlock>());
+      expect(output.content.first, isA<AIChatMessageReasoningBlock>());
+      expect(output.content.last, isA<AIChatMessageNonStandardBlock>());
       expect(
         replayed.toJson()['content'],
         responseBlocks.map((block) => block.toJson()).toList(),
@@ -132,9 +132,8 @@ void main() {
         final output = results
             .map((result) => result.output)
             .reduce((first, next) => first.concat(next));
-        final reasoning =
-            output.contentBlocks[0] as AIChatMessageReasoningBlock;
-        final toolCall = output.contentBlocks[1] as AIChatMessageToolCall;
+        final reasoning = output.content[0] as AIChatMessageReasoningBlock;
+        final toolCall = output.content[1] as AIChatMessageToolCall;
         final replayed = <ChatMessage>[output].toInputMessages().single;
 
         expect(reasoning.reasoning, 'reasoning');
@@ -144,7 +143,7 @@ void main() {
           'opaque-signature',
         );
         expect(toolCall.arguments, {'city': 'Madrid'});
-        expect(output.content, 'reasoningIt is sunny.');
+        expect(output.contentAsString, 'It is sunny.');
         expect(replayed.toJson()['content'], [
           {
             'type': 'thinking',

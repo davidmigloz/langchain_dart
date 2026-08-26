@@ -148,9 +148,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
   }
 
   a.InputMessage _mapAIChatMessage(final AIChatMessage msg) {
-    final blocks = msg.contentBlocks;
+    final blocks = msg.content;
     if (blocks.length == 1 && blocks.single is AIChatMessageTextBlock) {
-      return a.InputMessage.assistant(msg.content);
+      return a.InputMessage.assistant(msg.contentAsString);
     }
     return a.InputMessage.assistantBlocks(
       blocks.map(_mapAIContentBlock).toList(growable: false),
@@ -179,10 +179,7 @@ extension MessageMapper on a.Message {
     ];
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: blocks,
-        legacyContent: '$thinking$text',
-      ),
+      output: AIChatMessage(content: blocks),
       finishReason: _mapFinishReason(stopReason),
       metadata: {'model': model, 'stop_sequence': stopSequence},
       usage: _mapUsage(usage),
@@ -221,12 +218,11 @@ class MessageStreamEventTransformer
 
     return ChatResult(
       id: msg.id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: [
+      output: AIChatMessage(
+        content: [
           for (final (index, block) in msg.content.indexed)
             _mapContentBlock(block, messageId: msg.id, index: index),
         ],
-        legacyContent: '${msg.thinking}${msg.text}',
       ),
       finishReason: _mapFinishReason(msg.stopReason),
       metadata: {
@@ -241,7 +237,7 @@ class MessageStreamEventTransformer
   ChatResult _mapMessageDeltaEvent(final a.MessageDeltaEvent e) {
     return ChatResult(
       id: lastMessageId ?? '',
-      output: const AIChatMessage.withBlocks(contentBlocks: []),
+      output: const AIChatMessage(content: []),
       finishReason: _mapFinishReason(e.delta.stopReason),
       metadata: {
         if (e.delta.stopSequence != null) 'stop_sequence': e.delta.stopSequence,
@@ -263,10 +259,7 @@ class MessageStreamEventTransformer
 
     return ChatResult(
       id: lastMessageId ?? '',
-      output: AIChatMessage.withBlocks(
-        contentBlocks: [block],
-        legacyContent: block.legacyContent,
-      ),
+      output: AIChatMessage(content: [block]),
       finishReason: FinishReason.unspecified,
       metadata: const {},
       usage: const LanguageModelUsage(),
@@ -283,10 +276,7 @@ class MessageStreamEventTransformer
     );
     return ChatResult(
       id: lastMessageId ?? '',
-      output: AIChatMessage.withBlocks(
-        contentBlocks: [block],
-        legacyContent: block.legacyContent,
-      ),
+      output: AIChatMessage(content: [block]),
       finishReason: FinishReason.unspecified,
       metadata: {'index': e.index},
       usage: const LanguageModelUsage(),

@@ -103,7 +103,11 @@ extension ChatMessagesMapper on List<ChatMessage> {
     } catch (_) {
       response = {'result': msg.content};
     }
-    return f.FunctionResponse(msg.toolCallId, response);
+    return f.FunctionResponse(
+      msg.name ?? msg.toolCallId,
+      response,
+      id: msg.toolCallId,
+    );
   }
 
   f.Content _mapCustomChatMessage(final CustomChatMessage msg) {
@@ -116,12 +120,11 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
     final candidate = candidates.first;
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: firebasePartsToContentBlocks(
+      output: AIChatMessage(
+        content: firebasePartsToContentBlocks(
           candidate.content.parts,
           responseId: id,
         ),
-        legacyContent: firebasePartsToLegacyContent(candidate.content.parts),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {

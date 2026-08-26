@@ -32,11 +32,11 @@ void main() {
 
     final message = response.toChatResult().output;
 
-    expect(message.contentBlocks.map((block) => block.runtimeType), [
+    expect(message.content.map((block) => block.runtimeType), [
       AIChatMessageTextBlock,
       AIChatMessageToolCall,
     ]);
-    expect(message.content, 'Checking the weather.');
+    expect(message.contentAsString, 'Checking the weather.');
     expect(message.toolCalls.single.arguments, {'city': 'Madrid'});
     final providerData =
         message.toolCalls.single.providerData['mistral']
@@ -76,19 +76,19 @@ void main() {
     final replayed =
         [message].toChatMessages().single as mistral.AssistantMessage;
 
-    expect(message.contentBlocks.map((block) => block.runtimeType), [
+    expect(message.content.map((block) => block.runtimeType), [
       AIChatMessageReasoningBlock,
       AIChatMessageTextBlock,
       AIChatMessageNonStandardBlock,
     ]);
-    expect(message.content, 'answer');
+    expect(message.contentAsString, 'answer');
     final original = response.message! as mistral.AssistantMessage;
     expect(replayed.content!.toJson(), original.content!.toJson());
   });
 
   test('replays raw tool-call arguments', () {
-    const message = AIChatMessage.withBlocks(
-      contentBlocks: [
+    const message = AIChatMessage(
+      content: [
         AIChatMessageToolCall(
           id: 'call-1',
           name: 'weather',
@@ -108,8 +108,8 @@ void main() {
   });
 
   test('replays explicitly constructed reasoning as structured content', () {
-    const message = AIChatMessage.withBlocks(
-      contentBlocks: [
+    const message = AIChatMessage(
+      content: [
         AIChatMessageReasoningBlock(reasoning: 'reasoning'),
         AIChatMessageTextBlock(text: 'answer'),
       ],
@@ -121,6 +121,21 @@ void main() {
 
     expect(parts.first, isA<mistral.ThinkContentPart>());
     expect(parts.last, const mistral.TextContentPart('answer'));
+  });
+
+  test('replays a tool response with its call ID and name', () {
+    final mapped =
+        <ChatMessage>[
+              ChatMessage.tool(
+                toolCallId: 'call-1',
+                name: 'weather',
+                content: '{"temperature":22}',
+              ),
+            ].toChatMessages().single
+            as mistral.ToolMessage;
+
+    expect(mapped.toolCallId, 'call-1');
+    expect(mapped.name, 'weather');
   });
 
   test('streams parallel same-name calls by provider index', () {

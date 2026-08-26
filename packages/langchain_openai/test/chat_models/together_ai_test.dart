@@ -44,7 +44,7 @@ void main() {
 
         expect(res.id, isNotEmpty);
         expect(
-          res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          res.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
         );
         expect(res.metadata, isNotEmpty, reason: model);
@@ -75,7 +75,10 @@ void main() {
         var content = '';
         var count = 0;
         await for (final res in stream) {
-          content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
+          content += res.output.contentAsString.replaceAll(
+            RegExp(r'[\s\n]'),
+            '',
+          );
           count++;
         }
         expect(count, greaterThan(1), reason: model);

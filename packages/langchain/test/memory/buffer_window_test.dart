@@ -28,7 +28,7 @@ void main() {
       );
       final expectedResult = [
         ChatMessage.humanText('bar'),
-        ChatMessage.ai('foo'),
+        ChatMessage.aiText('foo'),
       ];
       final result2 = await memory.loadMemoryVariables();
       expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
@@ -40,7 +40,7 @@ void main() {
 
       final expectedResult2 = [
         ChatMessage.humanText('bar1'),
-        ChatMessage.ai('foo1'),
+        ChatMessage.aiText('foo1'),
       ];
       final result3 = await memory.loadMemoryVariables();
       expect(result3, {BaseMemory.defaultMemoryKey: expectedResult2});
@@ -49,7 +49,7 @@ void main() {
     test('Test buffer memory with pre-loaded history', () async {
       final pastMessages = [
         ChatMessage.humanText("My name's Jonas"),
-        ChatMessage.ai('Nice to meet you, Jonas!'),
+        ChatMessage.aiText('Nice to meet you, Jonas!'),
       ];
       final memory = ConversationBufferWindowMemory(
         returnMessages: true,
@@ -61,9 +61,9 @@ void main() {
 
     test('Test k limit', () async {
       final m1 = ChatMessage.humanText("My name's Jonas");
-      final m2 = ChatMessage.ai('Nice to meet you, Jonas!');
+      final m2 = ChatMessage.aiText('Nice to meet you, Jonas!');
       final m3 = ChatMessage.humanText('What is your name?');
-      final m4 = ChatMessage.ai("My name's GPT-3");
+      final m4 = ChatMessage.aiText("My name's GPT-3");
       final pastMessages = [m1, m2, m3, m4];
       // k = 0
       final memory0 = ConversationBufferWindowMemory(

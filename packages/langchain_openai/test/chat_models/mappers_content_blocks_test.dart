@@ -31,12 +31,12 @@ void main() {
 
     final message = completion.toChatResult('completion-1').output;
 
-    expect(message.contentBlocks.map((block) => block.runtimeType), [
+    expect(message.content.map((block) => block.runtimeType), [
       AIChatMessageReasoningBlock,
       AIChatMessageTextBlock,
       AIChatMessageToolCall,
     ]);
-    expect(message.content, 'answer');
+    expect(message.contentAsString, 'answer');
     expect(message.toolCalls.single.arguments, {'city': 'Madrid'});
   });
 

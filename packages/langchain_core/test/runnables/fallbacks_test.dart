@@ -22,7 +22,7 @@ void main() {
     test('RunnableFallback should return main runnable output', () async {
       final modelWithFallback = model.withFallbacks([fallbackModel]);
       final res = await modelWithFallback.invoke(input);
-      expect(res.output.content, 'why is the sky blue');
+      expect(res.output.contentAsString, 'why is the sky blue');
     });
 
     test('Should call fallback runnable if main runnable fails', () async {
@@ -31,7 +31,7 @@ void main() {
       );
       final modelWithFallback = brokenModel.withFallbacks([fallbackModel]);
       final res = await modelWithFallback.invoke(input);
-      expect(res.output.content, 'fallback response');
+      expect(res.output.contentAsString, 'fallback response');
     });
 
     test('Test batch response of main runnable in RunnableFallback', () async {
@@ -45,8 +45,8 @@ void main() {
         {'topic': 'bears'},
         {'topic': 'cats'},
       ]);
-      expect(res[0].output.content, 'tell me a joke about bears');
-      expect(res[1].output.content, 'tell me a joke about cats');
+      expect(res[0].output.contentAsString, 'tell me a joke about bears');
+      expect(res[1].output.contentAsString, 'tell me a joke about cats');
     });
 
     test('Test fallbacks response in batch', () async {
@@ -60,7 +60,7 @@ void main() {
       final res = await chainWithFallbacks.batch([
         {'topic': 'bears'},
       ]);
-      expect(res.first.output.content, 'fallback response');
+      expect(res.first.output.contentAsString, 'fallback response');
     });
 
     test('Should throw error if none of runnable returned output', () {

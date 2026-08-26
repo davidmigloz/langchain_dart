@@ -105,8 +105,7 @@ void main() {
   group('AIChatMessage.concat tool-call provider data', () {
     test('preserves provider data when merging streamed chunks', () {
       const first = AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: 'call_1',
             name: 'getWea',
@@ -119,8 +118,7 @@ void main() {
         ],
       );
       const second = AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: 'call_1',
             name: 'ther',
@@ -142,8 +140,7 @@ void main() {
 
     test('later chunks win on conflicting nested provider-data keys', () {
       const first = AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: 'call_1',
             name: 'getWeather',
@@ -156,8 +153,7 @@ void main() {
         ],
       );
       const second = AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: 'call_1',
             name: '',

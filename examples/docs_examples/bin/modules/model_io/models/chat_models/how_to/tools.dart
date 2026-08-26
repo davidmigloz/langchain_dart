@@ -260,12 +260,13 @@ Future<void> _toolMessage() async {
     final toolMessage = ChatMessage.tool(
       toolCallId: toolCall.id,
       content: toolRes,
+      name: toolCall.name,
     );
     messages.add(toolMessage);
   }
 
   final res2 = await model.invoke(PromptValue.chat(messages));
-  print(res2.output.content);
+  print(res2.output.contentAsString);
   // The calculations yield the following results:
   // - 3 * 12 = 36
   // - 11 + 49 = 60
@@ -286,7 +287,7 @@ Future<void> _fewShotPrompting() async {
 
   final examples = [
     ChatMessage.humanText('Calculate 3 ✖️ 12 and 11 ➕ 49'),
-    ChatMessage.ai(
+    ChatMessage.aiText(
       '',
       toolCalls: const [
         AIChatMessageToolCall(
@@ -303,9 +304,9 @@ Future<void> _fewShotPrompting() async {
         ),
       ],
     ),
-    ChatMessage.tool(toolCallId: 'call_1', content: '36'),
-    ChatMessage.tool(toolCallId: 'call_2', content: '60'),
-    ChatMessage.ai(
+    ChatMessage.tool(toolCallId: 'call_1', content: '36', name: 'calculator'),
+    ChatMessage.tool(toolCallId: 'call_2', content: '60', name: 'calculator'),
+    ChatMessage.aiText(
       'The calculations yield the following results:\n- 3 ✖️ 12 = 36\n- 11 ➕ 49 = 60',
     ),
   ];

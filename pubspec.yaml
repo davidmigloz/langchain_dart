@@ -131,8 +131,8 @@ melos:
         diff: origin/main...HEAD
 
     analyze:
-      description: Run Flutter static analyzer
-      run: melos exec -- "flutter analyze ."
+      description: Analyze the full workspace
+      run: dart analyze .
 
     analyze:diff:
       description: Run Flutter static analyzer
@@ -157,6 +157,32 @@ melos:
       packageFilters:
         flutter: true
         dirExists: test
+
+    test:unit:
+      run: melos run test:unit:dart --no-select && melos run test:unit:firebase --no-select
+      description: Run all non-live tests in this project.
+
+    test:unit:dart:
+      run: melos exec -c 1 --fail-fast -- "dart test test --exclude-tags=integration"
+      description: Run non-live Dart tests for a specific package.
+      packageFilters:
+        flutter: false
+        dirExists: test
+        ignore:
+          - langchain_chroma
+          - langchain_firebase
+          - langchain_supabase
+
+    test:unit:flutter:
+      run: melos exec -c 1 --fail-fast -- "flutter test test --exclude-tags=integration"
+      description: Run non-live Flutter tests for a specific package.
+      packageFilters:
+        flutter: true
+        dirExists: test
+
+    test:unit:firebase:
+      run: melos exec -c 1 --scope=langchain_firebase -- "flutter test test --exclude-tags=integration"
+      description: Run non-live langchain_firebase tests with the Flutter test runner.
 
     test:diff:
       run: melos run test:diff:dart --no-select && melos run test:diff:firebase --no-select

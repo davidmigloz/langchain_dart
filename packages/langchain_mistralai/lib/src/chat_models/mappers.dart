@@ -21,7 +21,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
       final ToolChatMessage msg => mistral.ChatMessage.tool(
         toolCallId: msg.toolCallId,
         content: msg.content,
-        name: null,
+        name: msg.name,
       ),
       CustomChatMessage() => throw UnsupportedError(
         'Mistral AI does not support custom messages',
@@ -30,23 +30,24 @@ extension ChatMessageListMapper on List<ChatMessage> {
   }
 
   mistral.AssistantMessage _mapAIMessage(final AIChatMessage msg) {
-    final nativeParts = msg.contentBlocks
+    final nativeParts = msg.content
         .where((block) => block is! AIChatMessageToolCall)
         .map(_mapContentBlock)
         .nonNulls
         .toList(growable: false);
-    final hasNativePartData = msg.contentBlocks.any(
+    final hasNativePartData = msg.content.any(
       (block) => _nativeContentPart(block) != null,
     );
-    final hasStructuredContent = msg.contentBlocks.any(
+    final hasStructuredContent = msg.content.any(
       (block) =>
           block is! AIChatMessageTextBlock && block is! AIChatMessageToolCall,
     );
+    final visibleContent = msg.contentAsString;
     final content =
         nativeParts.isNotEmpty && (hasNativePartData || hasStructuredContent)
         ? mistral.MessageContent.parts(nativeParts)
-        : msg.content.isNotEmpty
-        ? mistral.MessageContent.text(msg.content)
+        : visibleContent.isNotEmpty
+        ? mistral.MessageContent.text(visibleContent)
         : null;
     return mistral.AssistantMessage(
       content: content,
@@ -140,10 +141,7 @@ extension ChatResultMapper on mistral.ChatCompletionResponse {
     ];
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: contentBlocks,
-        legacyContent: _visibleText(contentBlocks),
-      ),
+      output: AIChatMessage(content: contentBlocks),
       finishReason: _mapFinishReason(finishReason),
       metadata: {'model': model, 'created': created},
       usage: _mapUsage(usage),
@@ -176,10 +174,7 @@ extension CreateChatCompletionStreamResponseMapper
           );
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: contentBlocks,
-        legacyContent: choice?.delta.content ?? '',
-      ),
+      output: AIChatMessage(content: contentBlocks),
       finishReason: _mapFinishReason(finishReason),
       metadata: {'model': model, 'created': created},
       usage: _mapStreamUsage(usage),
@@ -392,11 +387,6 @@ String _contentPartsText(final List<mistral.ContentPart> parts) => parts
         _ => '',
       },
     )
-    .join();
-
-String _visibleText(final List<AIChatMessageContentBlock> blocks) => blocks
-    .whereType<AIChatMessageTextBlock>()
-    .map((block) => block.text)
     .join();
 
 FinishReason _mapFinishReason(final mistral.FinishReason? reason) =>

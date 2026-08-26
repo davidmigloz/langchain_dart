@@ -20,7 +20,7 @@ void main() {
     test('Runnable retry should return output for invoke', () async {
       final modelWithRetry = model.withRetry(maxRetries: 2);
       final res = await modelWithRetry.invoke(input);
-      expect(res.output.content, 'why is the sky blue');
+      expect(res.output.contentAsString, 'why is the sky blue');
     });
 
     test('Runnable retry should return output for batch', () async {
@@ -30,8 +30,8 @@ void main() {
         {'topic': 'bears'},
         {'topic': 'cats'},
       ]);
-      expect(res[0].output.content, 'tell me a joke about bears');
-      expect(res[1].output.content, 'tell me a joke about cats');
+      expect(res[0].output.contentAsString, 'tell me a joke about bears');
+      expect(res[1].output.contentAsString, 'tell me a joke about cats');
     });
 
     test('Should retry based RetryOptions, maxRetries = 2', () {

@@ -294,7 +294,7 @@ Question: {question}''');
     inputValues: {
       'question': ChatMessage.humanText('How much does my order cost?'),
     },
-    outputValues: {'answer': ChatMessage.ai('You have to pay 100€')},
+    outputValues: {'answer': ChatMessage.aiText('You have to pay 100€')},
   );
 
   final res = await conversationalQaChain.invoke({

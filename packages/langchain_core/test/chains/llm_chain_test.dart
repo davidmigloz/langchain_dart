@@ -91,7 +91,10 @@ void main() {
       final prompt = PromptTemplate.fromTemplate('Print {foo}');
       final chain = LLMChain(prompt: prompt, llm: model);
       final res = await chain.call({'foo': 'Hello world!'});
-      expect(res[LLMChain.defaultOutputKey], ChatMessage.ai('Hello world!'));
+      expect(
+        res[LLMChain.defaultOutputKey],
+        ChatMessage.aiText('Hello world!'),
+      );
       expect(res['foo'], 'Hello world!');
     });
   });

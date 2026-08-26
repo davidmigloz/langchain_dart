@@ -32,6 +32,6 @@ class SonnetsService {
   Future<String> generateSonnet(final List<String> topics) async {
     final prompt = _chatPromptTemplate.formatMessages({'topics': topics});
     final response = await _llm.call(prompt);
-    return response.content;
+    return response.contentAsString;
   }
 }

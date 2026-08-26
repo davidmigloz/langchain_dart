@@ -58,7 +58,7 @@ abstract class SimpleChatModel<Options extends ChatModelOptions>
     final Options? options,
   }) async {
     final text = await callInternal(input.toChatMessages(), options: options);
-    final message = AIChatMessage(content: text);
+    final message = AIChatMessage.text(text);
     return ChatResult(
       id: '1',
       output: message,

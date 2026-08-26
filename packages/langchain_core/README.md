@@ -20,6 +20,8 @@ LangChain Expression Language (LCEL) is a _declarative language_ for composing c
 
 For full documentation see the [API reference](https://pub.dev/documentation/langchain_core/latest/).
 
+For breaking API migrations, see the [migration guide](MIGRATION.md).
+
 ![LangChain.dart packages](https://raw.githubusercontent.com/davidmigloz/langchain_dart/main/docs/img/langchain_packages.png)
 
 ## Why build on top of LangChain Core?

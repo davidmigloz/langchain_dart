@@ -7,10 +7,10 @@ void main() {
   const result = ChatResult(
     id: 'id',
     output: AIChatMessage(
-      content: '',
-      toolCalls: [
+      content: [
         AIChatMessageToolCall(
           id: 'id',
+          index: 0,
           name: 'test',
           argumentsRaw: '{"foo":"bar","bar":"foo"}',
           arguments: {'foo': 'bar', 'bar': 'foo'},
@@ -26,10 +26,10 @@ void main() {
     ChatResult(
       id: 'id',
       output: AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: 'id',
+            index: 0,
             name: 'test',
             argumentsRaw: '{"foo":"bar"',
             arguments: {},
@@ -44,10 +44,10 @@ void main() {
     ChatResult(
       id: 'id',
       output: AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: '',
+            index: 0,
             name: '',
             argumentsRaw: ', ',
             arguments: {},
@@ -62,10 +62,10 @@ void main() {
     ChatResult(
       id: 'id',
       output: AIChatMessage(
-        content: '',
-        toolCalls: [
+        content: [
           AIChatMessageToolCall(
             id: '',
+            index: 0,
             name: '',
             argumentsRaw: '"bar":"foo"}',
             arguments: {},

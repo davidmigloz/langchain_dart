@@ -100,7 +100,7 @@ class _FakeOptionsChatModel
     return Stream.fromIterable(prompt).map(
       (final char) => ChatResult(
         id: 'fake-options-chat-model',
-        output: AIChatMessage(content: char),
+        output: AIChatMessage.text(char),
         finishReason: FinishReason.stop,
         metadata: const {},
         usage: const LanguageModelUsage(),
