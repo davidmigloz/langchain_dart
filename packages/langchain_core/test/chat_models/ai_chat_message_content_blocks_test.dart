@@ -152,5 +152,20 @@ void main() {
 
       expect(first.concat(second).contentBlocks, hasLength(2));
     });
+
+    test('does not let a matching index override different stable ids', () {
+      const first = AIChatMessage.withBlocks(
+        contentBlocks: [
+          AIChatMessageTextBlock(text: 'one', id: 'block-1', index: 0),
+        ],
+      );
+      const second = AIChatMessage.withBlocks(
+        contentBlocks: [
+          AIChatMessageTextBlock(text: 'two', id: 'block-2', index: 0),
+        ],
+      );
+
+      expect(first.concat(second).contentBlocks, hasLength(2));
+    });
   });
 }

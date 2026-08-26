@@ -59,8 +59,10 @@ sealed class AIChatMessageContentBlock {
   /// Whether [other] is a chunk of the same logical streaming block.
   bool canMerge(final AIChatMessageContentBlock other) {
     if (runtimeType != other.runtimeType) return false;
-    final identity = streamIdentity;
-    return identity != null && identity == other.streamIdentity;
+    if (id.isNotEmpty && other.id.isNotEmpty) {
+      return id == other.id;
+    }
+    return index != null && index == other.index;
   }
 
   /// Merges a later streaming chunk into this block.
