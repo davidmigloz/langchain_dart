@@ -192,6 +192,7 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
     final PromptValue input, {
     final ChatOpenAIResponsesOptions? options,
   }) {
+    final functionCallIdsByOutputIndex = <int, String>{};
     return _client.responses
         .createStreamWithAccumulator(
           createResponseRequest(
@@ -201,7 +202,9 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
           ),
         )
         .expand((final accumulator) {
-          final result = accumulator.toChatResult();
+          final result = accumulator.toChatResult(
+            functionCallIdsByOutputIndex: functionCallIdsByOutputIndex,
+          );
           return result != null ? [result] : const <ChatResult>[];
         });
   }

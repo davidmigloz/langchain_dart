@@ -213,10 +213,11 @@ extension ResponseMapper on oai.Response {
 extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
   /// Maps the latest streaming event to a [ChatResult], or returns `null`
   /// for events that carry no meaningful content (e.g. `response.created`).
-  ChatResult? toChatResult() {
+  ChatResult? toChatResult({
+    final Map<int, String>? functionCallIdsByOutputIndex,
+  }) {
     final event = latestEvent;
-
-    final AIChatMessageContentBlock? block;
+    final blocks = <AIChatMessageContentBlock>[];
 
     switch (event) {
       case oai.OutputTextDeltaEvent(
@@ -225,40 +226,49 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
         :final contentIndex,
         :final delta,
       ):
-        block = AIChatMessageTextBlock(
-          text: delta,
-          id: itemId ?? 'openai-response:$responseId:$outputIndex',
-          index: _responseBlockIndex(outputIndex, contentIndex),
-          providerData: {
-            'openai': {'event': event.toJson()},
-          },
+        blocks.add(
+          AIChatMessageTextBlock(
+            text: delta,
+            id: _responseContentBlockId(
+              itemId: itemId,
+              responseId: responseId,
+              outputIndex: outputIndex,
+              contentIndex: contentIndex,
+            ),
+            index: _responseBlockIndex(outputIndex, contentIndex),
+            providerData: {
+              'openai': {'event': event.toJson()},
+            },
+          ),
         );
-      case oai.OutputItemAddedEvent(:final item)
-          when item is oai.FunctionCallOutputItemResponse:
-        block = AIChatMessageToolCall(
-          id: item.callId,
-          index: event.outputIndex,
-          name: item.name,
-          argumentsRaw: item.arguments,
-          arguments: _decodeArguments(item.arguments),
-          providerData: {
-            'openai': {'outputItem': item.toJson()},
-          },
+      case oai.OutputItemAddedEvent(:final outputIndex, :final item):
+        if (item case final oai.FunctionCallOutputItemResponse functionCall) {
+          functionCallIdsByOutputIndex?[outputIndex] = functionCall.callId;
+        }
+        blocks.addAll(
+          _mapOpenAIOutputItems([item], outputIndexOffset: outputIndex),
         );
+      case oai.OutputItemDoneEvent(:final outputIndex, :final item):
+        blocks.addAll(_mapOutputItemCompletionUpdates(item, outputIndex));
       case oai.FunctionCallArgumentsDeltaEvent(
         :final itemId,
         :final outputIndex,
         :final delta,
       ):
-        block = AIChatMessageToolCall(
-          id: itemId ?? 'openai-response:$responseId:$outputIndex',
-          index: outputIndex,
-          name: '',
-          argumentsRaw: delta,
-          arguments: const {},
-          providerData: {
-            'openai': {'event': event.toJson()},
-          },
+        blocks.add(
+          AIChatMessageToolCall(
+            id:
+                functionCallIdsByOutputIndex?[outputIndex] ??
+                itemId ??
+                'openai-response:$responseId:$outputIndex',
+            index: outputIndex,
+            name: '',
+            argumentsRaw: delta,
+            arguments: const {},
+            providerData: {
+              'openai': {'event': event.toJson()},
+            },
+          ),
         );
       case oai.ReasoningTextDeltaEvent(
         :final itemId,
@@ -266,13 +276,15 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
         :final contentIndex,
         :final delta,
       ):
-        block = AIChatMessageReasoningBlock(
-          reasoning: delta,
-          id: itemId ?? 'openai-response:$responseId:$outputIndex',
-          index: _responseBlockIndex(outputIndex, contentIndex ?? 0),
-          providerData: {
-            'openai': {'event': event.toJson()},
-          },
+        blocks.add(
+          AIChatMessageReasoningBlock(
+            reasoning: delta,
+            id: itemId ?? 'openai-response:$responseId:$outputIndex',
+            index: _responseBlockIndex(outputIndex, contentIndex ?? 0),
+            providerData: {
+              'openai': {'event': event.toJson()},
+            },
+          ),
         );
       case oai.ReasoningSummaryTextDeltaEvent(
         :final itemId,
@@ -280,13 +292,15 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
         :final summaryIndex,
         :final delta,
       ):
-        block = AIChatMessageReasoningBlock(
-          reasoning: delta,
-          id: itemId ?? 'openai-response:$responseId:$outputIndex',
-          index: _responseBlockIndex(outputIndex, summaryIndex),
-          providerData: {
-            'openai': {'event': event.toJson()},
-          },
+        blocks.add(
+          AIChatMessageReasoningBlock(
+            reasoning: delta,
+            id: itemId ?? 'openai-response:$responseId:$outputIndex',
+            index: _responseBlockIndex(outputIndex, summaryIndex),
+            providerData: {
+              'openai': {'event': event.toJson()},
+            },
+          ),
         );
       case oai.RefusalDeltaEvent(:final delta):
         return ChatResult(
@@ -295,9 +309,12 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
             contentBlocks: [
               AIChatMessageNonStandardBlock(
                 value: event.toJson(),
-                id:
-                    event.itemId ??
-                    'openai-response:$responseId:${event.outputIndex}',
+                id: _responseContentBlockId(
+                  itemId: event.itemId,
+                  responseId: responseId,
+                  outputIndex: event.outputIndex,
+                  contentIndex: event.contentIndex,
+                ),
                 index: _responseBlockIndex(
                   event.outputIndex,
                   event.contentIndex,
@@ -328,13 +345,16 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
         return null;
     }
 
+    if (blocks.isEmpty) return null;
+
     return ChatResult(
       id: responseId ?? '',
       output: AIChatMessage.withBlocks(
-        contentBlocks: [block],
-        legacyContent: block is AIChatMessageTextBlock
-            ? block.legacyContent
-            : '',
+        contentBlocks: blocks,
+        legacyContent: blocks
+            .whereType<AIChatMessageTextBlock>()
+            .map((block) => block.legacyContent)
+            .join(),
       ),
       finishReason: _mapStreamFinishReason(status),
       metadata: const {},
@@ -345,10 +365,12 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
 }
 
 List<AIChatMessageContentBlock> _mapOpenAIOutputItems(
-  final List<oai.OutputItem> items,
-) {
+  final List<oai.OutputItem> items, {
+  final int outputIndexOffset = 0,
+}) {
   final blocks = <AIChatMessageContentBlock>[];
-  for (final (outputIndex, item) in items.indexed) {
+  for (final (relativeIndex, item) in items.indexed) {
+    final outputIndex = outputIndexOffset + relativeIndex;
     final rawItem = item.toJson();
     final baseProviderData = <String, dynamic>{
       'openai': {'outputItem': rawItem, 'outputIndex': outputIndex},
@@ -446,6 +468,83 @@ List<AIChatMessageContentBlock> _mapOpenAIOutputItems(
   return blocks;
 }
 
+List<AIChatMessageContentBlock> _mapOutputItemCompletionUpdates(
+  final oai.OutputItem item,
+  final int outputIndex,
+) {
+  final rawItem = item.toJson();
+  final baseProviderData = <String, dynamic>{
+    'openai': {'outputItem': rawItem, 'outputIndex': outputIndex},
+  };
+  return switch (item) {
+    final oai.MessageOutputItem message => [
+      for (final (contentIndex, content) in message.content.indexed)
+        switch (content) {
+          oai.OutputTextContent() => AIChatMessageTextBlock(
+            text: '',
+            id: '${message.id}:$contentIndex',
+            index: _responseBlockIndex(outputIndex, contentIndex),
+            providerData: baseProviderData,
+          ),
+          oai.ReasoningTextContent() ||
+          oai.SummaryTextContent() => AIChatMessageReasoningBlock(
+            reasoning: '',
+            id: '${message.id}:$contentIndex',
+            index: _responseBlockIndex(outputIndex, contentIndex),
+            providerData: baseProviderData,
+          ),
+          final oai.OutputContent other => AIChatMessageNonStandardBlock(
+            value: other.toJson(),
+            id: '${message.id}:$contentIndex',
+            index: _responseBlockIndex(outputIndex, contentIndex),
+            providerData: baseProviderData,
+          ),
+        },
+    ],
+    final oai.FunctionCallOutputItemResponse functionCall => [
+      AIChatMessageToolCall(
+        id: functionCall.callId,
+        index: outputIndex,
+        name: '',
+        argumentsRaw: '',
+        arguments: _decodeArguments(functionCall.arguments),
+        providerData: baseProviderData,
+      ),
+    ],
+    final oai.ReasoningItem reasoning => [
+      AIChatMessageReasoningBlock(
+        reasoning: '',
+        id: reasoning.id,
+        index: outputIndex,
+        providerData: baseProviderData,
+      ),
+    ],
+    oai.OutputItem() => [
+      if ((rawItem['type'] as String? ?? 'unknown').endsWith('_output'))
+        AIChatMessageServerToolResult(
+          id: rawItem['id'] as String? ?? 'openai:$outputIndex',
+          index: outputIndex,
+          toolCallId:
+              rawItem['call_id'] as String? ??
+              rawItem['id'] as String? ??
+              'openai:$outputIndex',
+          name: rawItem['type'] as String?,
+          result: rawItem,
+          providerData: baseProviderData,
+        )
+      else
+        AIChatMessageServerToolCall(
+          id: rawItem['id'] as String? ?? 'openai:$outputIndex',
+          index: outputIndex,
+          name: '',
+          argumentsRaw: '',
+          arguments: rawItem,
+          providerData: baseProviderData,
+        ),
+    ],
+  };
+}
+
 Map<String, dynamic> _decodeArguments(final String raw) {
   try {
     return raw.isEmpty
@@ -466,6 +565,13 @@ Map<String, dynamic>? _openAIOutputItem(
 
 int _responseBlockIndex(final int outputIndex, final int contentIndex) =>
     outputIndex * 100000 + contentIndex;
+
+String _responseContentBlockId({
+  required final String? itemId,
+  required final String? responseId,
+  required final int outputIndex,
+  required final int contentIndex,
+}) => '${itemId ?? 'openai-response:$responseId:$outputIndex'}:$contentIndex';
 
 extension ResponseToolListMapper on List<ToolSpec> {
   List<oai.ResponseTool> toResponseTools() {

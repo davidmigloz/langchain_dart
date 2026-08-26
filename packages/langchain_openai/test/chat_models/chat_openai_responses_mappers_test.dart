@@ -285,11 +285,14 @@ void main() {
 
       test('keeps parallel same-name streamed function calls distinct', () {
         final accumulator = oai.ResponseStreamAccumulator();
+        final functionCallIdsByOutputIndex = <int, String>{};
         final results = <ChatResult>[];
 
         void add(final oai.ResponseStreamEvent event) {
           accumulator.add(event);
-          final result = accumulator.toChatResult();
+          final result = accumulator.toChatResult(
+            functionCallIdsByOutputIndex: functionCallIdsByOutputIndex,
+          );
           if (result != null) results.add(result);
         }
 
@@ -340,6 +343,73 @@ void main() {
           'Madrid',
           'Paris',
         ]);
+      });
+
+      test('keeps content indexes distinct within one output item', () {
+        final accumulator = oai.ResponseStreamAccumulator();
+        final results = <ChatResult>[];
+
+        for (final event in const <oai.ResponseStreamEvent>[
+          oai.OutputTextDeltaEvent(
+            itemId: 'message_1',
+            outputIndex: 0,
+            contentIndex: 0,
+            delta: 'first',
+          ),
+          oai.OutputTextDeltaEvent(
+            itemId: 'message_1',
+            outputIndex: 0,
+            contentIndex: 1,
+            delta: 'second',
+          ),
+        ]) {
+          accumulator.add(event);
+          results.add(accumulator.toChatResult()!);
+        }
+
+        final output = results
+            .map((result) => result.output)
+            .reduce((first, next) => first.concat(next));
+
+        expect(output.contentBlocks, hasLength(2));
+        expect(output.contentAsString, 'firstsecond');
+      });
+
+      test('retains completed server-tool output item data', () {
+        final accumulator = oai.ResponseStreamAccumulator();
+        final results = <ChatResult>[];
+
+        for (final event in const <oai.ResponseStreamEvent>[
+          oai.OutputItemAddedEvent(
+            outputIndex: 0,
+            item: oai.WebSearchCallOutputItem(
+              id: 'search_1',
+              status: oai.ItemStatus.inProgress,
+            ),
+          ),
+          oai.OutputItemDoneEvent(
+            outputIndex: 0,
+            item: oai.WebSearchCallOutputItem(
+              id: 'search_1',
+              status: oai.ItemStatus.completed,
+            ),
+          ),
+        ]) {
+          accumulator.add(event);
+          results.add(accumulator.toChatResult()!);
+        }
+
+        final output = results
+            .map((result) => result.output)
+            .reduce((first, next) => first.concat(next));
+        final block =
+            output.contentBlocks.single as AIChatMessageServerToolCall;
+
+        expect(block.name, 'web_search_call');
+        expect(block.arguments['status'], 'completed');
+        final openAIData = block.providerData['openai'] as Map<String, dynamic>;
+        final outputItem = openAIData['outputItem'] as Map<String, dynamic>;
+        expect(outputItem['status'], 'completed');
       });
     });
   });

@@ -337,7 +337,10 @@ extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
       args = json.decode(toolCall.function?.arguments ?? '');
     } catch (_) {}
     return AIChatMessageToolCall(
-      id: toolCall.id ?? 'openai-chat:$responseId:tool:${toolCall.index}',
+      // Continuation deltas commonly omit the provider ID. Keep it empty so
+      // the explicit stream index can associate it with the opening delta;
+      // assigning a synthetic stable ID here would split one call in two.
+      id: toolCall.id ?? '',
       index: toolCall.index + 2,
       name: toolCall.function?.name ?? '',
       argumentsRaw: toolCall.function?.arguments ?? '',
