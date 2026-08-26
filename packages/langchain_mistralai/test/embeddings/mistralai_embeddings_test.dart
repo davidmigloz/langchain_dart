@@ -1,4 +1,5 @@
 @TestOn('vm')
+@Tags(['integration'])
 library; // Uses dart:io
 
 import 'dart:io';
