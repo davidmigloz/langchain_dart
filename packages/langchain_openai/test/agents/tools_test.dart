@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use_from_same_package, unnecessary_async
 @TestOn('vm')
+@Tags(['integration'])
 library; // Uses dart:io
 
 import 'dart:io';
