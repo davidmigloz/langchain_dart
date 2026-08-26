@@ -394,6 +394,7 @@ class AIChatMessage extends ChatMessage {
               ...?thisToolCall?.arguments,
               ...?otherToolCall?.arguments,
             },
+            metadata: {...?thisToolCall?.metadata, ...?otherToolCall?.metadata},
           ),
         );
       }
@@ -426,6 +427,7 @@ class AIChatMessageToolCall {
     required this.name,
     required this.argumentsRaw,
     required this.arguments,
+    this.metadata = const {},
   });
 
   /// The id of the tool to call.
@@ -449,6 +451,12 @@ class AIChatMessageToolCall {
   /// Validate the arguments in your code before calling your tool.
   final Map<String, dynamic> arguments;
 
+  /// Provider-specific data attached to this tool call that must survive a
+  /// tool-call round trip (e.g. Google's `thoughtSignature`, which thinking
+  /// models require to be sent back with the function call in the next
+  /// request).
+  final Map<String, dynamic> metadata;
+
   /// Converts the [AIChatMessageToolCall] to a [Map].
   Map<String, dynamic> toMap() {
     return {
@@ -456,6 +464,7 @@ class AIChatMessageToolCall {
       'name': name,
       'argumentsRaw': argumentsRaw,
       'arguments': arguments,
+      'metadata': metadata,
     };
   }
 
@@ -466,6 +475,7 @@ class AIChatMessageToolCall {
         name: map['name'] as String,
         argumentsRaw: map['argumentsRaw'] as String,
         arguments: (map['arguments'] as Map<String, dynamic>?) ?? {},
+        metadata: (map['metadata'] as Map<String, dynamic>?) ?? {},
       );
 
   @override
@@ -475,12 +485,17 @@ class AIChatMessageToolCall {
         id == other.id &&
             name == other.name &&
             argumentsRaw == other.argumentsRaw &&
-            mapEquals(arguments, other.arguments);
+            mapEquals(arguments, other.arguments) &&
+            mapEquals(metadata, other.metadata);
   }
 
   @override
   int get hashCode =>
-      id.hashCode ^ name.hashCode ^ argumentsRaw.hashCode ^ arguments.hashCode;
+      id.hashCode ^
+      name.hashCode ^
+      argumentsRaw.hashCode ^
+      arguments.hashCode ^
+      metadata.hashCode;
 
   @override
   String toString() {
@@ -490,6 +505,7 @@ AIChatMessageToolCall{
   name: $name,
   argumentsRaw: $argumentsRaw,
   arguments: $arguments,
+  metadata: $metadata,
 }''';
   }
 }
