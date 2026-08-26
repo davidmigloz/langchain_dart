@@ -85,4 +85,39 @@ void main() {
     expect(calls.map((call) => call.id), ['call-madrid', 'call-paris']);
     expect(calls.map((call) => call.arguments['city']), ['Madrid', 'Paris']);
   });
+
+  test('keeps a final signed text part separate while streaming', () {
+    const signature = 'final-text-signature';
+    f.GenerateContentResponse response(final f.Part part) =>
+        f.GenerateContentResponse([
+          f.Candidate(f.Content.model([part]), null, null, null, null),
+        ], null);
+
+    final first = response(
+      const f.TextPart('visible answer'),
+    ).toChatResult('stream-id', 'gemini').output;
+    final signedBoundary = response(
+      const f.TextPart.forTest('', thoughtSignature: signature),
+    ).toChatResult('stream-id', 'gemini').output;
+    final merged = first.concat(signedBoundary);
+
+    expect(merged.contentBlocks, hasLength(2));
+    expect(
+      merged.contentBlocks.last,
+      isA<AIChatMessageTextBlock>()
+          .having((block) => block.text, 'text', isEmpty)
+          .having((block) => block.isMergeable, 'isMergeable', isFalse),
+    );
+
+    final replayed = <ChatMessage>[merged].toContentList().single.parts;
+    expect(replayed, hasLength(2));
+    expect(
+      (replayed.first.toJson() as Map<String, Object?>)['thoughtSignature'],
+      isNull,
+    );
+    expect(
+      (replayed.last.toJson() as Map<String, Object?>)['thoughtSignature'],
+      signature,
+    );
+  });
 }

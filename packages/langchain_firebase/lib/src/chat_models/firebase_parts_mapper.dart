@@ -41,18 +41,22 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
   final providerData = <String, dynamic>{
     'firebase': {'part': rawPart},
   };
+  final isMergeable =
+      part is f.FunctionCall || rawPart['thoughtSignature'] == null;
   return switch (part) {
     final f.TextPart text when text.isThought ?? false =>
       AIChatMessageReasoningBlock(
         reasoning: text.text,
         id: fallbackId,
         index: index,
+        isMergeable: isMergeable,
         providerData: providerData,
       ),
     final f.TextPart text => AIChatMessageTextBlock(
       text: text.text,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final f.InlineDataPart media => AIChatMessageMediaBlock(
@@ -60,6 +64,7 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
       mimeType: media.mimeType,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final f.FileData file => AIChatMessageFileBlock(
@@ -67,11 +72,13 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
       mimeType: file.mimeType,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final f.FunctionCall call => AIChatMessageToolCall(
       id: call.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       name: call.name,
       argumentsRaw: jsonEncode(call.args),
       arguments: call.args.cast<String, dynamic>(),
@@ -80,6 +87,7 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
     final f.FunctionResponse result => AIChatMessageServerToolResult(
       id: result.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       toolCallId: result.id ?? fallbackId,
       name: result.name,
       result: result.response,
@@ -88,6 +96,7 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
     f.ExecutableCodePart() => AIChatMessageServerToolCall(
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       name: 'codeExecution',
       argumentsRaw: jsonEncode(rawPart['executableCode']),
       arguments: _readMap(rawPart['executableCode']),
@@ -96,6 +105,7 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
     f.CodeExecutionResultPart() => AIChatMessageServerToolResult(
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       toolCallId: fallbackId,
       name: 'codeExecution',
       result: rawPart['codeExecutionResult'],
@@ -105,6 +115,7 @@ AIChatMessageContentBlock _firebasePartToContentBlock(
       value: unknown.data,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
   };
