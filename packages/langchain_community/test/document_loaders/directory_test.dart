@@ -92,8 +92,13 @@ void main() {
       );
 
       final loadedDocs = await loader.load();
+      final loadedSources = loadedDocs
+          .map((doc) => doc.metadata['source'])
+          .toSet();
 
-      expect(loadedDocs, hasLength(2));
+      // A sampled file can produce more than one document (for example, CSV),
+      // so assert the number of sampled files rather than output documents.
+      expect(loadedSources, hasLength(2));
     });
 
     test('Test directory loader with custom metadata builder', () {
