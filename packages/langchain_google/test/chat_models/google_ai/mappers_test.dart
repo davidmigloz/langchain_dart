@@ -107,6 +107,49 @@ void main() {
       final replayedPart = replayed.single.parts.single as g.FunctionCallPart;
       expect(replayedPart.thoughtSignature, signature);
     });
+
+    test('keeps a final signed text part separate while streaming', () {
+      final signature = utf8.encode('final-text-signature');
+      const firstResponse = g.GenerateContentResponse(
+        candidates: [
+          g.Candidate(
+            content: g.Content(parts: [g.TextPart('visible answer')]),
+          ),
+        ],
+      );
+      final finalResponse = g.GenerateContentResponse(
+        candidates: [
+          g.Candidate(
+            content: g.Content(
+              parts: [g.TextPart('', thoughtSignature: signature)],
+            ),
+          ),
+        ],
+      );
+
+      final first = firstResponse
+          .toChatResult('stream-id', 'gemini-3.1-pro-preview')
+          .output;
+      final signedBoundary = finalResponse
+          .toChatResult('stream-id', 'gemini-3.1-pro-preview')
+          .output;
+      final merged = first.concat(signedBoundary);
+
+      expect(merged.contentBlocks, hasLength(2));
+      expect(
+        merged.contentBlocks.last,
+        isA<AIChatMessageTextBlock>()
+            .having((block) => block.text, 'text', isEmpty)
+            .having((block) => block.isMergeable, 'isMergeable', isFalse),
+      );
+
+      final replayed = <ChatMessage>[merged].toContentList().single.parts;
+      expect(replayed, hasLength(2));
+      expect(replayed.first.thoughtSignature, isNull);
+      expect(replayed.last, isA<g.TextPart>());
+      expect((replayed.last as g.TextPart).text, isEmpty);
+      expect(replayed.last.thoughtSignature, signature);
+    });
   });
 
   group('ChatMessagesMapper thought signatures', () {

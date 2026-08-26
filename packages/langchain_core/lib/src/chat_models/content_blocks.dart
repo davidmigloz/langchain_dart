@@ -16,6 +16,7 @@ sealed class AIChatMessageContentBlock {
   const AIChatMessageContentBlock({
     this.id = '',
     this.index,
+    this.isMergeable = true,
     this.providerData = const {},
   });
 
@@ -24,6 +25,12 @@ sealed class AIChatMessageContentBlock {
 
   /// Position assigned to this block by the provider's streaming protocol.
   final int? index;
+
+  /// Whether later streaming chunks may be merged into this block.
+  ///
+  /// Set this to `false` when the provider requires the exact boundary of a
+  /// completed content part to be retained.
+  final bool isMergeable;
 
   /// Provider-specific data, nested under a provider namespace.
   final Map<String, dynamic> providerData;
@@ -58,6 +65,7 @@ sealed class AIChatMessageContentBlock {
 
   /// Whether [other] is a chunk of the same logical streaming block.
   bool canMerge(final AIChatMessageContentBlock other) {
+    if (!isMergeable || !other.isMergeable) return false;
     if (runtimeType != other.runtimeType) return false;
     if (id.isNotEmpty && other.id.isNotEmpty) {
       return id == other.id;
@@ -202,6 +210,7 @@ final class AIChatMessageTextBlock extends AIChatMessageContentBlock {
     required this.text,
     super.id,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -214,6 +223,7 @@ final class AIChatMessageTextBlock extends AIChatMessageContentBlock {
         text: map['text'] as String,
         id: _readId(map),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -244,6 +254,7 @@ final class AIChatMessageReasoningBlock extends AIChatMessageContentBlock {
     required this.reasoning,
     super.id,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -256,6 +267,7 @@ final class AIChatMessageReasoningBlock extends AIChatMessageContentBlock {
         reasoning: map['reasoning'] as String,
         id: _readId(map),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -287,6 +299,7 @@ final class AIChatMessageMediaBlock extends AIChatMessageContentBlock {
     this.mimeType,
     super.id,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -303,6 +316,7 @@ final class AIChatMessageMediaBlock extends AIChatMessageContentBlock {
         mimeType: map['mimeType'] as String?,
         id: _readId(map),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -338,6 +352,7 @@ final class AIChatMessageFileBlock extends AIChatMessageContentBlock {
     this.mimeType,
     super.id,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -358,6 +373,7 @@ final class AIChatMessageFileBlock extends AIChatMessageContentBlock {
         mimeType: map['mimeType'] as String?,
         id: _readId(map),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -397,6 +413,7 @@ final class AIChatMessageToolCall extends AIChatMessageContentBlock {
     required this.argumentsRaw,
     required this.arguments,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -417,6 +434,7 @@ final class AIChatMessageToolCall extends AIChatMessageContentBlock {
         argumentsRaw: map['argumentsRaw'] as String,
         arguments: _readMap(map['arguments']),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -432,6 +450,7 @@ final class AIChatMessageToolCall extends AIChatMessageContentBlock {
     'arguments': arguments,
     'providerData': providerData,
     if (index != null) 'index': index,
+    if (!isMergeable) 'isMergeable': false,
   };
 
   @override
@@ -440,6 +459,7 @@ final class AIChatMessageToolCall extends AIChatMessageContentBlock {
     return identical(this, other) ||
         id == other.id &&
             index == other.index &&
+            isMergeable == other.isMergeable &&
             name == other.name &&
             argumentsRaw == other.argumentsRaw &&
             deepEquals.equals(arguments, other.arguments) &&
@@ -452,6 +472,7 @@ final class AIChatMessageToolCall extends AIChatMessageContentBlock {
     return Object.hash(
       id,
       index,
+      isMergeable,
       name,
       argumentsRaw,
       deepEquals.hash(arguments),
@@ -476,6 +497,7 @@ final class AIChatMessageServerToolCall extends AIChatMessageContentBlock {
     required this.argumentsRaw,
     required this.arguments,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -496,6 +518,7 @@ final class AIChatMessageServerToolCall extends AIChatMessageContentBlock {
         argumentsRaw: map['argumentsRaw'] as String,
         arguments: _readMap(map['arguments']),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -543,6 +566,7 @@ final class AIChatMessageServerToolResult extends AIChatMessageContentBlock {
     this.name,
     super.id,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -563,6 +587,7 @@ final class AIChatMessageServerToolResult extends AIChatMessageContentBlock {
         result: map['result'],
         id: _readId(map),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -608,6 +633,7 @@ final class AIChatMessageProviderMetadataBlock
   const AIChatMessageProviderMetadataBlock({
     super.id,
     super.index,
+    super.isMergeable,
     required super.providerData,
   });
 
@@ -617,6 +643,7 @@ final class AIChatMessageProviderMetadataBlock
   ) => AIChatMessageProviderMetadataBlock(
     id: _readId(map),
     index: map['index'] as int?,
+    isMergeable: _readIsMergeable(map),
     providerData: _readProviderData(map),
   );
 
@@ -645,6 +672,7 @@ final class AIChatMessageNonStandardBlock extends AIChatMessageContentBlock {
     required this.value,
     super.id,
     super.index,
+    super.isMergeable,
     super.providerData,
   });
 
@@ -657,6 +685,7 @@ final class AIChatMessageNonStandardBlock extends AIChatMessageContentBlock {
         value: map['value'],
         id: _readId(map),
         index: map['index'] as int?,
+        isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
 
@@ -745,6 +774,9 @@ Map<String, dynamic> _mergeArguments(
 
 String _readId(final Map<String, dynamic> map) => map['id'] as String? ?? '';
 
+bool _readIsMergeable(final Map<String, dynamic> map) =>
+    map['isMergeable'] as bool? ?? true;
+
 Map<String, dynamic> _readMap(final Object? value) =>
     (value as Map?)?.cast<String, dynamic>() ?? const {};
 
@@ -754,6 +786,7 @@ Map<String, dynamic> _readProviderData(final Map<String, dynamic> map) =>
 Map<String, dynamic> _metadataMap(final AIChatMessageContentBlock block) => {
   if (block.id.isNotEmpty) 'id': block.id,
   if (block.index != null) 'index': block.index,
+  if (!block.isMergeable) 'isMergeable': false,
   if (block.providerData.isNotEmpty) 'providerData': block.providerData,
 };
 
@@ -764,6 +797,7 @@ bool _metadataEquals(
   const deepEquals = DeepCollectionEquality();
   return first.id == second.id &&
       first.index == second.index &&
+      first.isMergeable == second.isMergeable &&
       deepEquals.equals(first.providerData, second.providerData);
 }
 
@@ -772,6 +806,7 @@ int _metadataHash(final AIChatMessageContentBlock block) {
   return Object.hash(
     block.id,
     block.index,
+    block.isMergeable,
     deepEquals.hash(block.providerData),
   );
 }

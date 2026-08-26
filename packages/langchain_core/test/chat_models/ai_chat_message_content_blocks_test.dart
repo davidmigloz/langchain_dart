@@ -34,6 +34,7 @@ void main() {
           AIChatMessageReasoningBlock(
             reasoning: 'hidden',
             id: 'reasoning-1',
+            isMergeable: false,
             providerData: {
               'anthropic': {'signature': 'opaque'},
             },
@@ -55,6 +56,10 @@ void main() {
       expect(map['content'], 'legacy projection');
       expect(map['toolCalls'], hasLength(1));
       expect(map['contentBlocks'], hasLength(3));
+      expect(
+        (map['contentBlocks'] as List).first,
+        containsPair('isMergeable', false),
+      );
       expect(restored, message);
       expect(restored.content, 'legacy projection');
     });
@@ -166,6 +171,36 @@ void main() {
       );
 
       expect(first.concat(second).contentBlocks, hasLength(2));
+    });
+
+    test('retains completed provider part boundaries', () {
+      const first = AIChatMessage.withBlocks(
+        contentBlocks: [
+          AIChatMessageTextBlock(text: 'answer', id: 'part-0', index: 0),
+        ],
+      );
+      const signedBoundary = AIChatMessage.withBlocks(
+        contentBlocks: [
+          AIChatMessageTextBlock(
+            text: '',
+            id: 'part-0',
+            index: 0,
+            isMergeable: false,
+          ),
+        ],
+      );
+
+      final result = first.concat(signedBoundary);
+
+      expect(result.contentBlocks, hasLength(2));
+      expect(
+        result.contentBlocks.last,
+        isA<AIChatMessageTextBlock>().having(
+          (block) => block.isMergeable,
+          'isMergeable',
+          isFalse,
+        ),
+      );
     });
   });
 }

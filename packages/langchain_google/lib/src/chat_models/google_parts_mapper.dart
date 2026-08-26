@@ -39,18 +39,22 @@ AIChatMessageContentBlock _googlePartToContentBlock(
   required final int index,
 }) {
   final providerData = _googleProviderData(part);
+  final isMergeable =
+      part is g.FunctionCallPart || part.thoughtSignature == null;
   return switch (part) {
     final g.TextPart text when text.thought ?? false =>
       AIChatMessageReasoningBlock(
         reasoning: text.text,
         id: fallbackId,
         index: index,
+        isMergeable: isMergeable,
         providerData: providerData,
       ),
     final g.TextPart text => AIChatMessageTextBlock(
       text: text.text,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final g.InlineDataPart media => AIChatMessageMediaBlock(
@@ -58,6 +62,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
       mimeType: media.inlineData.mimeType,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final g.FileDataPart file => AIChatMessageFileBlock(
@@ -65,11 +70,13 @@ AIChatMessageContentBlock _googlePartToContentBlock(
       mimeType: file.fileData.mimeType,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final g.FunctionCallPart call => AIChatMessageToolCall(
       id: call.functionCall.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       name: call.functionCall.name,
       argumentsRaw: jsonEncode(call.functionCall.args ?? const {}),
       arguments: call.functionCall.args ?? const {},
@@ -78,6 +85,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     final g.FunctionResponsePart result => AIChatMessageServerToolResult(
       id: result.functionResponse.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       toolCallId: result.functionResponse.id ?? fallbackId,
       name: result.functionResponse.name,
       result: result.functionResponse.response,
@@ -86,6 +94,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     final g.ExecutableCodePart code => AIChatMessageServerToolCall(
       id: code.executableCode.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       name: 'codeExecution',
       argumentsRaw: jsonEncode(code.executableCode.toJson()),
       arguments: code.executableCode.toJson(),
@@ -94,6 +103,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     final g.CodeExecutionResultPart result => AIChatMessageServerToolResult(
       id: result.codeExecutionResult.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       toolCallId: result.codeExecutionResult.id ?? fallbackId,
       name: 'codeExecution',
       result: result.codeExecutionResult.toJson(),
@@ -102,6 +112,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     final g.ToolCallPart call => AIChatMessageServerToolCall(
       id: call.toolCall.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       name: call.toolCall.toolName ?? call.toolCall.toolType.name,
       argumentsRaw: jsonEncode(call.toolCall.args ?? const {}),
       arguments: call.toolCall.args ?? const {},
@@ -110,6 +121,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     final g.ToolResponsePart result => AIChatMessageServerToolResult(
       id: result.toolResponse.id ?? fallbackId,
       index: index,
+      isMergeable: isMergeable,
       toolCallId: result.toolResponse.id ?? fallbackId,
       result: result.toolResponse.response,
       providerData: providerData,
@@ -117,12 +129,14 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     g.MetadataPart() => AIChatMessageProviderMetadataBlock(
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     final g.UnknownPart unknown => AIChatMessageNonStandardBlock(
       value: unknown.rawJson,
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
     // Deprecated metadata-only Parts are accepted for source compatibility.
@@ -132,6 +146,7 @@ AIChatMessageContentBlock _googlePartToContentBlock(
     g.PartMetadataPart() => AIChatMessageProviderMetadataBlock(
       id: fallbackId,
       index: index,
+      isMergeable: isMergeable,
       providerData: providerData,
     ),
   };
