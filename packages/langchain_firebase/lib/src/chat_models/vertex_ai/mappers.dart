@@ -161,10 +161,23 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
         f.FinishReason.unknown => FinishReason.unspecified,
         f.FinishReason.stop => FinishReason.stop,
         f.FinishReason.maxTokens => FinishReason.length,
-        f.FinishReason.safety => FinishReason.contentFilter,
-        f.FinishReason.recitation => FinishReason.recitation,
-        f.FinishReason.other => FinishReason.unspecified,
+        f.FinishReason.safety ||
+        f.FinishReason.blocklist ||
+        f.FinishReason.prohibitedContent ||
+        f.FinishReason.spii ||
+        f.FinishReason.imageSafety ||
+        f.FinishReason.imageProhibitedContent ||
+        f.FinishReason.language => FinishReason.contentFilter,
+        f.FinishReason.recitation ||
+        f.FinishReason.imageRecitation => FinishReason.recitation,
+        f.FinishReason.other ||
         f.FinishReason.malformedFunctionCall ||
+        f.FinishReason.imageOther ||
+        f.FinishReason.noImage ||
+        f.FinishReason.unexpectedToolCall ||
+        f.FinishReason.tooManyToolCalls ||
+        f.FinishReason.missingThoughtSignature ||
+        f.FinishReason.malformedResponse ||
         null => FinishReason.unspecified,
       };
 }
