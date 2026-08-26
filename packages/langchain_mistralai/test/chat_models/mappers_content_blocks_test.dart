@@ -107,6 +107,22 @@ void main() {
     );
   });
 
+  test('replays explicitly constructed reasoning as structured content', () {
+    const message = AIChatMessage.withBlocks(
+      contentBlocks: [
+        AIChatMessageReasoningBlock(reasoning: 'reasoning'),
+        AIChatMessageTextBlock(text: 'answer'),
+      ],
+    );
+
+    final mapped =
+        [message].toChatMessages().single as mistral.AssistantMessage;
+    final parts = (mapped.content! as mistral.MessagePartsContent).parts;
+
+    expect(parts.first, isA<mistral.ThinkContentPart>());
+    expect(parts.last, const mistral.TextContentPart('answer'));
+  });
+
   test('streams parallel same-name calls by provider index', () {
     mistral.ChatCompletionStreamResponse chunk(
       final List<mistral.ToolCall> calls,

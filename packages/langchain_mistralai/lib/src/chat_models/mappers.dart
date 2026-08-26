@@ -38,7 +38,12 @@ extension ChatMessageListMapper on List<ChatMessage> {
     final hasNativePartData = msg.contentBlocks.any(
       (block) => _nativeContentPart(block) != null,
     );
-    final content = nativeParts.isNotEmpty && hasNativePartData
+    final hasStructuredContent = msg.contentBlocks.any(
+      (block) =>
+          block is! AIChatMessageTextBlock && block is! AIChatMessageToolCall,
+    );
+    final content =
+        nativeParts.isNotEmpty && (hasNativePartData || hasStructuredContent)
         ? mistral.MessageContent.parts(nativeParts)
         : msg.content.isNotEmpty
         ? mistral.MessageContent.text(msg.content)
@@ -320,6 +325,7 @@ List<AIChatMessageContentBlock> _mapDeltaContent(
         toolCall,
         responseId: responseId,
         fallbackIndex: fallbackIndex,
+        useFallbackId: false,
       ),
   ];
   if (blocks.isEmpty && raw.isNotEmpty) {
@@ -340,6 +346,7 @@ AIChatMessageToolCall _mapMistralToolCall(
   final mistral.ToolCall toolCall, {
   required final String responseId,
   required final int fallbackIndex,
+  final bool useFallbackId = true,
 }) {
   final function = toolCall.function;
   final index = toolCall.index ?? fallbackIndex;
@@ -351,9 +358,13 @@ AIChatMessageToolCall _mapMistralToolCall(
     }
   } catch (_) {}
   return AIChatMessageToolCall(
+    // Continuation deltas commonly omit the provider ID. In streams the
+    // explicit index is the correlation key until the opening ID is known.
     id: toolCall.id.isNotEmpty
         ? toolCall.id
-        : 'mistral:$responseId:tool:$index',
+        : useFallbackId
+        ? 'mistral:$responseId:tool:$index'
+        : '',
     index: index,
     name: function.name,
     argumentsRaw: function.arguments,
