@@ -153,14 +153,7 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
                     final g.TextPart p => p.text,
                     final g.InlineDataPart p => p.inlineData.data,
                     final g.FileDataPart p => p.fileData.fileUri,
-                    g.FunctionResponsePart() => '',
-                    g.FunctionCallPart() => '',
-                    g.ExecutableCodePart() => '',
-                    g.CodeExecutionResultPart() => '',
-                    g.VideoMetadataPart() => '',
-                    g.ThoughtPart() => '',
-                    g.ThoughtSignaturePart() => '',
-                    g.PartMetadataPart() => '',
+                    g.Part() => '',
                   },
                 )
                 .nonNulls
@@ -241,16 +234,27 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
   FinishReason _mapFinishReason(final g.FinishReason? reason) =>
       switch (reason) {
-        g.FinishReason.unspecified => FinishReason.unspecified,
         g.FinishReason.stop => FinishReason.stop,
         g.FinishReason.maxTokens => FinishReason.length,
-        g.FinishReason.safety => FinishReason.contentFilter,
-        g.FinishReason.recitation => FinishReason.recitation,
-        g.FinishReason.other => FinishReason.unspecified,
-        g.FinishReason.blocklist => FinishReason.contentFilter,
-        g.FinishReason.prohibitedContent => FinishReason.contentFilter,
-        g.FinishReason.spii => FinishReason.contentFilter,
-        g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
+        g.FinishReason.safety ||
+        g.FinishReason.blocklist ||
+        g.FinishReason.prohibitedContent ||
+        g.FinishReason.spii ||
+        g.FinishReason.language ||
+        g.FinishReason.imageSafety ||
+        g.FinishReason.imageProhibitedContent => FinishReason.contentFilter,
+        g.FinishReason.recitation ||
+        g.FinishReason.imageRecitation => FinishReason.recitation,
+        g.FinishReason.unspecified ||
+        g.FinishReason.other ||
+        g.FinishReason.malformedFunctionCall ||
+        g.FinishReason.imageOther ||
+        g.FinishReason.noImage ||
+        g.FinishReason.unexpectedToolCall ||
+        g.FinishReason.tooManyToolCalls ||
+        g.FinishReason.missingThoughtSignature ||
+        g.FinishReason.malformedResponse ||
+        g.FinishReason.escalation => FinishReason.unspecified,
         null => FinishReason.unspecified,
       };
 }
@@ -305,7 +309,7 @@ extension ChatToolListMapper on List<ToolSpec>? {
               ),
             )
             .toList(growable: false),
-        codeExecution: enableCodeExecution ? <String, dynamic>{} : null,
+        codeExecution: enableCodeExecution ? const g.CodeExecution() : null,
       ),
     ];
   }
@@ -385,23 +389,22 @@ extension SchemaMapper on Map<String, dynamic> {
 }
 
 extension ChatToolChoiceMapper on ChatToolChoice {
-  Map<String, dynamic> toToolConfig() {
-    return switch (this) {
-      ChatToolChoiceNone _ => {
-        'functionCallingConfig': {'mode': 'NONE'},
-      },
-      ChatToolChoiceAuto _ => {
-        'functionCallingConfig': {'mode': 'AUTO'},
-      },
-      ChatToolChoiceRequired() => {
-        'functionCallingConfig': {'mode': 'ANY'},
-      },
-      final ChatToolChoiceForced t => {
-        'functionCallingConfig': {
-          'mode': 'ANY',
-          'allowedFunctionNames': [t.name],
-        },
-      },
+  g.ToolConfig toToolConfig() {
+    final functionCallingConfig = switch (this) {
+      ChatToolChoiceNone _ => const g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.none,
+      ),
+      ChatToolChoiceAuto _ => const g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.auto,
+      ),
+      ChatToolChoiceRequired() => const g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.any,
+      ),
+      final ChatToolChoiceForced t => g.FunctionCallingConfig(
+        mode: g.FunctionCallingMode.any,
+        allowedFunctionNames: [t.name],
+      ),
     };
+    return g.ToolConfig(functionCallingConfig: functionCallingConfig);
   }
 }
