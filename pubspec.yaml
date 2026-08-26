@@ -132,7 +132,7 @@ melos:
 
     analyze:
       description: Analyze the full workspace
-      run: dart analyze .
+      run: melos exec -c 1 -- "flutter analyze --no-pub ."
 
     analyze:diff:
       description: Run Flutter static analyzer
