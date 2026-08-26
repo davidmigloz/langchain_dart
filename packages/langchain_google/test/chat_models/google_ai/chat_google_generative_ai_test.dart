@@ -33,9 +33,9 @@ void main() {
 
     test('Test Text-only input', () async {
       const models = [
-        'gemini-2.5-pro',
+        'gemini-3.1-pro-preview',
         'gemini-2.5-flash',
-        'gemini-2.5-flash-lite',
+        'gemini-3.5-flash-lite',
       ];
       for (final model in models) {
         final res = await chatModel.invoke(
