@@ -91,8 +91,7 @@ void main() {
       final first = response.toChatResult('id-1', 'gemini-2.5-flash').output;
       final merged = first.concat(
         AIChatMessage(
-          content: '',
-          toolCalls: [
+          content: [
             AIChatMessageToolCall(
               id: first.toolCalls.single.id,
               name: '',
@@ -135,9 +134,9 @@ void main() {
           .output;
       final merged = first.concat(signedBoundary);
 
-      expect(merged.contentBlocks, hasLength(2));
+      expect(merged.content, hasLength(2));
       expect(
-        merged.contentBlocks.last,
+        merged.content.last,
         isA<AIChatMessageTextBlock>()
             .having((block) => block.text, 'text', isEmpty)
             .having((block) => block.isMergeable, 'isMergeable', isFalse),
@@ -159,8 +158,7 @@ void main() {
         final signature = utf8.encode('signature-bytes');
         final messages = <ChatMessage>[
           AIChatMessage(
-            content: '',
-            toolCalls: [
+            content: [
               AIChatMessageToolCall(
                 id: 'getWeather',
                 name: 'getWeather',
@@ -184,8 +182,7 @@ void main() {
     test('maps no thoughtSignature when provider data lacks one', () {
       final messages = <ChatMessage>[
         const AIChatMessage(
-          content: '',
-          toolCalls: [
+          content: [
             AIChatMessageToolCall(
               id: 'getWeather',
               name: 'getWeather',
@@ -200,6 +197,34 @@ void main() {
 
       final part = content.single.parts.single as g.FunctionCallPart;
       expect(part.thoughtSignature, isNull);
+    });
+
+    test('maps opaque tool-call IDs separately from function names', () {
+      final content = <ChatMessage>[
+        ChatMessage.tool(
+          toolCallId: 'call-madrid',
+          name: 'getWeather',
+          content: '{"temperature":22}',
+        ),
+        ChatMessage.tool(
+          toolCallId: 'call-paris',
+          name: 'getWeather',
+          content: '{"temperature":25}',
+        ),
+      ].toContentList();
+
+      final responses = content.single.parts
+          .whereType<g.FunctionResponsePart>()
+          .map((part) => part.functionResponse)
+          .toList();
+      expect(responses.map((response) => response.id), [
+        'call-madrid',
+        'call-paris',
+      ]);
+      expect(responses.map((response) => response.name), [
+        'getWeather',
+        'getWeather',
+      ]);
     });
   });
 
@@ -251,7 +276,7 @@ void main() {
 
       final result = response.toChatResult('id-1', 'gemini-2.5-flash');
 
-      expect(result.output.content, startsWith('visible'));
+      expect(result.output.contentAsString, startsWith('visible'));
     });
 
     test('preserves ordered parts and common metadata through replay', () {
@@ -318,7 +343,7 @@ void main() {
       final message = response.toChatResult('response-1', 'gemini').output;
       final replayed = <ChatMessage>[message].toContentList().single.parts;
 
-      expect(message.contentBlocks.map((block) => block.runtimeType), [
+      expect(message.content.map((block) => block.runtimeType), [
         AIChatMessageReasoningBlock,
         AIChatMessageTextBlock,
         AIChatMessageMediaBlock,

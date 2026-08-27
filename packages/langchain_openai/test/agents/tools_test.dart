@@ -144,6 +144,7 @@ void main() {
                       ChatMessage.tool(
                         toolCallId: s.action.id,
                         content: s.observation,
+                        name: s.action.tool,
                       ),
                     ];
               })

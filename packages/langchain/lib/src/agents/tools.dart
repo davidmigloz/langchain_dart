@@ -180,6 +180,7 @@ class ToolsAgent extends BaseSingleActionAgent {
       final functionMsg = ChatMessage.tool(
         toolCallId: lastStep.action.id,
         content: lastStep.observation,
+        name: lastStep.action.tool,
       );
       agentInput = functionMsg;
     } else {
@@ -216,6 +217,7 @@ class ToolsAgent extends BaseSingleActionAgent {
                   ChatMessage.tool(
                     toolCallId: s.action.id,
                     content: s.observation,
+                    name: s.action.tool,
                   ),
                 ];
           })
@@ -296,7 +298,7 @@ class ToolsAgentOutputParser
               log:
                   'Invoking: `${toolCall.name}` '
                   'with `${toolCall.arguments}`\n'
-                  'Responded: ${message.content}\n',
+                  'Responded: ${message.contentAsString}\n',
               messageLog: [message],
             );
           })
@@ -304,8 +306,8 @@ class ToolsAgentOutputParser
     } else {
       return [
         AgentFinish(
-          returnValues: {'output': message.content},
-          log: message.content,
+          returnValues: {'output': message.contentAsString},
+          log: message.contentAsString,
         ),
       ];
     }

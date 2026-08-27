@@ -164,6 +164,7 @@ AgentExecutor testLCDLEquivalent({
                     ChatMessage.tool(
                       toolCallId: s.action.id,
                       content: s.observation,
+                      name: s.action.tool,
                     ),
                   ];
             })

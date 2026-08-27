@@ -30,7 +30,7 @@ void main() {
       );
       final expectedResult = [
         ChatMessage.humanText('bar'),
-        ChatMessage.ai('foo'),
+        ChatMessage.aiText('foo'),
       ];
       final result2 = await memory.loadMemoryVariables();
       expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
@@ -45,11 +45,11 @@ void main() {
         inputValues: {
           'foo': ChatMessage.tool(toolCallId: 'foo', content: 'bar'),
         },
-        outputValues: {'bar': ChatMessage.ai('baz')},
+        outputValues: {'bar': ChatMessage.aiText('baz')},
       );
       final expectedResult = [
         ChatMessage.tool(toolCallId: 'foo', content: 'bar'),
-        ChatMessage.ai('baz'),
+        ChatMessage.aiText('baz'),
       ];
       final result2 = await memory.loadMemoryVariables();
       expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
@@ -58,7 +58,7 @@ void main() {
     test('Test buffer memory with pre-loaded history', () async {
       final pastMessages = [
         ChatMessage.humanText("My name's Jonas"),
-        ChatMessage.ai('Nice to meet you, Jonas!'),
+        ChatMessage.aiText('Nice to meet you, Jonas!'),
       ];
       final memory = ConversationBufferMemory(
         returnMessages: true,
@@ -97,7 +97,7 @@ void main() {
         );
         final expectedResult = [
           ChatMessage.humanText('bar'),
-          ChatMessage.ai('foo'),
+          ChatMessage.aiText('foo'),
         ];
         final result1 = await memory.loadMemoryVariables();
         expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});
@@ -119,7 +119,7 @@ void main() {
       );
       final expectedResult = [
         ChatMessage.humanText('bar2'),
-        ChatMessage.ai('foo'),
+        ChatMessage.aiText('foo'),
       ];
       final result1 = await memory.loadMemoryVariables();
       expect(result1, {BaseMemory.defaultMemoryKey: expectedResult});

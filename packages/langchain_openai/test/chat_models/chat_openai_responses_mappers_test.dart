@@ -33,7 +33,7 @@ void main() {
       });
 
       test('should map AIChatMessage to assistant text item', () {
-        final messages = [ChatMessage.ai('I am fine.')];
+        final messages = [ChatMessage.aiText('I am fine.')];
         final input = messages.toResponseInput();
 
         final items = switch (input) {
@@ -46,7 +46,7 @@ void main() {
 
       test('should map AIChatMessage with tool calls to separate items', () {
         final messages = [
-          ChatMessage.ai(
+          ChatMessage.aiText(
             'Let me check.',
             toolCalls: const [
               AIChatMessageToolCall(
@@ -76,7 +76,7 @@ void main() {
 
       test('should map AIChatMessage without content to only tool calls', () {
         final messages = [
-          ChatMessage.ai(
+          ChatMessage.aiText(
             '',
             toolCalls: const [
               AIChatMessageToolCall(
@@ -272,13 +272,13 @@ void main() {
         final message = response.toChatResult().output;
         final replayed = <ChatMessage>[message].toResponseInput();
 
-        expect(message.contentBlocks.map((block) => block.runtimeType), [
+        expect(message.content.map((block) => block.runtimeType), [
           AIChatMessageReasoningBlock,
           AIChatMessageTextBlock,
           AIChatMessageToolCall,
           AIChatMessageServerToolCall,
         ]);
-        expect(message.content, 'I will check.');
+        expect(message.contentAsString, 'I will check.');
         expect(message.toolCalls.single.id, 'call_1');
         expect(replayed.toJson(), output);
       });
@@ -371,7 +371,7 @@ void main() {
             .map((result) => result.output)
             .reduce((first, next) => first.concat(next));
 
-        expect(output.contentBlocks, hasLength(2));
+        expect(output.content, hasLength(2));
         expect(output.contentAsString, 'firstsecond');
       });
 
@@ -402,8 +402,7 @@ void main() {
         final output = results
             .map((result) => result.output)
             .reduce((first, next) => first.concat(next));
-        final block =
-            output.contentBlocks.single as AIChatMessageServerToolCall;
+        final block = output.content.single as AIChatMessageServerToolCall;
 
         expect(block.name, 'web_search_call');
         expect(block.arguments['status'], 'completed');

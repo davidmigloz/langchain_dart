@@ -42,9 +42,6 @@ sealed class AIChatMessageContentBlock {
       ? 'index:$index'
       : null;
 
-  /// Legacy string projection of this block.
-  String get legacyContent;
-
   /// Converts this block to a map.
   Map<String, dynamic> toMap();
 
@@ -228,9 +225,6 @@ final class AIChatMessageTextBlock extends AIChatMessageContentBlock {
       );
 
   @override
-  String get legacyContent => text;
-
-  @override
   Map<String, dynamic> toMap() => {
     'type': 'text',
     'text': text,
@@ -270,9 +264,6 @@ final class AIChatMessageReasoningBlock extends AIChatMessageContentBlock {
         isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
-
-  @override
-  String get legacyContent => reasoning;
 
   @override
   Map<String, dynamic> toMap() => {
@@ -319,9 +310,6 @@ final class AIChatMessageMediaBlock extends AIChatMessageContentBlock {
         isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
-
-  @override
-  String get legacyContent => data;
 
   @override
   Map<String, dynamic> toMap() => {
@@ -376,9 +364,6 @@ final class AIChatMessageFileBlock extends AIChatMessageContentBlock {
         isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
-
-  @override
-  String get legacyContent => uri;
 
   @override
   Map<String, dynamic> toMap() => {
@@ -437,9 +422,6 @@ final class AIChatMessageToolCall extends AIChatMessageContentBlock {
         isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
-
-  @override
-  String get legacyContent => '';
 
   @override
   Map<String, dynamic> toMap() => {
@@ -523,9 +505,6 @@ final class AIChatMessageServerToolCall extends AIChatMessageContentBlock {
       );
 
   @override
-  String get legacyContent => '';
-
-  @override
   Map<String, dynamic> toMap() => {
     'type': 'serverToolCall',
     'name': name,
@@ -592,9 +571,6 @@ final class AIChatMessageServerToolResult extends AIChatMessageContentBlock {
       );
 
   @override
-  String get legacyContent => '';
-
-  @override
   Map<String, dynamic> toMap() => {
     'type': 'serverToolResult',
     'toolCallId': toolCallId,
@@ -648,9 +624,6 @@ final class AIChatMessageProviderMetadataBlock
   );
 
   @override
-  String get legacyContent => '';
-
-  @override
   Map<String, dynamic> toMap() => {
     'type': 'providerMetadata',
     ..._metadataMap(this),
@@ -688,9 +661,6 @@ final class AIChatMessageNonStandardBlock extends AIChatMessageContentBlock {
         isMergeable: _readIsMergeable(map),
         providerData: _readProviderData(map),
       );
-
-  @override
-  String get legacyContent => '';
 
   @override
   Map<String, dynamic> toMap() => {

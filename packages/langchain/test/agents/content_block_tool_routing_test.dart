@@ -3,8 +3,8 @@ import 'package:test/test.dart';
 
 void main() {
   test('parallel same-name content-block calls route independently', () async {
-    const message = AIChatMessage.withBlocks(
-      contentBlocks: [
+    const message = AIChatMessage(
+      content: [
         AIChatMessageToolCall(
           id: 'call-madrid',
           index: 0,

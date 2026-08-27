@@ -50,7 +50,7 @@ void main() {
     test('ChatModel as Runnable', () async {
       const run = FakeEchoChatModel();
       final res = await run.invoke(PromptValue.string('Hello world!'));
-      expect(res.output.content, 'Hello world!');
+      expect(res.output.contentAsString, 'Hello world!');
     });
 
     test('OutputParser as Runnable', () async {

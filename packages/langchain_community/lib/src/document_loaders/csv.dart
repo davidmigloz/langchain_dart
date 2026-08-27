@@ -115,7 +115,7 @@ class CsvLoader extends BaseDocumentLoader {
   Stream<Document> lazyLoad() async* {
     final file = XFile(filePath);
 
-    final csvLinesStream = file
+    final csvRowsStream = file
         .openRead()
         .cast<List<int>>()
         .transform(utf8.decoder)
@@ -124,11 +124,12 @@ class CsvLoader extends BaseDocumentLoader {
             fieldDelimiter: fieldDelimiter,
             quoteCharacter: fieldTextDelimiter,
           ),
-        );
+        )
+        .expand((final rows) => rows);
 
     final fieldsToPositions = <String, int>{};
     final pageContentFields = <String>[];
-    await for (final row in csvLinesStream) {
+    await for (final row in csvRowsStream) {
       // Process CSV header
       if (fieldsToPositions.isEmpty) {
         assert(row.isNotEmpty, 'Header row cannot be empty');

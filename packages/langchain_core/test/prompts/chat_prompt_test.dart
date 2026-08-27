@@ -24,7 +24,7 @@ void main() {
         ChatMessage.humanText(
           "Hello Foo, I'm Bar. Thanks for the This is a context",
         ),
-        ChatMessage.ai("I'm an AI. I'm Foo. I'm Bar."),
+        ChatMessage.aiText("I'm an AI. I'm Foo. I'm Bar."),
         ChatMessage.custom(
           "I'm a generic message. I'm Foo. I'm Bar.",
           role: 'test',
@@ -55,7 +55,7 @@ void main() {
         ChatMessage.humanText(
           "Hello Foo, I'm Bar. Thanks for the This is a context",
         ),
-        ChatMessage.ai("I'm an AI. I'm Foo. I'm Bar."),
+        ChatMessage.aiText("I'm an AI. I'm Foo. I'm Bar."),
         ChatMessage.custom(
           "I'm a generic message. I'm Foo. I'm Bar.",
           role: 'test',
@@ -87,7 +87,7 @@ void main() {
           ChatMessage.humanText(
             "Hello Foo, I'm Bar. Thanks for the This is a context",
           ),
-          ChatMessage.ai("I'm an AI. I'm Foo. I'm Bar."),
+          ChatMessage.aiText("I'm an AI. I'm Foo. I'm Bar."),
           ChatMessage.custom(
             "I'm a generic message. I'm Foo. I'm Bar.",
             role: 'test',
@@ -311,7 +311,7 @@ void main() {
       final humanMessage = ChatMessage.humanText(
         'What is the best way to learn programming?',
       );
-      final aiMessage = ChatMessage.ai('''
+      final aiMessage = ChatMessage.aiText('''
 1. Choose a programming language: Decide on a programming language that you want to learn. 
 
 2. Start with the basics: Familiarize yourself with the basic programming concepts such as variables, data types and control structures.

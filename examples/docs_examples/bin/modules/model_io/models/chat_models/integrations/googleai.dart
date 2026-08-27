@@ -69,7 +69,7 @@ Future<void> _chatGoogleGenerativeAIMultiModal() async {
       ),
     ]),
   );
-  print(res.output.content);
+  print(res.output.contentAsString);
   // -> 'That is an apple.'
 
   chatModel.close();
@@ -124,7 +124,7 @@ Future<void> _codeExecution() async {
       'Return only the last term without explanations.',
     ),
   );
-  final text = res.output.content;
+  final text = res.output.contentAsString;
   print(text); // 34
   final executableCode = res.metadata['executable_code'] as String;
   print(executableCode);

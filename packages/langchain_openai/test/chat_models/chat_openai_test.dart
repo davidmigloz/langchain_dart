@@ -52,7 +52,7 @@ void main() {
         ),
       );
       final res = await chat([ChatMessage.humanText('Hello')]);
-      expect(res.content, isNotEmpty);
+      expect(res.contentAsString, isNotEmpty);
     });
 
     test('Test generate to ChatOpenAI', () async {
@@ -60,11 +60,11 @@ void main() {
       final res = await chat.invoke(
         PromptValue.chat([
           ChatMessage.humanText('Hello, how are you?'),
-          ChatMessage.ai('I am fine, thank you.'),
+          ChatMessage.aiText('I am fine, thank you.'),
           ChatMessage.humanText('Good, what is your name?'),
         ]),
       );
-      expect(res.output.content, isNotEmpty);
+      expect(res.output.contentAsString, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
@@ -97,8 +97,8 @@ void main() {
       final res = await chat([
         query,
       ], options: const ChatOpenAIOptions(stop: ['3']));
-      expect(res.content.contains('2.'), isTrue);
-      expect(res.content.contains('3.'), isFalse);
+      expect(res.contentAsString.contains('2.'), isTrue);
+      expect(res.contentAsString.contains('3.'), isFalse);
     });
 
     test('Test ChatOpenAI wrapper with system message', () async {
@@ -116,7 +116,7 @@ void main() {
         'write an ordered list of five items',
       );
       final res = await chat([systemMessage, humanMessage]);
-      expect(res.content, isNotEmpty);
+      expect(res.contentAsString, isNotEmpty);
     });
 
     const getCurrentWeatherTool = ToolSpec(
@@ -155,7 +155,7 @@ void main() {
 
         final aiMessage1 = res1.output;
 
-        expect(aiMessage1.content, isEmpty);
+        expect(aiMessage1.contentAsString, isEmpty);
         expect(aiMessage1.toolCalls, isNotEmpty);
         final toolCall = aiMessage1.toolCalls.first;
 
@@ -171,6 +171,7 @@ void main() {
         final functionMessage = ChatMessage.tool(
           toolCallId: toolCall.id,
           content: json.encode(functionResult),
+          name: toolCall.name,
         );
 
         final res2 = await chat.invoke(
@@ -181,7 +182,7 @@ void main() {
         final aiMessage2 = res2.output;
 
         expect(aiMessage2.toolCalls, isEmpty);
-        expect(aiMessage2.content, contains('22'));
+        expect(aiMessage2.contentAsString, contains('22'));
       },
     );
 
@@ -260,7 +261,7 @@ void main() {
       }
       expect(count, greaterThan(1));
       expect(
-        result!.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+        result!.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('123456789'),
       );
       expect(result.usage.promptTokens, greaterThan(0));
@@ -364,7 +365,8 @@ void main() {
 
       final res = await llm.invoke(prompt);
       final outputMsg = res.output;
-      final outputJson = json.decode(outputMsg.content) as Map<String, dynamic>;
+      final outputJson =
+          json.decode(outputMsg.contentAsString) as Map<String, dynamic>;
       expect(outputJson['companies'], isNotNull);
       final companies = outputJson['companies'] as List<dynamic>;
       expect(companies, hasLength(2));
@@ -423,7 +425,8 @@ void main() {
 
       final res = await llm.invoke(prompt);
       final outputMsg = res.output;
-      final outputJson = json.decode(outputMsg.content) as Map<String, dynamic>;
+      final outputJson =
+          json.decode(outputMsg.contentAsString) as Map<String, dynamic>;
       expect(outputJson['companies'], isNotNull);
       final companies = outputJson['companies'] as List<dynamic>;
       expect(companies, hasLength(2));
@@ -454,7 +457,7 @@ void main() {
       );
 
       final res = await chatModel.invoke(prompt);
-      expect(res.output.content.toLowerCase(), contains('apple'));
+      expect(res.output.contentAsString.toLowerCase(), contains('apple'));
     });
 
     test('Test multi-modal GPT-4 Vision with base64 image', () async {
@@ -477,7 +480,7 @@ void main() {
       );
 
       final res = await chatModel.invoke(prompt);
-      expect(res.output.content.toLowerCase(), contains('apple'));
+      expect(res.output.contentAsString.toLowerCase(), contains('apple'));
     });
 
     test('Test additive bind calls', () async {

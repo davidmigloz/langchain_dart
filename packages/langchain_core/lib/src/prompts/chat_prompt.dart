@@ -581,7 +581,7 @@ final class AIChatMessagePromptTemplate extends StringMessagePromptTemplate {
 
   @override
   ChatMessage format([final InputValues values = const {}]) {
-    return ChatMessage.ai(prompt.format(values));
+    return ChatMessage.aiText(prompt.format(values));
   }
 
   @override

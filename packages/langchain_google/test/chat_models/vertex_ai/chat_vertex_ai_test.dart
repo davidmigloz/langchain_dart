@@ -58,7 +58,7 @@ void main() {
       );
       final messages = [ChatMessage.humanText('Tell me a joke.')];
       final res = await chat(messages);
-      expect(res.content, isNotEmpty);
+      expect(res.contentAsString, isNotEmpty);
     });
 
     test('Test invoke to ChatVertexAI', () async {
@@ -75,7 +75,7 @@ void main() {
         ChatMessage.humanText('Tell me a joke.'),
       ]);
       final res = await chat.invoke(prompt);
-      expect(res.output.content, isNotEmpty);
+      expect(res.output.contentAsString, isNotEmpty);
     });
 
     test('Test stream to ChatVertexAI', () async {
@@ -94,7 +94,7 @@ void main() {
       final results = await stream.toList();
       expect(results, isNotEmpty);
       for (final result in results) {
-        expect(result.output.content, isNotEmpty);
+        expect(result.output.contentAsString, isNotEmpty);
       }
     });
 

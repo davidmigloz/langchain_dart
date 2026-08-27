@@ -20,7 +20,7 @@ void main() {
             ),
           ]),
         ),
-        ChatMessage.ai(
+        ChatMessage.aiText(
           'Assistant Response',
           toolCalls: const [
             AIChatMessageToolCall(
@@ -37,7 +37,11 @@ void main() {
             ),
           ],
         ),
-        ChatMessage.tool(toolCallId: 'some-id2', content: 'Tool Call content'),
+        ChatMessage.tool(
+          toolCallId: 'some-id2',
+          content: 'Tool Call content',
+          name: 'some name',
+        ),
         ChatMessage.custom('huh?', role: 'internal-monologue'),
       ];
       final promptValue = PromptValue.chat(testMessages);
@@ -57,6 +61,17 @@ void main() {
         jsonEncode(PromptValue.fromMap(promptValue.toMap()).toMap()),
         jsonEncode(promptValue.toMap()),
       );
+    });
+
+    test('ToolChatMessage retains the tool name', () {
+      const message = ToolChatMessage(
+        toolCallId: 'call-1',
+        content: 'sunny',
+        name: 'weather',
+      );
+
+      expect(ToolChatMessage.fromMap(message.toMap()), message);
+      expect(message.toMap()['name'], 'weather');
     });
 
     test('ChatToolChoice', () {

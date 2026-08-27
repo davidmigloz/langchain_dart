@@ -111,7 +111,11 @@ extension ChatMessagesMapper on List<ChatMessage> {
       response = {'result': msg.content};
     }
     return g.FunctionResponsePart(
-      g.FunctionResponse(name: msg.toolCallId, response: response),
+      g.FunctionResponse(
+        id: msg.toolCallId,
+        name: msg.name ?? msg.toolCallId,
+        response: response,
+      ),
     );
   }
 
@@ -129,13 +133,10 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: googlePartsToContentBlocks(
+      output: AIChatMessage(
+        content: googlePartsToContentBlocks(
           candidate.content?.parts ?? const [],
           responseId: id,
-        ),
-        legacyContent: googlePartsToLegacyContent(
-          candidate.content?.parts ?? const [],
         ),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),

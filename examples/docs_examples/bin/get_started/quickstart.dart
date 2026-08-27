@@ -66,7 +66,7 @@ Future<void> _commaSeparatedListOutputParser() async {
   final res = await const CommaSeparatedListOutputParser().invoke(
     const ChatResult(
       id: 'id',
-      output: AIChatMessage(content: 'hi, bye'),
+      output: AIChatMessage(content: [AIChatMessageTextBlock(text: 'hi, bye')]),
       finishReason: FinishReason.stop,
       metadata: {},
       usage: LanguageModelUsage(),
@@ -87,7 +87,7 @@ class CommaSeparatedListOutputParser
     final OutputParserOptions? options,
   }) async {
     final message = input.output;
-    return message.content.trim().split(',');
+    return message.contentAsString.trim().split(',');
   }
 }
 

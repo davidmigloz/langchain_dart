@@ -48,7 +48,7 @@ void main() {
 
         expect(res.id, isNotEmpty);
         expect(
-          res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          res.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
         );
         expect(res.metadata, isNotEmpty, reason: model);
@@ -78,7 +78,10 @@ void main() {
         var content = '';
         var count = 0;
         await for (final res in stream) {
-          content += res.output.content.replaceAll(RegExp(r'[\s\n]'), '');
+          content += res.output.contentAsString.replaceAll(
+            RegExp(r'[\s\n]'),
+            '',
+          );
           count++;
         }
         expect(count, greaterThan(1), reason: model);
@@ -140,7 +143,7 @@ void main() {
 
         final aiMessage1 = res1.output;
 
-        expect(aiMessage1.content, isEmpty);
+        expect(aiMessage1.contentAsString, isEmpty);
         expect(aiMessage1.toolCalls, isNotEmpty);
         final toolCall = aiMessage1.toolCalls.first;
 
@@ -156,6 +159,7 @@ void main() {
         final functionMessage = ChatMessage.tool(
           toolCallId: toolCall.id,
           content: json.encode(functionResult),
+          name: toolCall.name,
         );
 
         final res2 = await chatModel.invoke(
@@ -166,7 +170,7 @@ void main() {
         final aiMessage2 = res2.output;
 
         expect(aiMessage2.toolCalls, isEmpty);
-        expect(aiMessage2.content, contains('22'));
+        expect(aiMessage2.contentAsString, contains('22'));
       },
     );
   });

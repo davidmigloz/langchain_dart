@@ -31,7 +31,7 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
     final FakeChatModelOptions? options,
   }) async {
     final text = responses[_i++ % responses.length];
-    final message = AIChatMessage(content: text);
+    final message = AIChatMessage.text(text);
     return ChatResult(
       id: '1',
       output: message,
@@ -53,7 +53,7 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
     return Stream.fromIterable(res).map(
       (final char) => ChatResult(
         id: 'fake-chat-model',
-        output: AIChatMessage(content: char),
+        output: AIChatMessage.text(char),
         finishReason: FinishReason.stop,
         metadata: {
           'model': options?.model ?? defaultOptions.model,
@@ -161,7 +161,7 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
     }
 
     final text = input.toChatMessages().last.contentAsString;
-    final message = AIChatMessage(content: text);
+    final message = AIChatMessage.text(text);
     return ChatResult(
       id: '1',
       output: message,
@@ -191,7 +191,7 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
 
       return ChatResult(
         id: 'fake-echo-chat-model',
-        output: AIChatMessage(content: char),
+        output: AIChatMessage.text(char),
         finishReason: FinishReason.stop,
         metadata: {
           'model': options?.model ?? defaultOptions.model,

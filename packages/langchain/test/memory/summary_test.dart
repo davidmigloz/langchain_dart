@@ -139,7 +139,7 @@ void main() {
       );
       final pastMessages = [
         ChatMessage.humanText("My name's Jonas"),
-        ChatMessage.ai('Nice to meet you, Jonas!'),
+        ChatMessage.aiText('Nice to meet you, Jonas!'),
       ];
       final memory = await ConversationSummaryMemory.fromMessages(
         llm: model,
@@ -209,7 +209,7 @@ void main() {
       final memory = ConversationSummaryMemory(
         llm: model,
         summaryPromptTemplate: prompt,
-        summaryMessageBuilder: ChatMessage.ai,
+        summaryMessageBuilder: ChatMessage.aiText,
       );
       await memory.saveContext(
         inputValues: {'foo': "My name's Jonas"},

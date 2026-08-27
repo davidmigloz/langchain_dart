@@ -1,0 +1,56 @@
+name: Full workspace checks
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Analyze & run non-live tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: 'stable'
+
+      - name: Set up Flutter
+        run: |
+          flutter config --no-analytics
+          dart --disable-analytics
+
+      - name: Install Melos
+        uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5
+        with:
+          melos-version: '7.4.0'
+          run-bootstrap: false
+
+      - name: Bootstrap
+        uses: nick-invision/retry@ad984534de44a9489a53aefd81eb77f87c70dc60
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          retry_wait_seconds: 5
+          command: melos bootstrap
+
+      - name: Analyze full workspace
+        run: melos analyze
+
+      - name: Run all non-live tests
+        run: melos test:unit

@@ -23,7 +23,9 @@ void main() {
     test('StringOutputParser from ChatResult', () async {
       const result = ChatResult(
         id: 'id',
-        output: AIChatMessage(content: 'Hello world!'),
+        output: AIChatMessage(
+          content: [AIChatMessageTextBlock(text: 'Hello world!')],
+        ),
         finishReason: FinishReason.stop,
         metadata: {},
         usage: LanguageModelUsage(),

@@ -1,3 +1,6 @@
+@Tags(['integration'])
+library;
+
 import 'package:langchain_community/langchain_community.dart';
 import 'package:test/test.dart';
 

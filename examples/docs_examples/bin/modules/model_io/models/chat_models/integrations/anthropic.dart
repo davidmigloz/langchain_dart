@@ -68,7 +68,7 @@ Future<void> _multiModal() async {
       ),
     ]),
   );
-  print(res.output.content);
+  print(res.output.contentAsString);
   // -> 'The fruit in the image is an apple.'
 
   chatModel.close();

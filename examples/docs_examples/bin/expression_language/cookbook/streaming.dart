@@ -22,7 +22,7 @@ Future<void> _languageModels() async {
   final chunks = <ChatResult>[];
   await for (final chunk in stream) {
     chunks.add(chunk);
-    stdout.write('${chunk.output.content}|');
+    stdout.write('${chunk.output.contentAsString}|');
   }
   // Hello|!| I| am| a| language| model| AI| created| by| Open|AI|,|...
 

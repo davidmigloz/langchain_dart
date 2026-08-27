@@ -90,7 +90,7 @@ void main() {
         PromptValue.string('test3'),
       ]);
       expect(
-        res.map((final e) => e.output.content).toList(),
+        res.map((final e) => e.output.contentAsString).toList(),
         equals(['test1', 'test2', 'test3']),
       );
     });

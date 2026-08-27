@@ -1,4 +1,5 @@
 import 'package:langchain_core/chat_models.dart';
+import 'package:langchain_core/language_models.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -10,27 +11,35 @@ void main() {
         argumentsRaw: '{}',
         arguments: {},
       );
-      const message = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const message = AIChatMessage(
+        content: [
           AIChatMessageReasoningBlock(reasoning: 'check', index: 0),
           firstCall,
           AIChatMessageTextBlock(text: 'sunny', index: 2),
         ],
       );
 
-      expect(message.contentBlocks, [
+      expect(message.content, [
         isA<AIChatMessageReasoningBlock>(),
         same(firstCall),
         isA<AIChatMessageTextBlock>(),
       ]);
       expect(message.toolCalls, [firstCall]);
-      expect(message.content, 'checksunny');
+      expect(message.contentAsString, 'sunny');
+
+      const result = ChatResult(
+        id: 'result-1',
+        output: message,
+        finishReason: FinishReason.stop,
+        metadata: {},
+        usage: LanguageModelUsage(),
+      );
+      expect(result.outputAsString, 'sunny');
     });
 
-    test('round-trips canonical and legacy serialization', () {
-      const message = AIChatMessage.withBlocks(
-        legacyContent: 'legacy projection',
-        contentBlocks: [
+    test('round-trips canonical serialization', () {
+      const message = AIChatMessage(
+        content: [
           AIChatMessageReasoningBlock(
             reasoning: 'hidden',
             id: 'reasoning-1',
@@ -53,15 +62,15 @@ void main() {
       final map = message.toMap();
       final restored = AIChatMessage.fromMap(map);
 
-      expect(map['content'], 'legacy projection');
-      expect(map['toolCalls'], hasLength(1));
-      expect(map['contentBlocks'], hasLength(3));
+      expect(map['content'], hasLength(3));
       expect(
-        (map['contentBlocks'] as List).first,
+        (map['content'] as List).first,
         containsPair('isMergeable', false),
       );
+      expect(map, isNot(contains('toolCalls')));
+      expect(map, isNot(contains('contentBlocks')));
       expect(restored, message);
-      expect(restored.content, 'legacy projection');
+      expect(restored.contentAsString, 'visible');
     });
 
     test('reads legacy maps without tool calls', () {
@@ -70,22 +79,36 @@ void main() {
         'content': 'hello',
       });
 
-      expect(message.content, 'hello');
-      expect(message.contentBlocks.single, isA<AIChatMessageTextBlock>());
+      expect(message.contentAsString, 'hello');
+      expect(message.content.single, isA<AIChatMessageTextBlock>());
       expect(message.toolCalls, isEmpty);
+    });
+
+    test('reads transitional content-block maps', () {
+      final message = AIChatMessage.fromMap(const {
+        'type': 'ai',
+        'content': 'legacy projection',
+        'contentBlocks': [
+          {'type': 'reasoning', 'reasoning': 'hidden'},
+          {'type': 'text', 'text': 'visible'},
+        ],
+      });
+
+      expect(message.content, hasLength(2));
+      expect(message.contentAsString, 'visible');
     });
   });
 
   group('AIChatMessage block streaming', () {
     test('merges only matching stable stream identities', () {
-      const first = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const first = AIChatMessage(
+        content: [
           AIChatMessageTextBlock(text: 'hel', index: 0),
           AIChatMessageReasoningBlock(reasoning: 'rea', index: 1),
         ],
       );
-      const second = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const second = AIChatMessage(
+        content: [
           AIChatMessageTextBlock(text: 'lo', index: 0),
           AIChatMessageReasoningBlock(reasoning: 'son', index: 1),
         ],
@@ -93,16 +116,16 @@ void main() {
 
       final result = first.concat(second);
 
-      expect((result.contentBlocks[0] as AIChatMessageTextBlock).text, 'hello');
+      expect((result.content[0] as AIChatMessageTextBlock).text, 'hello');
       expect(
-        (result.contentBlocks[1] as AIChatMessageReasoningBlock).reasoning,
+        (result.content[1] as AIChatMessageReasoningBlock).reasoning,
         'reason',
       );
     });
 
     test('keeps parallel same-name calls separate by stream index', () {
-      const starts = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const starts = AIChatMessage(
+        content: [
           AIChatMessageToolCall(
             id: '',
             index: 0,
@@ -119,8 +142,8 @@ void main() {
           ),
         ],
       );
-      const finishes = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const finishes = AIChatMessage(
+        content: [
           AIChatMessageToolCall(
             id: '',
             index: 0,
@@ -148,39 +171,35 @@ void main() {
     });
 
     test('does not merge blocks without an id or index', () {
-      const first = AIChatMessage.withBlocks(
-        contentBlocks: [AIChatMessageTextBlock(text: 'one')],
+      const first = AIChatMessage(
+        content: [AIChatMessageTextBlock(text: 'one')],
       );
-      const second = AIChatMessage.withBlocks(
-        contentBlocks: [AIChatMessageTextBlock(text: 'two')],
+      const second = AIChatMessage(
+        content: [AIChatMessageTextBlock(text: 'two')],
       );
 
-      expect(first.concat(second).contentBlocks, hasLength(2));
+      expect(first.concat(second).content, hasLength(2));
     });
 
     test('does not let a matching index override different stable ids', () {
-      const first = AIChatMessage.withBlocks(
-        contentBlocks: [
-          AIChatMessageTextBlock(text: 'one', id: 'block-1', index: 0),
-        ],
+      const first = AIChatMessage(
+        content: [AIChatMessageTextBlock(text: 'one', id: 'block-1', index: 0)],
       );
-      const second = AIChatMessage.withBlocks(
-        contentBlocks: [
-          AIChatMessageTextBlock(text: 'two', id: 'block-2', index: 0),
-        ],
+      const second = AIChatMessage(
+        content: [AIChatMessageTextBlock(text: 'two', id: 'block-2', index: 0)],
       );
 
-      expect(first.concat(second).contentBlocks, hasLength(2));
+      expect(first.concat(second).content, hasLength(2));
     });
 
     test('retains completed provider part boundaries', () {
-      const first = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const first = AIChatMessage(
+        content: [
           AIChatMessageTextBlock(text: 'answer', id: 'part-0', index: 0),
         ],
       );
-      const signedBoundary = AIChatMessage.withBlocks(
-        contentBlocks: [
+      const signedBoundary = AIChatMessage(
+        content: [
           AIChatMessageTextBlock(
             text: '',
             id: 'part-0',
@@ -192,9 +211,9 @@ void main() {
 
       final result = first.concat(signedBoundary);
 
-      expect(result.contentBlocks, hasLength(2));
+      expect(result.content, hasLength(2));
       expect(
-        result.contentBlocks.last,
+        result.content.last,
         isA<AIChatMessageTextBlock>().having(
           (block) => block.isMergeable,
           'isMergeable',

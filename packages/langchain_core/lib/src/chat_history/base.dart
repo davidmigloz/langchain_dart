@@ -22,16 +22,17 @@ abstract base class BaseChatMessageHistory {
 
   /// Add an AI message to the history.
   Future<void> addAIChatMessage(final String message) {
-    return addChatMessage(ChatMessage.ai(message));
+    return addChatMessage(ChatMessage.aiText(message));
   }
 
   /// Add a Tool response message to the history.
   Future<void> addToolChatMessage({
     required final String toolCallId,
     required final String content,
+    final String? name,
   }) {
     return addChatMessage(
-      ChatMessage.tool(toolCallId: toolCallId, content: content),
+      ChatMessage.tool(toolCallId: toolCallId, content: content, name: name),
     );
   }
 

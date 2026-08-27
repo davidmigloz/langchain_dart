@@ -121,6 +121,7 @@ Future<void> _toolsAgentLCEL() async {
                 ChatMessage.tool(
                   toolCallId: s.action.id,
                   content: s.observation,
+                  name: s.action.tool,
                 ),
               ];
         })

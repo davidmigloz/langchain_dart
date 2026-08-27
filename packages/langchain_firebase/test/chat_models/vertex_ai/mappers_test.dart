@@ -32,7 +32,7 @@ void main() {
     final message = response.toChatResult('response-1', 'gemini').output;
     final replayed = <ChatMessage>[message].toContentList().single.parts;
 
-    expect(message.contentBlocks.map((block) => block.runtimeType), [
+    expect(message.content.map((block) => block.runtimeType), [
       AIChatMessageReasoningBlock,
       AIChatMessageTextBlock,
       AIChatMessageToolCall,
@@ -40,7 +40,7 @@ void main() {
     ]);
     expect(message.toolCalls.single.id, 'call-1');
     expect(
-      ((message.contentBlocks.first.providerData['firebase']
+      ((message.content.first.providerData['firebase']
               as Map<String, dynamic>)['part']
           as Map<String, dynamic>)['thoughtSignature'],
       signature,
@@ -101,9 +101,9 @@ void main() {
     ).toChatResult('stream-id', 'gemini').output;
     final merged = first.concat(signedBoundary);
 
-    expect(merged.contentBlocks, hasLength(2));
+    expect(merged.content, hasLength(2));
     expect(
-      merged.contentBlocks.last,
+      merged.content.last,
       isA<AIChatMessageTextBlock>()
           .having((block) => block.text, 'text', isEmpty)
           .having((block) => block.isMergeable, 'isMergeable', isFalse),
@@ -119,5 +119,19 @@ void main() {
       (replayed.last.toJson() as Map<String, Object?>)['thoughtSignature'],
       signature,
     );
+  });
+
+  test('maps opaque tool-call IDs separately from function names', () {
+    final content = <ChatMessage>[
+      ChatMessage.tool(
+        toolCallId: 'call-1',
+        name: 'weather',
+        content: '{"temperature":22}',
+      ),
+    ].toContentList();
+
+    final response = content.single.parts.single as f.FunctionResponse;
+    expect(response.id, 'call-1');
+    expect(response.name, 'weather');
   });
 }

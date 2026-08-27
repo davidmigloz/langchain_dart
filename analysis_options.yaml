@@ -8,6 +8,7 @@ analyzer:
     todo: ignore
     sdk_version_since: ignore # TODO remove when fixed https://github.com/dart-lang/sdk/issues/52327
   exclude:
+    - "**/build/**"
     - "**/generated_plugin_registrant.dart"
     - "**/generated/**"
     - "**/*.gen.dart"

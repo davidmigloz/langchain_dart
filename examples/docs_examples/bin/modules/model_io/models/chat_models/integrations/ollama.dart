@@ -78,7 +78,7 @@ Future<void> _chatOllamaMultimodal() async {
     ]),
   );
   final res = await chatModel.invoke(PromptValue.chat([prompt]));
-  print(res.output.content);
+  print(res.output.contentAsString);
   // -> 'An Apple'
 }
 
@@ -307,7 +307,7 @@ Future<void> _flights() async {
   // Check if the model decided to use the provided function
   if (response.output.toolCalls.isEmpty) {
     print("The model didn't use the function. Its response was:");
-    print(response.output.content);
+    print(response.output.contentAsString);
     return;
   }
 
@@ -319,13 +319,17 @@ Future<void> _flights() async {
     );
     // Add function response to the conversation
     messages.add(
-      ChatMessage.tool(toolCallId: toolCall.id, content: functionResponse),
+      ChatMessage.tool(
+        toolCallId: toolCall.id,
+        content: functionResponse,
+        name: toolCall.name,
+      ),
     );
   }
 
   // Second API call: Get final response from the model
   final finalResponse = await chatModel.invoke(PromptValue.chat(messages));
-  print(finalResponse.output.content);
+  print(finalResponse.output.contentAsString);
   // The flight time from New York (NYC) to Los Angeles (LAX) is approximately 5 hours and 30 minutes.
 }
 

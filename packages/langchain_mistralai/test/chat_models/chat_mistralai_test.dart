@@ -46,14 +46,14 @@ void main() {
     test('Test call to ChatMistralAI', () async {
       final output = await chatModel([ChatMessage.humanText('Say foo:')]);
       expect(output, isA<AIChatMessage>());
-      expect(output.content, isNotEmpty);
+      expect(output.contentAsString, isNotEmpty);
     });
 
     test('Test invoke to ChatMistralAI', () async {
       final res = await chatModel.invoke(
         PromptValue.chat([ChatMessage.humanText('Hello, how are you?')]),
       );
-      expect(res.output.content, isNotEmpty);
+      expect(res.output.contentAsString, isNotEmpty);
     });
 
     test('Test model output contains metadata', () async {
@@ -67,7 +67,7 @@ void main() {
         ]),
       );
       expect(
-        res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+        res.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
         contains('123456789'),
       );
       expect(res.id, isNotEmpty);

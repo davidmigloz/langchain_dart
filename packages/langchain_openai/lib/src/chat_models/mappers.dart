@@ -140,7 +140,7 @@ extension ChatMessageListMapper on List<ChatMessage> {
 
   oai.ChatMessage _mapAIMessage(final AIChatMessage aiChatMessage) {
     return oai.ChatMessage.assistant(
-      content: aiChatMessage.content,
+      content: aiChatMessage.contentAsString,
       toolCalls: aiChatMessage.toolCalls.isNotEmpty
           ? aiChatMessage.toolCalls
                 .map(_mapMessageToolCall)
@@ -181,8 +181,8 @@ extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
 
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: [
+      output: AIChatMessage(
+        content: [
           if (msg.hasReasoningContent)
             AIChatMessageReasoningBlock(
               reasoning: msg.reasoningContent ?? msg.reasoning ?? '',
@@ -210,7 +210,6 @@ extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
           for (final (index, toolCall) in (msg.toolCalls ?? const []).indexed)
             _mapMessageToolCall(toolCall, index: index + 2, responseId: id),
         ],
-        legacyContent: msg.content ?? '',
       ),
       finishReason: _mapFinishReason(choice.finishReason),
       metadata: {
@@ -291,8 +290,8 @@ extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
 
     return ChatResult(
       id: id,
-      output: AIChatMessage.withBlocks(
-        contentBlocks: [
+      output: AIChatMessage(
+        content: [
           if (delta?.hasReasoningContent ?? false)
             AIChatMessageReasoningBlock(
               reasoning: delta?.reasoningContent ?? delta?.reasoning ?? '',
@@ -315,7 +314,6 @@ extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
               in delta?.toolCalls ?? const <oai.ToolCallDelta>[])
             _mapMessageToolCall(toolCall, responseId: id),
         ],
-        legacyContent: delta?.content ?? '',
       ),
       finishReason: _mapFinishReason(choice?.finishReason),
       metadata: {
