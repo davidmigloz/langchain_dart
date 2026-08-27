@@ -87,7 +87,7 @@ melos:
         meta: ^1.16.0
         mistralai_dart: ^6.1.0
         objectbox: ^5.1.0
-        ollama_dart: ^1.4.0
+        ollama_dart: ^2.6.0
         openai_dart: ^1.4.0
         path: ^1.9.1
         pinecone: ^0.7.2

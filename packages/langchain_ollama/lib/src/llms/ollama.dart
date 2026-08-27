@@ -6,6 +6,7 @@ import 'package:langchain_tiktoken/langchain_tiktoken.dart';
 import 'package:ollama_dart/ollama_dart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../utils.dart';
 import 'mappers.dart';
 import 'types.dart';
 
@@ -227,7 +228,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
       context: options?.context ?? defaultOptions.context,
       format: (options?.format ?? defaultOptions.format)?.toFormat(),
       raw: options?.raw ?? defaultOptions.raw,
-      keepAlive: options?.keepAlive ?? defaultOptions.keepAlive,
+      keepAlive: mapKeepAlive(options?.keepAlive ?? defaultOptions.keepAlive),
       think: (options?.think ?? defaultOptions.think)?.toThinkValue(),
       stream: stream,
       options: ModelOptions(
@@ -237,7 +238,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
         topP: options?.topP ?? defaultOptions.topP,
         minP: options?.minP ?? defaultOptions.minP,
         temperature: options?.temperature ?? defaultOptions.temperature,
-        stop: options?.stop ?? defaultOptions.stop,
+        stop: mapStopSequences(options?.stop ?? defaultOptions.stop),
         numCtx: options?.numCtx ?? defaultOptions.numCtx,
         numKeep: options?.numKeep ?? defaultOptions.numKeep,
         tfsZ: options?.tfsZ ?? defaultOptions.tfsZ,
