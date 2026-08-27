@@ -70,13 +70,23 @@ class AgentFinish extends BaseAgentAction {
 /// {@endtemplate}
 class AgentStep {
   /// {@macro agent_step}
-  const AgentStep({required this.action, required this.observation});
+  const AgentStep({
+    required this.action,
+    required this.observation,
+    this.iteration,
+  });
 
   /// The action taken by the agent.
   final AgentAction action;
 
   /// The observation of the action.
   final String observation;
+
+  /// The zero-based planning iteration that produced this action.
+  ///
+  /// All parallel actions returned by one planning call share the same value.
+  /// Custom executors may leave this unset for legacy per-step behavior.
+  final int? iteration;
 }
 
 /// {@template agent_early_stopping_method}

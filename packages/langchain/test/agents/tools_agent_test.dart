@@ -157,19 +157,9 @@ AgentExecutor testLCDLEquivalent({
     Runnable.mapInput(
       (AgentPlanInput planInput) => <String, dynamic>{
         'input': planInput.inputs['input'],
-        'agent_scratchpad': planInput.intermediateSteps
-            .map((s) {
-              return s.action.messageLog +
-                  [
-                    ChatMessage.tool(
-                      toolCallId: s.action.id,
-                      content: s.observation,
-                      name: s.action.tool,
-                    ),
-                  ];
-            })
-            .expand((m) => m)
-            .toList(growable: false),
+        'agent_scratchpad': buildToolAgentScratchpad(
+          planInput.intermediateSteps,
+        ),
       },
     ).pipe(prompt).pipe(llm).pipe(const ToolsAgentOutputParser()),
     tools: [tool],

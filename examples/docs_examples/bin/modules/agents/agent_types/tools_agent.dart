@@ -113,27 +113,13 @@ Future<void> _toolsAgentLCEL() async {
 
   const outputParser = ToolsAgentOutputParser();
 
-  List<ChatMessage> buildScratchpad(final List<AgentStep> intermediateSteps) {
-    return intermediateSteps
-        .map((s) {
-          return s.action.messageLog +
-              [
-                ChatMessage.tool(
-                  toolCallId: s.action.id,
-                  content: s.observation,
-                  name: s.action.tool,
-                ),
-              ];
-        })
-        .expand((m) => m)
-        .toList(growable: false);
-  }
-
   final agent = Agent.fromRunnable(
     Runnable.mapInput(
       (AgentPlanInput planInput) => <String, dynamic>{
         'input': planInput.inputs['input'],
-        'agent_scratchpad': buildScratchpad(planInput.intermediateSteps),
+        'agent_scratchpad': buildToolAgentScratchpad(
+          planInput.intermediateSteps,
+        ),
       },
     ).pipe(prompt).pipe(model).pipe(outputParser),
     tools: [tool],

@@ -47,16 +47,28 @@ abstract base class BaseChatMemory implements BaseMemory {
     // this is purposefully done in sequence so they're saved in order
     final (input, output) = _getInputOutputValues(inputValues, outputValues);
 
-    if (input is ChatMessage) {
-      await chatHistory.addChatMessage(input);
-    } else {
-      await chatHistory.addHumanChatMessage(input.toString());
-    }
+    await _saveValue(input, isInput: true);
+    await _saveValue(output, isInput: false);
+  }
 
-    if (output is ChatMessage) {
-      await chatHistory.addChatMessage(output);
+  Future<void> _saveValue(
+    final dynamic value, {
+    required final bool isInput,
+  }) async {
+    if (value is ChatMessage) {
+      await chatHistory.addChatMessage(value);
+      return;
+    }
+    if (value is List<ChatMessage>) {
+      for (final message in value) {
+        await chatHistory.addChatMessage(message);
+      }
+      return;
+    }
+    if (isInput) {
+      await chatHistory.addHumanChatMessage(value.toString());
     } else {
-      await chatHistory.addAIChatMessage(output.toString());
+      await chatHistory.addAIChatMessage(value.toString());
     }
   }
 

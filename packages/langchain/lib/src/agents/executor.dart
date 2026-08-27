@@ -127,10 +127,19 @@ class AgentExecutor extends BaseChain {
       }
 
       if (nextSteps != null) {
-        intermediateSteps.addAll(nextSteps);
+        final stampedSteps = nextSteps
+            .map(
+              (step) => AgentStep(
+                action: step.action,
+                observation: step.observation,
+                iteration: iterations,
+              ),
+            )
+            .toList(growable: false);
+        intermediateSteps.addAll(stampedSteps);
 
-        if (nextSteps.length == 1) {
-          final nextStep = nextSteps.first;
+        if (stampedSteps.length == 1) {
+          final nextStep = stampedSteps.first;
           final tool = nameToToolMap[nextStep.action.tool];
 
           if (tool != null && tool.returnDirect) {

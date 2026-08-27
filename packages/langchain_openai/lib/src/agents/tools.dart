@@ -169,16 +169,21 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
   ) {
     final dynamic agentInput;
 
-    // If there is a memory, we pass the last agent step as a function message.
+    // If there is memory, pass every tool result from the latest iteration.
     // Otherwise, we pass the input as a human message.
     if (llmChain.memory != null && intermediateSteps.isNotEmpty) {
-      final lastStep = intermediateSteps.last;
-      final functionMsg = ChatMessage.tool(
-        toolCallId: lastStep.action.id,
-        content: lastStep.observation,
-        name: lastStep.action.tool,
-      );
-      agentInput = functionMsg;
+      final toolMessages = _latestIterationSteps(intermediateSteps)
+          .map(
+            (step) => ChatMessage.tool(
+              toolCallId: step.action.id,
+              content: step.observation,
+              name: step.action.tool,
+            ),
+          )
+          .toList(growable: false);
+      agentInput = toolMessages.length == 1
+          ? toolMessages.single
+          : toolMessages;
     } else {
       agentInput = switch (inputs[agentInputKey]) {
         final String inputStr => ChatMessage.humanText(inputStr),
@@ -204,22 +209,7 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
 
   List<ChatMessage> _constructScratchPad(
     final List<AgentStep> intermediateSteps,
-  ) {
-    return [
-      ...intermediateSteps
-          .map((final s) {
-            return s.action.messageLog +
-                [
-                  ChatMessage.tool(
-                    toolCallId: s.action.id,
-                    content: s.observation,
-                    name: s.action.tool,
-                  ),
-                ];
-          })
-          .expand((final m) => m),
-    ];
-  }
+  ) => buildToolAgentScratchpad(intermediateSteps);
 
   @override
   String get agentType => 'openai-tools';
@@ -252,6 +242,16 @@ class OpenAIToolsAgent extends BaseSingleActionAgent {
         ),
     ]);
   }
+}
+
+List<AgentStep> _latestIterationSteps(final List<AgentStep> steps) {
+  final lastIteration = steps.last.iteration;
+  if (lastIteration == null) return [steps.last];
+  var start = steps.length - 1;
+  while (start > 0 && steps[start - 1].iteration == lastIteration) {
+    start -= 1;
+  }
+  return steps.sublist(start);
 }
 
 /// {@template openai_tools_agent_output_parser}

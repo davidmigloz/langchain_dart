@@ -129,6 +129,29 @@ void main() {
       final result = await executor.run('test');
       expect(result, 'mock');
     });
+
+    test('stamps parallel actions with one zero-based iteration', () async {
+      final firstTool = _MockTool(name: 'first');
+      final secondTool = _MockTool(name: 'second');
+      final agent = _MultiActionMockAgent(
+        tools: [firstTool, secondTool],
+        actions: const [
+          AgentAction(id: 'call-1', tool: 'first', toolInput: {'input': 'a'}),
+          AgentAction(id: 'call-2', tool: 'second', toolInput: {'input': 'b'}),
+        ],
+      );
+      final executor = AgentExecutor(
+        agent: agent,
+        maxIterations: 1,
+        returnIntermediateSteps: true,
+      );
+
+      final result = await executor.call('test');
+      final steps =
+          result[AgentExecutor.intermediateStepsOutputKey] as List<AgentStep>;
+
+      expect(steps.map((step) => step.iteration), [0, 0]);
+    });
   });
 
   group('Tool output serialization tests', () {
