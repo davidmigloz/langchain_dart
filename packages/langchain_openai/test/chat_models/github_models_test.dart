@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 @TestOn('vm')
+@Tags(['integration'])
 library; // Uses dart:io
 
 import 'dart:convert';

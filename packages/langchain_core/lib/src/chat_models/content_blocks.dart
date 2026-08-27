@@ -130,7 +130,7 @@ sealed class AIChatMessageContentBlock {
         ),
       (final AIChatMessageToolCall first, final AIChatMessageToolCall next) =>
         AIChatMessageToolCall(
-          id: _mergedId(first, next),
+          id: _mergedToolCallId(first, next),
           index: next.index ?? first.index,
           name: first.name + next.name,
           argumentsRaw: first.argumentsRaw + next.argumentsRaw,
@@ -734,6 +734,11 @@ String _mergedId(
   final AIChatMessageContentBlock first,
   final AIChatMessageContentBlock second,
 ) => second.id.isNotEmpty ? second.id : first.id;
+
+String _mergedToolCallId(
+  final AIChatMessageToolCall first,
+  final AIChatMessageToolCall second,
+) => first.id.isNotEmpty ? first.id : second.id;
 
 Object? _mergeValues(final Object? first, final Object? second) =>
     first is Map<String, dynamic> && second is Map<String, dynamic>

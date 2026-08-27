@@ -155,7 +155,9 @@ extension ChatMessageListMapper on List<ChatMessage> {
       type: 'function',
       function: oai.FunctionCall(
         name: toolCall.name,
-        arguments: json.encode(toolCall.arguments),
+        arguments: toolCall.argumentsRaw.isNotEmpty
+            ? toolCall.argumentsRaw
+            : json.encode(toolCall.arguments),
       ),
     );
   }
@@ -179,11 +181,36 @@ extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
 
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: msg.content ?? '',
-        toolCalls:
-            msg.toolCalls?.map(_mapMessageToolCall).toList(growable: false) ??
-            const [],
+      output: AIChatMessage.withBlocks(
+        contentBlocks: [
+          if (msg.hasReasoningContent)
+            AIChatMessageReasoningBlock(
+              reasoning: msg.reasoningContent ?? msg.reasoning ?? '',
+              id: 'openai-chat:$id:reasoning',
+              index: 0,
+              providerData: {
+                'openai': {
+                  'chatMessage': msg.toJson(),
+                  if (msg.reasoningDetails != null)
+                    'reasoningDetails': msg.reasoningDetails!
+                        .map((detail) => detail.toJson())
+                        .toList(growable: false),
+                },
+              },
+            ),
+          if ((msg.content ?? '').isNotEmpty)
+            AIChatMessageTextBlock(
+              text: msg.content!,
+              id: 'openai-chat:$id:text',
+              index: 1,
+              providerData: {
+                'openai': {'chatMessage': msg.toJson()},
+              },
+            ),
+          for (final (index, toolCall) in (msg.toolCalls ?? const []).indexed)
+            _mapMessageToolCall(toolCall, index: index + 2, responseId: id),
+        ],
+        legacyContent: msg.content ?? '',
       ),
       finishReason: _mapFinishReason(choice.finishReason),
       metadata: {
@@ -196,7 +223,11 @@ extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
     );
   }
 
-  AIChatMessageToolCall _mapMessageToolCall(final oai.ToolCall toolCall) {
+  AIChatMessageToolCall _mapMessageToolCall(
+    final oai.ToolCall toolCall, {
+    required final int index,
+    required final String responseId,
+  }) {
     var args = <String, dynamic>{};
     try {
       args = toolCall.function.arguments.isEmpty
@@ -205,9 +236,13 @@ extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
     } catch (_) {}
     return AIChatMessageToolCall(
       id: toolCall.id,
+      index: index,
       name: toolCall.function.name,
       argumentsRaw: toolCall.function.arguments,
       arguments: args,
+      providerData: {
+        'openai': {'toolCall': toolCall.toJson(), 'responseId': responseId},
+      },
     );
   }
 }
@@ -256,13 +291,31 @@ extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
 
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: delta?.content ?? '',
-        toolCalls:
-            delta?.toolCalls
-                ?.map(_mapMessageToolCall)
-                .toList(growable: false) ??
-            const [],
+      output: AIChatMessage.withBlocks(
+        contentBlocks: [
+          if (delta?.hasReasoningContent ?? false)
+            AIChatMessageReasoningBlock(
+              reasoning: delta?.reasoningContent ?? delta?.reasoning ?? '',
+              id: 'openai-chat:$id:reasoning',
+              index: 0,
+              providerData: {
+                'openai': {'delta': delta?.toJson()},
+              },
+            ),
+          if ((delta?.content ?? '').isNotEmpty)
+            AIChatMessageTextBlock(
+              text: delta!.content!,
+              id: 'openai-chat:$id:text',
+              index: 1,
+              providerData: {
+                'openai': {'delta': delta.toJson()},
+              },
+            ),
+          for (final toolCall
+              in delta?.toolCalls ?? const <oai.ToolCallDelta>[])
+            _mapMessageToolCall(toolCall, responseId: id),
+        ],
+        legacyContent: delta?.content ?? '',
       ),
       finishReason: _mapFinishReason(choice?.finishReason),
       metadata: {
@@ -275,16 +328,26 @@ extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
     );
   }
 
-  AIChatMessageToolCall _mapMessageToolCall(final oai.ToolCallDelta toolCall) {
+  AIChatMessageToolCall _mapMessageToolCall(
+    final oai.ToolCallDelta toolCall, {
+    required final String responseId,
+  }) {
     var args = <String, dynamic>{};
     try {
       args = json.decode(toolCall.function?.arguments ?? '');
     } catch (_) {}
     return AIChatMessageToolCall(
+      // Continuation deltas commonly omit the provider ID. Keep it empty so
+      // the explicit stream index can associate it with the opening delta;
+      // assigning a synthetic stable ID here would split one call in two.
       id: toolCall.id ?? '',
+      index: toolCall.index + 2,
       name: toolCall.function?.name ?? '',
       argumentsRaw: toolCall.function?.arguments ?? '',
       arguments: args,
+      providerData: {
+        'openai': {'delta': toolCall.toJson()},
+      },
     );
   }
 }

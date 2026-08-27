@@ -232,5 +232,185 @@ void main() {
         expect(request.metadata, {'key': 'value'});
       });
     });
+
+    group('ordered output blocks', () {
+      test('preserves reasoning, text, function, and server-tool order', () {
+        final output = <Map<String, dynamic>>[
+          {
+            'type': 'reasoning',
+            'id': 'reasoning_1',
+            'summary': [
+              {'type': 'summary_text', 'text': 'Check the weather.'},
+            ],
+            'encrypted_content': 'opaque',
+          },
+          {
+            'type': 'message',
+            'id': 'message_1',
+            'role': 'assistant',
+            'content': [
+              {'type': 'output_text', 'text': 'I will check.'},
+            ],
+          },
+          {
+            'type': 'function_call',
+            'id': 'item_1',
+            'call_id': 'call_1',
+            'name': 'weather',
+            'arguments': '{"city":"Madrid"}',
+          },
+          {'type': 'web_search_call', 'id': 'search_1', 'status': 'completed'},
+        ];
+        final response = oai.Response.fromJson({
+          'id': 'response_1',
+          'object': 'response',
+          'created_at': 1,
+          'status': 'completed',
+          'output': output,
+        });
+
+        final message = response.toChatResult().output;
+        final replayed = <ChatMessage>[message].toResponseInput();
+
+        expect(message.contentBlocks.map((block) => block.runtimeType), [
+          AIChatMessageReasoningBlock,
+          AIChatMessageTextBlock,
+          AIChatMessageToolCall,
+          AIChatMessageServerToolCall,
+        ]);
+        expect(message.content, 'I will check.');
+        expect(message.toolCalls.single.id, 'call_1');
+        expect(replayed.toJson(), output);
+      });
+
+      test('keeps parallel same-name streamed function calls distinct', () {
+        final accumulator = oai.ResponseStreamAccumulator();
+        final functionCallIdsByOutputIndex = <int, String>{};
+        final results = <ChatResult>[];
+
+        void add(final oai.ResponseStreamEvent event) {
+          accumulator.add(event);
+          final result = accumulator.toChatResult(
+            functionCallIdsByOutputIndex: functionCallIdsByOutputIndex,
+          );
+          if (result != null) results.add(result);
+        }
+
+        add(
+          const oai.OutputItemAddedEvent(
+            outputIndex: 0,
+            item: oai.FunctionCallOutputItemResponse(
+              id: 'item_madrid',
+              callId: 'call_madrid',
+              name: 'weather',
+              arguments: '',
+            ),
+          ),
+        );
+        add(
+          const oai.OutputItemAddedEvent(
+            outputIndex: 1,
+            item: oai.FunctionCallOutputItemResponse(
+              id: 'item_paris',
+              callId: 'call_paris',
+              name: 'weather',
+              arguments: '',
+            ),
+          ),
+        );
+        add(
+          const oai.FunctionCallArgumentsDeltaEvent(
+            outputIndex: 0,
+            itemId: 'item_madrid',
+            delta: '{"city":"Madrid"}',
+          ),
+        );
+        add(
+          const oai.FunctionCallArgumentsDeltaEvent(
+            outputIndex: 1,
+            itemId: 'item_paris',
+            delta: '{"city":"Paris"}',
+          ),
+        );
+
+        final calls = results
+            .map((result) => result.output)
+            .reduce((first, next) => first.concat(next))
+            .toolCalls;
+
+        expect(calls.map((call) => call.id), ['call_madrid', 'call_paris']);
+        expect(calls.map((call) => call.arguments['city']), [
+          'Madrid',
+          'Paris',
+        ]);
+      });
+
+      test('keeps content indexes distinct within one output item', () {
+        final accumulator = oai.ResponseStreamAccumulator();
+        final results = <ChatResult>[];
+
+        for (final event in const <oai.ResponseStreamEvent>[
+          oai.OutputTextDeltaEvent(
+            itemId: 'message_1',
+            outputIndex: 0,
+            contentIndex: 0,
+            delta: 'first',
+          ),
+          oai.OutputTextDeltaEvent(
+            itemId: 'message_1',
+            outputIndex: 0,
+            contentIndex: 1,
+            delta: 'second',
+          ),
+        ]) {
+          accumulator.add(event);
+          results.add(accumulator.toChatResult()!);
+        }
+
+        final output = results
+            .map((result) => result.output)
+            .reduce((first, next) => first.concat(next));
+
+        expect(output.contentBlocks, hasLength(2));
+        expect(output.contentAsString, 'firstsecond');
+      });
+
+      test('retains completed server-tool output item data', () {
+        final accumulator = oai.ResponseStreamAccumulator();
+        final results = <ChatResult>[];
+
+        for (final event in const <oai.ResponseStreamEvent>[
+          oai.OutputItemAddedEvent(
+            outputIndex: 0,
+            item: oai.WebSearchCallOutputItem(
+              id: 'search_1',
+              status: oai.ItemStatus.inProgress,
+            ),
+          ),
+          oai.OutputItemDoneEvent(
+            outputIndex: 0,
+            item: oai.WebSearchCallOutputItem(
+              id: 'search_1',
+              status: oai.ItemStatus.completed,
+            ),
+          ),
+        ]) {
+          accumulator.add(event);
+          results.add(accumulator.toChatResult()!);
+        }
+
+        final output = results
+            .map((result) => result.output)
+            .reduce((first, next) => first.concat(next));
+        final block =
+            output.contentBlocks.single as AIChatMessageServerToolCall;
+
+        expect(block.name, 'web_search_call');
+        expect(block.arguments['status'], 'completed');
+        final openAIData = block.providerData['openai'] as Map<String, dynamic>;
+        final outputItem = openAIData['outputItem'] as Map<String, dynamic>;
+        expect(outputItem['status'], 'completed');
+      });
+    });
   });
 }
