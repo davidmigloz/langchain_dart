@@ -65,7 +65,7 @@ melos:
         csv: ^7.1.0
         anthropic_sdk_dart: ^7.0.0
         equatable: ^2.0.7
-        firebase_ai: ^3.15.0
+        firebase_ai: ^4.0.0
         firebase_app_check: ^0.4.1+1
         firebase_auth: ^6.1.1
         firebase_core: ^4.2.0
