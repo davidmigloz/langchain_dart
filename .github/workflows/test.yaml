@@ -1,16 +1,14 @@
 name: Test
 
 on:
-  # pull_request_target is dangerous! Review external PRs code before approving to run the workflow
-  # We need this to be able to access the secrets required by the workflow
-  pull_request_target:
+  pull_request:
     paths-ignore:
       - 'docs/**'
   workflow_dispatch:
 
 # Cancel currently running workflow when a new one is triggered
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -23,7 +21,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: "${{ github.event.pull_request.base.sha }}" # Required for pull_request_target
           fetch-depth: 0
 
       - name: Install Flutter
@@ -39,7 +36,7 @@ jobs:
       - name: Install Melos
         uses: bluefireteam/melos-action@2982f8e4fc92440a219490009d6d05195cb1a6a5
         with:
-          melos-version: '7.0.0-dev.9'
+          melos-version: '7.4.0'
           run-bootstrap: false
 
       - name: Bootstrap
@@ -47,16 +44,11 @@ jobs:
         with:
           timeout_minutes: 5
           max_attempts: 5
-          delay_seconds: 5
+          retry_wait_seconds: 5
           command: melos bootstrap
 
       - name: Run linter
         run: melos lint:diff
 
       - name: Run unit tests
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
-          VERTEX_AI_PROJECT_ID: ${{ secrets.VERTEX_AI_PROJECT_ID }}
-          VERTEX_AI_SERVICE_ACCOUNT: ${{ secrets.VERTEX_AI_SERVICE_ACCOUNT }}
         run: melos test:diff

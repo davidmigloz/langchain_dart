@@ -154,9 +154,11 @@ class GoogleGenerativeAIEmbeddings extends Embeddings {
                   .map(
                     (final doc) => g.EmbedContentRequest(
                       content: g.Content(parts: [g.TextPart(doc.pageContent)]),
-                      taskType: g.TaskType.retrievalDocument,
-                      title: doc.metadata[docTitleKey] as String?,
-                      outputDimensionality: dimensions,
+                      embedContentConfig: g.EmbedContentConfig(
+                        taskType: g.TaskType.retrievalDocument,
+                        title: doc.metadata[docTitleKey] as String?,
+                        outputDimensionality: dimensions,
+                      ),
                     ),
                   )
                   .toList(),
@@ -177,9 +179,11 @@ class GoogleGenerativeAIEmbeddings extends Embeddings {
                   model: model,
                   request: g.EmbedContentRequest(
                     content: g.Content(parts: [g.TextPart(doc.pageContent)]),
-                    taskType: g.TaskType.retrievalDocument,
-                    title: doc.metadata[docTitleKey] as String?,
-                    outputDimensionality: dimensions,
+                    embedContentConfig: g.EmbedContentConfig(
+                      taskType: g.TaskType.retrievalDocument,
+                      title: doc.metadata[docTitleKey] as String?,
+                      outputDimensionality: dimensions,
+                    ),
                   ),
                 );
                 return response.embedding.values;
@@ -203,8 +207,10 @@ class GoogleGenerativeAIEmbeddings extends Embeddings {
       model: model,
       request: g.EmbedContentRequest(
         content: g.Content(parts: [g.TextPart(query)]),
-        taskType: g.TaskType.retrievalQuery,
-        outputDimensionality: dimensions,
+        embedContentConfig: g.EmbedContentConfig(
+          taskType: g.TaskType.retrievalQuery,
+          outputDimensionality: dimensions,
+        ),
       ),
     );
     return response.embedding.values;

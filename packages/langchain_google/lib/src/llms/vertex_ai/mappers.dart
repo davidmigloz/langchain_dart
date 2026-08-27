@@ -56,16 +56,27 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
   FinishReason _mapFinishReason(final g.FinishReason? reason) =>
       switch (reason) {
-        g.FinishReason.unspecified => FinishReason.unspecified,
         g.FinishReason.stop => FinishReason.stop,
         g.FinishReason.maxTokens => FinishReason.length,
-        g.FinishReason.safety => FinishReason.contentFilter,
-        g.FinishReason.recitation => FinishReason.recitation,
-        g.FinishReason.other => FinishReason.unspecified,
-        g.FinishReason.blocklist => FinishReason.contentFilter,
-        g.FinishReason.prohibitedContent => FinishReason.contentFilter,
-        g.FinishReason.spii => FinishReason.contentFilter,
-        g.FinishReason.malformedFunctionCall => FinishReason.unspecified,
+        g.FinishReason.safety ||
+        g.FinishReason.blocklist ||
+        g.FinishReason.prohibitedContent ||
+        g.FinishReason.spii ||
+        g.FinishReason.language ||
+        g.FinishReason.imageSafety ||
+        g.FinishReason.imageProhibitedContent => FinishReason.contentFilter,
+        g.FinishReason.recitation ||
+        g.FinishReason.imageRecitation => FinishReason.recitation,
+        g.FinishReason.unspecified ||
+        g.FinishReason.other ||
+        g.FinishReason.malformedFunctionCall ||
+        g.FinishReason.imageOther ||
+        g.FinishReason.noImage ||
+        g.FinishReason.unexpectedToolCall ||
+        g.FinishReason.tooManyToolCalls ||
+        g.FinishReason.missingThoughtSignature ||
+        g.FinishReason.malformedResponse ||
+        g.FinishReason.escalation => FinishReason.unspecified,
         null => FinishReason.unspecified,
       };
 }
