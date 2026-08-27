@@ -1,3 +1,22 @@
+## 0.8.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0` and
+> `googleai_dart 12.x`. Google tool-call IDs are now opaque provider or
+> deterministic part IDs rather than function names.
+
+- Migrate Google AI and Vertex AI to the typed `googleai_dart 12` APIs for
+  parts, tools, code execution, embeddings, errors, and finish reasons
+  ([#961](https://github.com/davidmigloz/langchain_dart/pull/961)).
+- Preserve every Gemini part in order, including reasoning, thought
+  signatures, media, metadata-only parts, and unknown future parts, through
+  mapping, serialization, streaming, and replay
+  ([#962](https://github.com/davidmigloz/langchain_dart/pull/962)).
+- Fix Gemini thought-signature round trips for tool calls
+  ([#942](https://github.com/davidmigloz/langchain_dart/issues/942),
+  [#960](https://github.com/davidmigloz/langchain_dart/pull/960)).
+- Keep parallel same-name streamed calls separate and route their results by
+  stable call identity.
+
 ## 0.7.1+2
 
  - Update a dependency to the latest release.

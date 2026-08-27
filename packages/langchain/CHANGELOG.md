@@ -1,3 +1,15 @@
+## 0.9.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0`. See the
+> [core migration guide](https://github.com/davidmigloz/langchain_dart/blob/main/packages/langchain_core/MIGRATION.md).
+
+- Update agents, histories, memory, fakes, serialization, and examples for
+  ordered AI message content ([#967](https://github.com/davidmigloz/langchain_dart/pull/967)).
+- Preserve complete parallel-tool transcripts by emitting one assistant turn
+  followed by every tool result from the same planning iteration.
+- Store ordered message lists in chat memory without dropping parallel tool
+  results ([#970](https://github.com/davidmigloz/langchain_dart/pull/970)).
+
 ## 0.8.1
 
  - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))

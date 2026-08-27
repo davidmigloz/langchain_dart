@@ -1,3 +1,14 @@
+## 0.4.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0`.
+
+- Preserve Anthropic thinking, signatures, text, tool use, redacted thinking,
+  and future content blocks in their original order through mapping,
+  serialization, streaming, and request replay
+  ([#962](https://github.com/davidmigloz/langchain_dart/pull/962)).
+- Apply signature deltas to the correct reasoning block and keep parallel
+  same-name streamed tool calls distinct.
+
 ## 0.3.1
 
  - **FIX**(langchain_anthropic): Handle CitationsBlockDelta in streaming responses ([#881](https://github.com/davidmigloz/langchain_dart/issues/881)). ([445ddda1](https://github.com/davidmigloz/langchain_dart/commit/445ddda1fa7a61f6a34e4faae3e024c7e625b86b))

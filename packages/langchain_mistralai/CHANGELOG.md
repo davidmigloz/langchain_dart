@@ -1,3 +1,14 @@
+## 0.4.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0` and
+> `mistralai_dart 6.1.0`.
+
+- Preserve thinking/signatures, text, media, files, references, raw tool
+  arguments, and unknown native content in their original order
+  ([#965](https://github.com/davidmigloz/langchain_dart/pull/965)).
+- Correlate streamed tool calls by provider ID or official stream index, keeping
+  parallel same-name calls distinct.
+
 ## 0.3.1+1
 
  - **FIX**(mistralai_dart): Fix streaming tool calls deserialization error ([#913](https://github.com/davidmigloz/langchain_dart/issues/913)) ([#914](https://github.com/davidmigloz/langchain_dart/issues/914)). ([ec4d20bf](https://github.com/davidmigloz/langchain_dart/commit/ec4d20bfd966a6c04ab44d47fd9baa175343a990))

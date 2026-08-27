@@ -1,3 +1,28 @@
+## 0.5.0
+
+> **Breaking:** AI messages now use ordered content blocks. See the
+> [migration guide](https://github.com/davidmigloz/langchain_dart/blob/main/packages/langchain_core/MIGRATION.md)
+> for constructor, projection, serialization,
+> reasoning, and tool-call ID changes.
+
+- Make `AIChatMessage.content` an ordered `List<AIChatMessageContentBlock>` and
+  add blocks for visible text, reasoning, media, tool calls/results, provider
+  metadata, and non-standard provider payloads ([#967](https://github.com/davidmigloz/langchain_dart/pull/967)).
+- Keep `toolCalls` as a derived getter. Tool-call IDs are now opaque provider or
+  deterministic part IDs and must not be assumed to equal function names.
+- Make `contentAsString` and `ChatResult.outputAsString` return visible text
+  only; reasoning remains available through reasoning blocks.
+- Serialize the canonical ordered block list while retaining support for
+  reading legacy string/tool-call maps.
+- Merge streamed blocks only by stable provider identity or explicit stream
+  index, preserving parallel same-name tool calls and signed part boundaries.
+- Add namespaced `providerData` to tool-call blocks and preserve it through
+  serialization, equality, hashing, and streaming concatenation
+  ([#960](https://github.com/davidmigloz/langchain_dart/pull/960)).
+- Add `AgentStep.iteration`, `buildToolAgentScratchpad`, and ordered message-list
+  support in `MessagePlaceholder` for complete parallel-tool transcripts
+  ([#970](https://github.com/davidmigloz/langchain_dart/pull/970)).
+
 ## 0.4.1
 
  - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))

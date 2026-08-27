@@ -1,7 +1,111 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
+
+## 2026-08-27
+
+### Highlights
+
+- Introduce one ordered, block-native AI message model across every supported
+  chat provider, preserving reasoning, media, tool activity, provider metadata,
+  and future payloads without flattening or dropping their original order.
+- Preserve Google, Anthropic, OpenAI/OpenRouter, Firebase, Mistral, and Ollama
+  reasoning and tool interactions through mapping, streaming, serialization,
+  agent execution, memory, and request replay.
+- Keep parallel same-name tool calls distinct and route each result to the
+  correct call.
+- Upgrade the Google, Firebase, Mistral, Ollama, and OpenAI clients to their
+  current structural APIs.
+
+### Breaking changes
+
+- `AIChatMessage.content` is now an ordered
+  `List<AIChatMessageContentBlock>`. Use `AIChatMessage.text(...)` for simple
+  text and `contentAsString` for its visible-text projection.
+- `contentAsString` and `ChatResult.outputAsString` no longer include hidden
+  reasoning. Read `AIChatMessageReasoningBlock` values directly instead.
+- Tool-call IDs are opaque provider or deterministic part IDs and must not be
+  assumed to equal function names.
+- Canonical serialization writes ordered blocks; legacy string/tool-call maps
+  remain readable.
+
+See the [`langchain_core` migration guide](https://github.com/davidmigloz/langchain_dart/blob/main/packages/langchain_core/MIGRATION.md)
+for complete before/after examples.
+
+### Packages
+
+#### `langchain` - `v0.9.0`
+
+- Update agents, histories, memory, serialization, and examples for ordered AI
+  message content.
+- Preserve one assistant turn and every ordered tool result from a parallel
+  planning iteration, including when conversation memory is enabled.
+
+#### `langchain_anthropic` - `v0.4.0`
+
+- Preserve thinking, signatures, text, tool use, redacted thinking, and future
+  content blocks in order through streaming and replay
+  ([#962](https://github.com/davidmigloz/langchain_dart/pull/962)).
+
+#### `langchain_chroma` - `v0.4.0`
+
+- Update `langchain_core` to 0.5.0.
+
+#### `langchain_community` - `v0.5.0`
+
+- Update `langchain_core` to 0.5.0.
+
+#### `langchain_core` - `v0.5.0`
+
+- Add the canonical ordered `AIChatMessageContentBlock` hierarchy, stable
+  stream identity, namespaced provider data, and legacy-map reading
+  ([#967](https://github.com/davidmigloz/langchain_dart/pull/967)).
+- Add `AgentStep.iteration`, `buildToolAgentScratchpad`, and ordered
+  `MessagePlaceholder` values for complete tool-agent transcripts
+  ([#970](https://github.com/davidmigloz/langchain_dart/pull/970)).
+
+#### `langchain_firebase` - `v0.4.0`
+
+- Upgrade to `firebase_ai 4.0.0` and preserve all Firebase parts, thoughts,
+  signatures, media, metadata, and tool activity in order
+  ([#964](https://github.com/davidmigloz/langchain_dart/pull/964)).
+
+#### `langchain_google` - `v0.8.0`
+
+- Upgrade to `googleai_dart 12.x`, preserve every Gemini part and thought
+  signature, and use stable opaque tool-call identity across Google AI and
+  Vertex AI ([#942](https://github.com/davidmigloz/langchain_dart/issues/942),
+  [#961](https://github.com/davidmigloz/langchain_dart/pull/961),
+  [#962](https://github.com/davidmigloz/langchain_dart/pull/962)).
+
+#### `langchain_mistralai` - `v0.4.0`
+
+- Upgrade to `mistralai_dart 6.1.0` and preserve ordered reasoning, media,
+  references, raw tool arguments, and unknown content
+  ([#965](https://github.com/davidmigloz/langchain_dart/pull/965)).
+
+#### `langchain_ollama` - `v0.5.0`
+
+- Upgrade to `ollama_dart 2.6.0` and preserve ordered reasoning, visible text,
+  images, and tools through streaming and request replay
+  ([#966](https://github.com/davidmigloz/langchain_dart/pull/966)).
+
+#### `langchain_openai` - `v0.9.0`
+
+- Upgrade to `openai_dart 8.1.0` and preserve ordered Chat Completions and
+  Responses API content ([#963](https://github.com/davidmigloz/langchain_dart/pull/963)).
+- Preserve OpenRouter reasoning exactly through streaming, serialization,
+  agents, memory, and request replay; retain complete parallel-tool transcripts
+  ([#945](https://github.com/davidmigloz/langchain_dart/issues/945),
+  [#970](https://github.com/davidmigloz/langchain_dart/pull/970)).
+- Correct Responses API finish reasons and make custom `baseUrl` apply to model
+  listing and every client endpoint
+  ([#928](https://github.com/davidmigloz/langchain_dart/issues/928),
+  [#952](https://github.com/davidmigloz/langchain_dart/pull/952)).
+
+#### `langchain_supabase` - `v0.3.0`
+
+- Update `langchain_core` to 0.5.0.
 
 ## 2025-12-27
 
@@ -73,9 +177,6 @@ Packages with dependency updates only:
  - **FEAT**(googleai_dart): Add missing model properties from OpenAPI spec ([#916](https://github.com/davidmigloz/langchain_dart/issues/916)). ([fc0e2f8a](https://github.com/davidmigloz/langchain_dart/commit/fc0e2f8ac70ccb8fc8bc3992f76aa05f90d81690))
  - **DOCS**(googleai_dart): Add documentation for grounding tools ([#917](https://github.com/davidmigloz/langchain_dart/issues/917)). ([b5a529fe](https://github.com/davidmigloz/langchain_dart/commit/b5a529fe015095e2a8c4dfff32c2b5155eb608fa))
 
-# Change Log
-
-📣 Check out the [releases page](https://github.com/davidmigloz/langchain_dart/releases) or the [#announcements](https://discord.com/channels/1123158322812555295/1123250594644242534) channel on the [LangChain.dart Discord](https://discord.gg/x4qbhqecVR) server for more details.
 
 ## 2025-12-22
 

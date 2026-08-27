@@ -1,3 +1,14 @@
+## 0.4.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0` and
+> `firebase_ai 4.0.0`.
+
+- Preserve thoughts, signatures, text, inline/file media, function calls and
+  responses, metadata, and unknown Firebase parts in their original order
+  ([#964](https://github.com/davidmigloz/langchain_dart/pull/964)).
+- Keep parallel same-name tool calls distinct using native call IDs and retain
+  opaque provider data for forward compatibility.
+
 ## 0.3.2
 
  - **FEAT**: Fix formatting issues ([#922](https://github.com/davidmigloz/langchain_dart/issues/922)). ([62bca9da](https://github.com/davidmigloz/langchain_dart/commit/62bca9da1abc4a64267c2d3085ad969cad33f4d6))

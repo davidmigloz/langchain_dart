@@ -1,3 +1,11 @@
+## 0.4.0
+
+> **Breaking:** Update `langchain_core` to 0.5.0.
+
+- Adopt the block-native AI message model. Applications constructing or
+  reading `AIChatMessage` values should follow the
+  [core migration guide](https://github.com/davidmigloz/langchain_dart/blob/main/packages/langchain_core/MIGRATION.md).
+
 ## 0.3.0+2
 
  - Update a dependency to the latest release.

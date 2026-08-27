@@ -1,3 +1,25 @@
+## 0.9.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0` and
+> `openai_dart 8.1.0`.
+
+- Preserve ordered Chat Completions and Responses API content, including
+  reasoning, visible text, function calls, server tools, results, and future
+  provider output items ([#963](https://github.com/davidmigloz/langchain_dart/pull/963)).
+- Preserve OpenRouter `reasoning`, `reasoning_content`, and
+  `reasoning_details` exactly through complete and streamed responses,
+  serialization, agent execution, memory, and request replay
+  ([#945](https://github.com/davidmigloz/langchain_dart/issues/945),
+  [#970](https://github.com/davidmigloz/langchain_dart/pull/970)).
+- Replay one assistant turn followed by all ordered results for parallel tool
+  calls, with or without conversation memory.
+- Map Responses API tool-call and content-filter finish reasons correctly
+  ([#952](https://github.com/davidmigloz/langchain_dart/pull/952)).
+- Add current reasoning efforts (`none`, `xhigh`, and `max`), the `fast`
+  service tier, and verbosity request mapping.
+- Use the configured custom `baseUrl` for model listing and all other client
+  endpoints ([#928](https://github.com/davidmigloz/langchain_dart/issues/928)).
+
 ## 0.8.1+1
 
  - Update a dependency to the latest release.

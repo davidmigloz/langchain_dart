@@ -1,3 +1,14 @@
+## 0.5.0
+
+> **Breaking:** Updated to the block-native `langchain_core 0.5.0` and
+> `ollama_dart 2.6.0`.
+
+- Preserve reasoning, visible text, images, and tool calls through responses,
+  streaming, conversation history, and request replay
+  ([#966](https://github.com/davidmigloz/langchain_dart/pull/966)).
+- Replay accumulated assistant thinking and adopt typed embed input, keep-alive,
+  and stop-sequence values from the current client.
+
 ## 0.4.1
 
  - **FEAT**: Add listModels() API for LLMs and Embeddings ([#371](https://github.com/davidmigloz/langchain_dart/issues/371)) ([#844](https://github.com/davidmigloz/langchain_dart/issues/844)). ([4b737389](https://github.com/davidmigloz/langchain_dart/commit/4b7373894d5b8701b6d00d153c1741931a49b3a1))
