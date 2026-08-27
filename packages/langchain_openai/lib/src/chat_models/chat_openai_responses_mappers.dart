@@ -199,7 +199,7 @@ extension ResponseMapper on oai.Response {
     return ChatResult(
       id: id,
       output: AIChatMessage(content: _mapOpenAIOutputItems(output)),
-      finishReason: _mapFinishReason(status),
+      finishReason: _mapFinishReason(this),
       metadata: {'model': model, 'created_at': createdAt},
       usage: _mapResponseUsage(usage),
     );
@@ -326,7 +326,8 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
           usage: _mapResponseUsage(usage),
           streaming: true,
         );
-      case oai.ResponseCompletedEvent(:final response):
+      case oai.ResponseCompletedEvent(:final response) ||
+          oai.ResponseIncompleteEvent(:final response):
         final result = response.toChatResult();
         return ChatResult(
           id: result.id,
@@ -642,11 +643,22 @@ extension ChatOpenAIResponsesTruncationMapper on ChatOpenAIResponsesTruncation {
   };
 }
 
-FinishReason _mapFinishReason(final oai.ResponseStatus status) =>
-    switch (status) {
-      oai.ResponseStatus.completed => FinishReason.stop,
+/// Maps a [oai.Response] to a [FinishReason].
+///
+/// The Responses API reports `completed` even when the model requested a tool
+/// call (the tool intent lives in the output items, not in `status`), so tool
+/// calls are detected via [oai.Response.hasToolCalls]. An `incomplete` response
+/// maps to `length` unless its reason is `content_filter`, which maps to
+/// [FinishReason.contentFilter].
+FinishReason _mapFinishReason(final oai.Response response) =>
+    switch (response.status) {
+      oai.ResponseStatus.completed =>
+        response.hasToolCalls ? FinishReason.toolCalls : FinishReason.stop,
+      oai.ResponseStatus.incomplete =>
+        response.incompleteDetails?.reason == 'content_filter'
+            ? FinishReason.contentFilter
+            : FinishReason.length,
       oai.ResponseStatus.failed => FinishReason.unspecified,
-      oai.ResponseStatus.incomplete => FinishReason.length,
       oai.ResponseStatus.inProgress => FinishReason.unspecified,
       oai.ResponseStatus.queued => FinishReason.unspecified,
       oai.ResponseStatus.cancelled => FinishReason.unspecified,
