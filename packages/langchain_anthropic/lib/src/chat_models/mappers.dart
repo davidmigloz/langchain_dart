@@ -148,20 +148,13 @@ extension ChatMessageListMapper on List<ChatMessage> {
   }
 
   a.InputMessage _mapAIChatMessage(final AIChatMessage msg) {
-    if (msg.toolCalls.isEmpty) {
+    final blocks = msg.contentBlocks;
+    if (blocks.length == 1 && blocks.single is AIChatMessageTextBlock) {
       return a.InputMessage.assistant(msg.content);
-    } else {
-      return a.InputMessage.assistantBlocks([
-        if (msg.content.isNotEmpty) a.InputContentBlock.text(msg.content),
-        ...msg.toolCalls.map(
-          (final toolCall) => a.InputContentBlock.toolUse(
-            id: toolCall.id,
-            name: toolCall.name,
-            input: toolCall.arguments,
-          ),
-        ),
-      ]);
     }
+    return a.InputMessage.assistantBlocks(
+      blocks.map(_mapAIContentBlock).toList(growable: false),
+    );
   }
 
   a.InputMessage _mapToolChatMessages(final List<ToolChatMessage> msgs) {
@@ -180,20 +173,16 @@ extension ChatMessageListMapper on List<ChatMessage> {
 
 extension MessageMapper on a.Message {
   ChatResult toChatResult() {
-    final content = '$thinking$text';
-    final toolCalls = toolUseBlocks
-        .map(
-          (tu) => AIChatMessageToolCall(
-            id: tu.id,
-            name: tu.name,
-            argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
-            arguments: tu.input,
-          ),
-        )
-        .toList(growable: false);
+    final blocks = [
+      for (final (index, block) in content.indexed)
+        _mapContentBlock(block, messageId: id, index: index),
+    ];
     return ChatResult(
       id: id,
-      output: AIChatMessage(content: content, toolCalls: toolCalls),
+      output: AIChatMessage.withBlocks(
+        contentBlocks: blocks,
+        legacyContent: '$thinking$text',
+      ),
       finishReason: _mapFinishReason(stopReason),
       metadata: {'model': model, 'stop_sequence': stopSequence},
       usage: _mapUsage(usage),
@@ -206,7 +195,7 @@ class MessageStreamEventTransformer
   MessageStreamEventTransformer();
 
   String? lastMessageId;
-  String? lastToolCallId;
+  final Map<int, String> toolCallIdsByIndex = {};
 
   @override
   Stream<ChatResult> bind(final Stream<a.MessageStreamEvent> stream) {
@@ -232,18 +221,12 @@ class MessageStreamEventTransformer
 
     return ChatResult(
       id: msg.id,
-      output: AIChatMessage(
-        content: '${msg.thinking}${msg.text}',
-        toolCalls: msg.toolUseBlocks
-            .map(
-              (tu) => AIChatMessageToolCall(
-                id: tu.id,
-                name: tu.name,
-                argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
-                arguments: tu.input,
-              ),
-            )
-            .toList(growable: false),
+      output: AIChatMessage.withBlocks(
+        contentBlocks: [
+          for (final (index, block) in msg.content.indexed)
+            _mapContentBlock(block, messageId: msg.id, index: index),
+        ],
+        legacyContent: '${msg.thinking}${msg.text}',
       ),
       finishReason: _mapFinishReason(msg.stopReason),
       metadata: {
@@ -258,7 +241,7 @@ class MessageStreamEventTransformer
   ChatResult _mapMessageDeltaEvent(final a.MessageDeltaEvent e) {
     return ChatResult(
       id: lastMessageId ?? '',
-      output: const AIChatMessage(content: ''),
+      output: const AIChatMessage.withBlocks(contentBlocks: []),
       finishReason: _mapFinishReason(e.delta.stopReason),
       metadata: {
         if (e.delta.stopSequence != null) 'stop_sequence': e.delta.stopSequence,
@@ -269,16 +252,20 @@ class MessageStreamEventTransformer
   }
 
   ChatResult _mapContentBlockStartEvent(final a.ContentBlockStartEvent e) {
-    final (content, toolCall) = _mapContentBlock(e.contentBlock);
-    if (toolCall != null) {
-      lastToolCallId = toolCall.id;
+    final block = _mapContentBlock(
+      e.contentBlock,
+      messageId: lastMessageId ?? '',
+      index: e.index,
+    );
+    if (block case final AIChatMessageToolCall toolCall) {
+      toolCallIdsByIndex[e.index] = toolCall.id;
     }
 
     return ChatResult(
       id: lastMessageId ?? '',
-      output: AIChatMessage(
-        content: content,
-        toolCalls: [if (toolCall != null) toolCall],
+      output: AIChatMessage.withBlocks(
+        contentBlocks: [block],
+        legacyContent: block.legacyContent,
       ),
       finishReason: FinishReason.unspecified,
       metadata: const {},
@@ -288,10 +275,18 @@ class MessageStreamEventTransformer
   }
 
   ChatResult _mapContentBlockDeltaEvent(final a.ContentBlockDeltaEvent e) {
-    final (content, toolCalls) = _mapContentBlockDelta(lastToolCallId, e.delta);
+    final block = _mapContentBlockDelta(
+      e.delta,
+      messageId: lastMessageId ?? '',
+      index: e.index,
+      toolCallId: toolCallIdsByIndex[e.index],
+    );
     return ChatResult(
       id: lastMessageId ?? '',
-      output: AIChatMessage(content: content, toolCalls: toolCalls),
+      output: AIChatMessage.withBlocks(
+        contentBlocks: [block],
+        legacyContent: block.legacyContent,
+      ),
       finishReason: FinishReason.unspecified,
       metadata: {'index': e.index},
       usage: const LanguageModelUsage(),
@@ -300,59 +295,249 @@ class MessageStreamEventTransformer
   }
 
   ChatResult? _mapContentBlockStopEvent(final a.ContentBlockStopEvent e) {
-    lastToolCallId = null;
+    toolCallIdsByIndex.remove(e.index);
     return null;
   }
 
   ChatResult? _mapMessageStopEvent(final a.MessageStopEvent e) {
     lastMessageId = null;
+    toolCallIdsByIndex.clear();
     return null;
   }
 }
 
-/// Maps a single content block from stream start event.
-(String content, AIChatMessageToolCall? toolCall) _mapContentBlock(
-  final a.ContentBlock contentBlock,
-) => switch (contentBlock) {
-  final a.TextBlock t => (t.text, null),
-  final a.ThinkingBlock t => (t.thinking, null),
-  final a.ToolUseBlock tu => (
-    '',
-    AIChatMessageToolCall(
-      id: tu.id,
-      name: tu.name,
-      argumentsRaw: tu.input.isNotEmpty ? json.encode(tu.input) : '',
-      arguments: tu.input,
+a.InputContentBlock _mapAIContentBlock(final AIChatMessageContentBlock block) {
+  final rawBlock = switch (block.providerData['anthropic']) {
+    {'contentBlock': final Map<Object?, Object?> value} =>
+      value.cast<String, dynamic>(),
+    _ => null,
+  };
+  return switch (block) {
+    final AIChatMessageTextBlock text => a.InputContentBlock.fromJson({
+      ...?rawBlock,
+      'type': 'text',
+      'text': text.text,
+    }),
+    final AIChatMessageReasoningBlock reasoning => _mapAnthropicReasoningBlock(
+      reasoning,
+      rawBlock,
     ),
-  ),
-  a.RedactedThinkingBlock() => ('', null),
-  a.ServerToolUseBlock() => ('', null),
-  a.WebSearchToolResultBlock() => ('', null),
-  _ => ('', null),
-};
+    final AIChatMessageToolCall toolCall => a.InputContentBlock.fromJson({
+      ...?rawBlock,
+      'type': 'tool_use',
+      'id': toolCall.id,
+      'name': toolCall.name,
+      'input': toolCall.arguments,
+    }),
+    AIChatMessageMediaBlock() ||
+    AIChatMessageFileBlock() ||
+    AIChatMessageServerToolCall() ||
+    AIChatMessageServerToolResult() ||
+    AIChatMessageProviderMetadataBlock() => _rawAnthropicInputBlock(
+      block,
+      rawBlock,
+    ),
+    final AIChatMessageNonStandardBlock nonStandard =>
+      rawBlock != null
+          ? a.InputContentBlock.fromJson(rawBlock)
+          : switch (nonStandard.value) {
+              final Map<Object?, Object?> value => a.InputContentBlock.fromJson(
+                value.cast<String, dynamic>(),
+              ),
+              _ => throw UnsupportedError(
+                'Cannot replay ${nonStandard.value.runtimeType} to Anthropic',
+              ),
+            },
+  };
+}
 
-/// Maps a content block delta from streaming events.
-(String content, List<AIChatMessageToolCall> toolCalls) _mapContentBlockDelta(
-  final String? lastToolId,
-  final a.ContentBlockDelta blockDelta,
-) => switch (blockDelta) {
-  final a.TextDelta t => (t.text, const <AIChatMessageToolCall>[]),
-  final a.InputJsonDelta jb => (
-    '',
-    [
-      AIChatMessageToolCall(
-        id: lastToolId ?? '',
-        name: '',
-        argumentsRaw: jb.partialJson,
-        arguments: const {},
-      ),
-    ],
-  ),
-  final a.ThinkingDelta t => (t.thinking, const <AIChatMessageToolCall>[]),
-  a.SignatureDelta() => ('', const <AIChatMessageToolCall>[]),
-  a.CitationsDelta() => ('', const <AIChatMessageToolCall>[]),
-  _ => ('', const <AIChatMessageToolCall>[]),
-};
+a.InputContentBlock _mapAnthropicReasoningBlock(
+  final AIChatMessageReasoningBlock block,
+  final Map<String, dynamic>? rawBlock,
+) {
+  if (rawBlock?['type'] == 'redacted_thinking') {
+    return a.InputContentBlock.fromJson(rawBlock!);
+  }
+  return a.InputContentBlock.fromJson({
+    ...?rawBlock,
+    'type': rawBlock?['type'] ?? 'thinking',
+    'thinking': block.reasoning,
+    if (_anthropicSignature(block) case final String signature)
+      'signature': signature,
+  });
+}
+
+a.InputContentBlock _rawAnthropicInputBlock(
+  final AIChatMessageContentBlock block,
+  final Map<String, dynamic>? rawBlock,
+) {
+  if (rawBlock == null) {
+    throw UnsupportedError(
+      '${block.runtimeType} can only be replayed to Anthropic when it contains '
+      'providerData["anthropic"]["contentBlock"]',
+    );
+  }
+  return a.InputContentBlock.fromJson(rawBlock);
+}
+
+AIChatMessageContentBlock _mapContentBlock(
+  final a.ContentBlock contentBlock, {
+  required final String messageId,
+  required final int index,
+}) {
+  final rawBlock = contentBlock.toJson();
+  final fallbackId = 'anthropic:$messageId:$index';
+  final providerData = <String, dynamic>{
+    'anthropic': {
+      'contentBlock': rawBlock,
+      if (contentBlock case final a.ThinkingBlock thinking)
+        'signature': thinking.signature,
+    },
+  };
+  return switch (contentBlock) {
+    final a.TextBlock text => AIChatMessageTextBlock(
+      text: text.text,
+      id: fallbackId,
+      index: index,
+      providerData: providerData,
+    ),
+    final a.ThinkingBlock thinking => AIChatMessageReasoningBlock(
+      reasoning: thinking.thinking,
+      id: fallbackId,
+      index: index,
+      providerData: providerData,
+    ),
+    a.RedactedThinkingBlock() => AIChatMessageReasoningBlock(
+      reasoning: '',
+      id: fallbackId,
+      index: index,
+      providerData: providerData,
+    ),
+    final a.ToolUseBlock toolUse => AIChatMessageToolCall(
+      id: toolUse.id,
+      index: index,
+      name: toolUse.name,
+      argumentsRaw: toolUse.input.isNotEmpty ? json.encode(toolUse.input) : '',
+      arguments: toolUse.input,
+      providerData: providerData,
+    ),
+    _ => _mapNonClientAnthropicBlock(
+      rawBlock,
+      fallbackId: fallbackId,
+      index: index,
+      providerData: providerData,
+    ),
+  };
+}
+
+AIChatMessageContentBlock _mapNonClientAnthropicBlock(
+  final Map<String, dynamic> rawBlock, {
+  required final String fallbackId,
+  required final int index,
+  required final Map<String, dynamic> providerData,
+}) {
+  final type = rawBlock['type'] as String? ?? '';
+  if (type.endsWith('tool_use')) {
+    final input = switch (rawBlock['input']) {
+      final Map<Object?, Object?> value => value.cast<String, dynamic>(),
+      _ => const <String, dynamic>{},
+    };
+    return AIChatMessageServerToolCall(
+      id: rawBlock['id'] as String? ?? fallbackId,
+      index: index,
+      name: rawBlock['name'] as String? ?? type,
+      argumentsRaw: input.isNotEmpty ? json.encode(input) : '',
+      arguments: input,
+      providerData: providerData,
+    );
+  }
+  if (type.endsWith('tool_result')) {
+    final toolCallId = rawBlock['tool_use_id'] as String? ?? fallbackId;
+    return AIChatMessageServerToolResult(
+      id: toolCallId,
+      index: index,
+      toolCallId: toolCallId,
+      result: rawBlock['content'],
+      providerData: providerData,
+    );
+  }
+  return AIChatMessageNonStandardBlock(
+    value: rawBlock,
+    id: fallbackId,
+    index: index,
+    providerData: providerData,
+  );
+}
+
+AIChatMessageContentBlock _mapContentBlockDelta(
+  final a.ContentBlockDelta blockDelta, {
+  required final String messageId,
+  required final int index,
+  required final String? toolCallId,
+}) {
+  final fallbackId = 'anthropic:$messageId:$index';
+  return switch (blockDelta) {
+    final a.TextDelta text => AIChatMessageTextBlock(
+      text: text.text,
+      id: fallbackId,
+      index: index,
+      providerData: {
+        'anthropic': {'delta': text.toJson()},
+      },
+    ),
+    final a.InputJsonDelta jsonDelta => AIChatMessageToolCall(
+      id: toolCallId ?? fallbackId,
+      index: index,
+      name: '',
+      argumentsRaw: jsonDelta.partialJson,
+      arguments: const {},
+      providerData: {
+        'anthropic': {'delta': jsonDelta.toJson()},
+      },
+    ),
+    final a.ThinkingDelta thinking => AIChatMessageReasoningBlock(
+      reasoning: thinking.thinking,
+      id: fallbackId,
+      index: index,
+      providerData: {
+        'anthropic': {'delta': thinking.toJson()},
+      },
+    ),
+    final a.SignatureDelta signature => AIChatMessageReasoningBlock(
+      reasoning: '',
+      id: fallbackId,
+      index: index,
+      providerData: {
+        'anthropic': {
+          'delta': signature.toJson(),
+          'signature': signature.signature,
+        },
+      },
+    ),
+    final a.CitationsDelta citations => AIChatMessageTextBlock(
+      text: '',
+      id: fallbackId,
+      index: index,
+      providerData: {
+        'anthropic': {'delta': citations.toJson()},
+      },
+    ),
+    final a.ContentBlockDelta unknown => AIChatMessageNonStandardBlock(
+      value: unknown.toJson(),
+      id: fallbackId,
+      index: index,
+      providerData: {
+        'anthropic': {'delta': unknown.toJson()},
+      },
+    ),
+  };
+}
+
+String? _anthropicSignature(final AIChatMessageContentBlock block) =>
+    switch (block.providerData['anthropic']) {
+      {'signature': final String signature} => signature,
+      _ => null,
+    };
 
 extension ToolSpecListMapper on List<ToolSpec> {
   /// Converts tool specs to typed ToolDefinition list for the request.

@@ -2,6 +2,7 @@
 
 @TestOn('vm')
 @Timeout(Duration(minutes: 50))
+@Tags(['integration'])
 library; // Uses dart:io
 
 import 'dart:async';

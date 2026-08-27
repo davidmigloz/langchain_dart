@@ -51,18 +51,16 @@ void main() {
       [0.1, 0.2],
     ]);
     final queryBody = jsonDecode(requests.first.body) as Map<String, dynamic>;
-    expect(queryBody['embedContentConfig'], {
-      'taskType': 'RETRIEVAL_QUERY',
-      'outputDimensionality': 64,
-    });
+    expect(queryBody['taskType'], 'RETRIEVAL_QUERY');
+    expect(queryBody['outputDimensionality'], 64);
+    expect(queryBody.containsKey('embedContentConfig'), isFalse);
     final batchBody = jsonDecode(requests.last.body) as Map<String, dynamic>;
     final documentRequest =
         (batchBody['requests'] as List<dynamic>).single as Map<String, dynamic>;
-    expect(documentRequest['embedContentConfig'], {
-      'taskType': 'RETRIEVAL_DOCUMENT',
-      'title': 'Document title',
-      'outputDimensionality': 64,
-    });
+    expect(documentRequest['taskType'], 'RETRIEVAL_DOCUMENT');
+    expect(documentRequest['title'], 'Document title');
+    expect(documentRequest['outputDimensionality'], 64);
+    expect(documentRequest.containsKey('embedContentConfig'), isFalse);
 
     embeddings.close();
   });

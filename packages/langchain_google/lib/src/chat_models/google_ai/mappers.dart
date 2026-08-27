@@ -6,6 +6,7 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
 
+import '../google_parts_mapper.dart';
 import 'types.dart';
 
 extension ChatMessagesMapper on List<ChatMessage> {
@@ -97,24 +98,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
   }
 
   g.Content _mapAIChatMessage(final AIChatMessage msg) {
-    final contentParts = [
-      if (msg.content.isNotEmpty) g.TextPart(msg.content),
-      if (msg.toolCalls.isNotEmpty)
-        ...msg.toolCalls.map(
-          (final call) => g.FunctionCallPart(
-            g.FunctionCall(name: call.name, args: call.arguments),
-            // Thinking models require the thought signature captured in
-            // toChatResult to be echoed back with the function call.
-            thoughtSignature: switch (call.providerData['google']) {
-              {'thoughtSignature': final String signature} => base64Decode(
-                signature,
-              ),
-              _ => null,
-            },
-          ),
-        ),
-    ];
-    return g.Content(role: 'model', parts: contentParts);
+    return g.Content(role: 'model', parts: aiMessageToGoogleParts(msg));
   }
 
   g.FunctionResponsePart _toolMsgToFunctionResponsePart(
@@ -145,41 +129,14 @@ extension GenerateContentResponseMapper on g.GenerateContentResponse {
 
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content:
-            candidate.content?.parts
-                .map(
-                  (p) => switch (p) {
-                    final g.TextPart p => p.text,
-                    final g.InlineDataPart p => p.inlineData.data,
-                    final g.FileDataPart p => p.fileData.fileUri,
-                    g.Part() => '',
-                  },
-                )
-                .nonNulls
-                .join('\n') ??
-            '',
-        toolCalls:
-            candidate.content?.parts
-                .whereType<g.FunctionCallPart>()
-                .map(
-                  (final part) => AIChatMessageToolCall(
-                    id: part.functionCall.name,
-                    name: part.functionCall.name,
-                    argumentsRaw: jsonEncode(part.functionCall.args ?? {}),
-                    arguments: part.functionCall.args ?? {},
-                    providerData: {
-                      if (part.thoughtSignature != null)
-                        'google': {
-                          'thoughtSignature': base64Encode(
-                            part.thoughtSignature!,
-                          ),
-                        },
-                    },
-                  ),
-                )
-                .toList(growable: false) ??
-            [],
+      output: AIChatMessage.withBlocks(
+        contentBlocks: googlePartsToContentBlocks(
+          candidate.content?.parts ?? const [],
+          responseId: id,
+        ),
+        legacyContent: googlePartsToLegacyContent(
+          candidate.content?.parts ?? const [],
+        ),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {

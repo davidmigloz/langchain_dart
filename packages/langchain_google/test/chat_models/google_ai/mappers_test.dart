@@ -46,7 +46,7 @@ void main() {
       },
     );
 
-    test('leaves tool-call provider data empty when there is no signature', () {
+    test('retains the raw part without inventing a signature', () {
       const response = g.GenerateContentResponse(
         candidates: [
           g.Candidate(
@@ -64,7 +64,11 @@ void main() {
 
       final result = response.toChatResult('id-1', 'gemini-2.5-flash');
 
-      expect(result.output.toolCalls.single.providerData, isEmpty);
+      final googleData =
+          result.output.toolCalls.single.providerData['google']
+              as Map<String, dynamic>;
+      expect(googleData, contains('part'));
+      expect(googleData, isNot(contains('thoughtSignature')));
     });
 
     test('preserves thoughtSignature through streamed concatenation', () {
@@ -102,6 +106,49 @@ void main() {
       final replayed = <ChatMessage>[merged].toContentList();
       final replayedPart = replayed.single.parts.single as g.FunctionCallPart;
       expect(replayedPart.thoughtSignature, signature);
+    });
+
+    test('keeps a final signed text part separate while streaming', () {
+      final signature = utf8.encode('final-text-signature');
+      const firstResponse = g.GenerateContentResponse(
+        candidates: [
+          g.Candidate(
+            content: g.Content(parts: [g.TextPart('visible answer')]),
+          ),
+        ],
+      );
+      final finalResponse = g.GenerateContentResponse(
+        candidates: [
+          g.Candidate(
+            content: g.Content(
+              parts: [g.TextPart('', thoughtSignature: signature)],
+            ),
+          ),
+        ],
+      );
+
+      final first = firstResponse
+          .toChatResult('stream-id', 'gemini-3.1-pro-preview')
+          .output;
+      final signedBoundary = finalResponse
+          .toChatResult('stream-id', 'gemini-3.1-pro-preview')
+          .output;
+      final merged = first.concat(signedBoundary);
+
+      expect(merged.contentBlocks, hasLength(2));
+      expect(
+        merged.contentBlocks.last,
+        isA<AIChatMessageTextBlock>()
+            .having((block) => block.text, 'text', isEmpty)
+            .having((block) => block.isMergeable, 'isMergeable', isFalse),
+      );
+
+      final replayed = <ChatMessage>[merged].toContentList().single.parts;
+      expect(replayed, hasLength(2));
+      expect(replayed.first.thoughtSignature, isNull);
+      expect(replayed.last, isA<g.TextPart>());
+      expect((replayed.last as g.TextPart).text, isEmpty);
+      expect(replayed.last.thoughtSignature, signature);
     });
   });
 
@@ -205,6 +252,129 @@ void main() {
       final result = response.toChatResult('id-1', 'gemini-2.5-flash');
 
       expect(result.output.content, startsWith('visible'));
+    });
+
+    test('preserves ordered parts and common metadata through replay', () {
+      final signature = utf8.encode('reasoning-signature');
+      final parts = <g.Part>[
+        g.TextPart(
+          'reasoning',
+          thought: true,
+          thoughtSignature: signature,
+          partMetadata: const {'phase': 'analysis'},
+        ),
+        const g.TextPart('answer', additionalProperties: {'future': 1}),
+        const g.InlineDataPart(g.Blob(mimeType: 'image/png', data: 'aW1n')),
+        const g.FileDataPart(
+          g.FileData(fileUri: 'files/one', mimeType: 'text/plain'),
+        ),
+        const g.FunctionCallPart(
+          g.FunctionCall(id: 'call-1', name: 'weather', args: {'city': 'A'}),
+        ),
+        const g.FunctionResponsePart(
+          g.FunctionResponse(
+            id: 'call-1',
+            name: 'weather',
+            response: {'temperature': 20},
+          ),
+        ),
+        const g.ExecutableCodePart(
+          g.ExecutableCode(
+            id: 'code-1',
+            language: g.Language.python,
+            code: '1 + 1',
+          ),
+        ),
+        const g.CodeExecutionResultPart(
+          g.CodeExecutionResult(
+            id: 'code-1',
+            outcome: g.Outcome.ok,
+            output: '2',
+          ),
+        ),
+        const g.ToolCallPart(
+          g.ToolCall(
+            id: 'server-1',
+            toolType: g.ToolType.googleSearchWeb,
+            args: {'q': 'weather'},
+          ),
+        ),
+        const g.ToolResponsePart(
+          g.ToolResponse(
+            id: 'server-1',
+            toolType: g.ToolType.googleSearchWeb,
+            response: {'result': 'sunny'},
+          ),
+        ),
+        g.MetadataPart(thoughtSignature: signature),
+        g.UnknownPart({
+          'futurePart': {'value': 1},
+        }),
+      ];
+      final response = g.GenerateContentResponse(
+        candidates: [g.Candidate(content: g.Content(parts: parts))],
+      );
+
+      final message = response.toChatResult('response-1', 'gemini').output;
+      final replayed = <ChatMessage>[message].toContentList().single.parts;
+
+      expect(message.contentBlocks.map((block) => block.runtimeType), [
+        AIChatMessageReasoningBlock,
+        AIChatMessageTextBlock,
+        AIChatMessageMediaBlock,
+        AIChatMessageFileBlock,
+        AIChatMessageToolCall,
+        AIChatMessageServerToolResult,
+        AIChatMessageServerToolCall,
+        AIChatMessageServerToolResult,
+        AIChatMessageServerToolCall,
+        AIChatMessageServerToolResult,
+        AIChatMessageProviderMetadataBlock,
+        AIChatMessageNonStandardBlock,
+      ]);
+      expect(
+        replayed.map((part) => part.toJson()),
+        parts.map((p) => p.toJson()),
+      );
+    });
+
+    test('keeps parallel same-name streamed calls separate', () {
+      g.GenerateContentResponse chunk(
+        Map<String, dynamic> first,
+        Map<String, dynamic> second,
+      ) => g.GenerateContentResponse(
+        candidates: [
+          g.Candidate(
+            content: g.Content(
+              parts: [
+                g.FunctionCallPart(
+                  g.FunctionCall(name: 'weather', args: first),
+                ),
+                g.FunctionCallPart(
+                  g.FunctionCall(name: 'weather', args: second),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+
+      final starts = chunk(
+        const {},
+        const {},
+      ).toChatResult('response-1', 'gemini').output;
+      final finishes = chunk(
+        const {'city': 'Madrid'},
+        const {'city': 'Paris'},
+      ).toChatResult('response-1', 'gemini').output;
+      final calls = starts.concat(finishes).toolCalls;
+
+      expect(calls, hasLength(2));
+      expect(calls.map((call) => call.id), [
+        'google:response-1:0:0',
+        'google:response-1:0:1',
+      ]);
+      expect(calls.map((call) => call.arguments['city']), ['Madrid', 'Paris']);
     });
 
     test('maps every finish reason introduced through v12', () {

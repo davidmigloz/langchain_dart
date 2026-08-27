@@ -6,11 +6,13 @@ library; // Uses dart:io
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:googleai_dart/googleai_dart.dart' as g;
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:langchain_google/langchain_google.dart';
+import 'package:langchain_google/src/chat_models/google_ai/mappers.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -157,6 +159,58 @@ void main() {
       expect(count, greaterThan(1));
       expect(content, contains('123456789'));
     });
+
+    test(
+      'Streaming preserves thought-signature part boundaries',
+      timeout: const Timeout(Duration(minutes: 2)),
+      () async {
+        final chunks = await chatModel
+            .stream(
+              PromptValue.string(
+                'Solve this carefully, then answer with only the final integer: '
+                'A shop discounts a 240 euro item by 15%, then applies 21% VAT. '
+                'What is the final price rounded to the nearest euro?',
+              ),
+              options: const ChatGoogleGenerativeAIOptions(
+                model: 'gemini-3.1-pro-preview',
+                temperature: 0,
+              ),
+            )
+            .toList();
+
+        expect(chunks, hasLength(greaterThan(1)));
+        final merged = chunks.reduce((first, next) => first.concat(next));
+        final signedBlocks = merged.output.contentBlocks
+            .where((block) {
+              final googleData = block.providerData['google'];
+              final rawPart = googleData is Map ? googleData['part'] : null;
+              return rawPart is Map && rawPart['thoughtSignature'] != null;
+            })
+            .toList(growable: false);
+
+        expect(merged.output.content, isNotEmpty);
+        expect(signedBlocks, isNotEmpty);
+        expect(
+          signedBlocks,
+          everyElement(
+            isA<AIChatMessageContentBlock>().having(
+              (block) => block.isMergeable,
+              'isMergeable',
+              isFalse,
+            ),
+          ),
+        );
+
+        final replayedParts = <ChatMessage>[
+          merged.output,
+        ].toContentList().single.parts;
+        expect(
+          replayedParts.where((part) => part.thoughtSignature != null),
+          hasLength(signedBlocks.length),
+        );
+        expect(replayedParts.whereType<g.TextPart>(), isNotEmpty);
+      },
+    );
 
     test(
       'Test tool calling',
