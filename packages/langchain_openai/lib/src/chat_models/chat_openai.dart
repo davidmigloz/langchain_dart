@@ -267,6 +267,9 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
     final PromptValue input, {
     final ChatOpenAIOptions? options,
   }) {
+    final fallbackResponseId = _uuid.v4();
+    String? streamResponseId;
+    var streamSequence = 0;
     return _client.chat.completions
         .createStream(
           createChatCompletionRequest(
@@ -276,10 +279,13 @@ class ChatOpenAI extends BaseChatModel<ChatOpenAIOptions> {
             stream: true,
           ),
         )
-        .map(
-          (final completion) =>
-              completion.toChatResult(completion.id ?? _uuid.v4()),
-        );
+        .map((final completion) {
+          streamResponseId ??= completion.id ?? fallbackResponseId;
+          return completion.toChatResult(
+            streamResponseId!,
+            streamSequence: streamSequence++,
+          );
+        });
   }
 
   /// Tokenizes the given prompt using tiktoken with the encoding used by the

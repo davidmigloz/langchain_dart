@@ -34,6 +34,7 @@ oai.ChatCompletionCreateRequest createChatCompletionRequest(
     reasoningEffort:
         (options?.reasoningEffort ?? defaultOptions.reasoningEffort)
             .toReasoningEffort(),
+    verbosity: (options?.verbosity ?? defaultOptions.verbosity).toVerbosity(),
     metadata: options?.metadata ?? defaultOptions.metadata,
     tools: toolsDtos,
     toolChoice: toolChoice,
@@ -139,13 +140,17 @@ extension ChatMessageListMapper on List<ChatMessage> {
   }
 
   oai.ChatMessage _mapAIMessage(final AIChatMessage aiChatMessage) {
-    return oai.ChatMessage.assistant(
+    final reasoning = _reasoningPayloadForMessage(aiChatMessage);
+    return oai.AssistantMessage(
       content: aiChatMessage.contentAsString,
       toolCalls: aiChatMessage.toolCalls.isNotEmpty
           ? aiChatMessage.toolCalls
                 .map(_mapMessageToolCall)
                 .toList(growable: false)
           : null,
+      reasoningContent: reasoning?['reasoning_content'] as String?,
+      reasoning: reasoning?['reasoning'] as String?,
+      reasoningDetails: _parseReasoningDetails(reasoning),
     );
   }
 
@@ -178,23 +183,20 @@ extension CreateChatCompletionResponseMapper on oai.ChatCompletion {
     if (msg.refusal != null && msg.refusal!.isNotEmpty) {
       throw OpenAIRefusalException(msg.refusal!);
     }
+    final reasoning = _extractReasoningPayload(msg.toJson());
 
     return ChatResult(
       id: id,
       output: AIChatMessage(
         content: [
-          if (msg.hasReasoningContent)
-            AIChatMessageReasoningBlock(
-              reasoning: msg.reasoningContent ?? msg.reasoning ?? '',
+          if (reasoning.isNotEmpty)
+            _reasoningBlock(
+              reasoning,
               id: 'openai-chat:$id:reasoning',
               index: 0,
               providerData: {
                 'openai': {
-                  'chatMessage': msg.toJson(),
-                  if (msg.reasoningDetails != null)
-                    'reasoningDetails': msg.reasoningDetails!
-                        .map((detail) => detail.toJson())
-                        .toList(growable: false),
+                  'chatCompletions': {'reasoning': reasoning},
                 },
               },
             ),
@@ -280,25 +282,32 @@ extension ChatToolChoiceMapper on ChatToolChoice {
 }
 
 extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
-  ChatResult toChatResult(final String id) {
+  ChatResult toChatResult(final String id, {final int streamSequence = 0}) {
     final choice = choices?.firstOrNull;
     final delta = choice?.delta;
 
     if (delta?.refusal != null && delta!.refusal!.isNotEmpty) {
       throw OpenAIRefusalException(delta.refusal!);
     }
+    final reasoning = delta == null
+        ? const <String, dynamic>{}
+        : _extractReasoningPayload(delta.toJson());
 
     return ChatResult(
       id: id,
       output: AIChatMessage(
         content: [
-          if (delta?.hasReasoningContent ?? false)
-            AIChatMessageReasoningBlock(
-              reasoning: delta?.reasoningContent ?? delta?.reasoning ?? '',
+          if (reasoning.isNotEmpty)
+            _reasoningBlock(
+              reasoning,
               id: 'openai-chat:$id:reasoning',
               index: 0,
               providerData: {
-                'openai': {'delta': delta?.toJson()},
+                'openai': {
+                  'chatCompletions': {
+                    'reasoningChunks': {'$streamSequence': reasoning},
+                  },
+                },
               },
             ),
           if ((delta?.content ?? '').isNotEmpty)
@@ -350,6 +359,173 @@ extension CreateChatCompletionStreamResponseMapper on oai.ChatStreamEvent {
   }
 }
 
+const _reasoningKeys = {'reasoning_content', 'reasoning', 'reasoning_details'};
+
+Map<String, dynamic> _extractReasoningPayload(
+  final Map<String, dynamic> json,
+) => {
+  for (final key in _reasoningKeys)
+    if (json.containsKey(key)) key: json[key],
+};
+
+AIChatMessageContentBlock _reasoningBlock(
+  final Map<String, dynamic> reasoning, {
+  required final String id,
+  required final int index,
+  required final Map<String, dynamic> providerData,
+}) {
+  if (_hasSubstantiveReasoning(reasoning)) {
+    return AIChatMessageReasoningBlock(
+      reasoning: _readableReasoning(reasoning),
+      id: id,
+      index: index,
+      providerData: providerData,
+    );
+  }
+  return AIChatMessageProviderMetadataBlock(
+    id: id,
+    index: index,
+    providerData: providerData,
+  );
+}
+
+bool _hasSubstantiveReasoning(final Map<String, dynamic> reasoning) {
+  for (final key in const ['reasoning_content', 'reasoning']) {
+    final value = reasoning[key];
+    if (value is String && value.isNotEmpty) return true;
+  }
+  final details = reasoning['reasoning_details'];
+  return details is List && details.isNotEmpty;
+}
+
+String _readableReasoning(final Map<String, dynamic> reasoning) {
+  for (final key in const ['reasoning_content', 'reasoning']) {
+    final value = reasoning[key];
+    if (value is String && value.isNotEmpty) return value;
+  }
+  final details = reasoning['reasoning_details'];
+  if (details is! List) return '';
+  return details
+      .whereType<Map<Object?, Object?>>()
+      .map((detail) => detail.cast<String, dynamic>())
+      .map((detail) => detail['text'] ?? detail['summary'])
+      .whereType<String>()
+      .join();
+}
+
+Map<String, dynamic>? _reasoningPayloadForMessage(final AIChatMessage message) {
+  final chunks = <int, Map<String, dynamic>>{};
+  for (final block in message.content) {
+    final openAI = _asStringMap(block.providerData['openai']);
+    final chatCompletions = _asStringMap(openAI?['chatCompletions']);
+    final complete = _asStringMap(chatCompletions?['reasoning']);
+    if (complete != null) return _extractReasoningPayload(complete);
+    final reasoningChunks = _asStringMap(chatCompletions?['reasoningChunks']);
+    if (reasoningChunks != null) {
+      for (final entry in reasoningChunks.entries) {
+        final sequence = int.tryParse(entry.key);
+        final payload = _asStringMap(entry.value);
+        if (sequence != null && payload != null) chunks[sequence] = payload;
+      }
+    }
+  }
+  if (chunks.isNotEmpty) return _accumulateReasoningChunks(chunks);
+
+  // Compatibility with provider-data shapes emitted before the canonical
+  // chatCompletions namespace was introduced. Complete chat-message payloads
+  // were duplicated across reasoning and text blocks, so use the first one.
+  for (final block in message.content) {
+    final openAI = _asStringMap(block.providerData['openai']);
+    final raw = _asStringMap(openAI?['chatMessage']);
+    if (raw == null) continue;
+    final payload = _extractReasoningPayload(raw);
+    if (!payload.containsKey('reasoning_details') &&
+        openAI!.containsKey('reasoningDetails')) {
+      payload['reasoning_details'] = openAI['reasoningDetails'];
+    }
+    if (payload.isNotEmpty) return payload;
+  }
+
+  final compatibilityChunks = <int, Map<String, dynamic>>{};
+  final seenChunks = <String>{};
+  var sequence = 0;
+  Object? redundantReasoningDetails;
+  var redundantReasoningDetailsPresent = false;
+  for (final block in message.content) {
+    final openAI = _asStringMap(block.providerData['openai']);
+    if (openAI == null) continue;
+    final raw = _asStringMap(openAI['delta']);
+    if (raw != null) {
+      final payload = _extractReasoningPayload(raw);
+      final fingerprint = jsonEncode(payload);
+      if (payload.isNotEmpty && seenChunks.add(fingerprint)) {
+        compatibilityChunks[sequence++] = payload;
+      }
+    }
+    if (openAI.containsKey('reasoningDetails')) {
+      redundantReasoningDetailsPresent = true;
+      redundantReasoningDetails = openAI['reasoningDetails'];
+    }
+  }
+  if (compatibilityChunks.isEmpty && redundantReasoningDetailsPresent) {
+    return {'reasoning_details': redundantReasoningDetails};
+  }
+  return compatibilityChunks.isEmpty
+      ? null
+      : _accumulateReasoningChunks(compatibilityChunks);
+}
+
+Map<String, dynamic> _accumulateReasoningChunks(
+  final Map<int, Map<String, dynamic>> chunks,
+) {
+  final ordered = chunks.entries.toList()
+    ..sort((first, second) => first.key.compareTo(second.key));
+  final result = <String, dynamic>{};
+  for (final key in const ['reasoning_content', 'reasoning']) {
+    var present = false;
+    var stringPresent = false;
+    final value = StringBuffer();
+    for (final chunk in ordered) {
+      if (!chunk.value.containsKey(key)) continue;
+      present = true;
+      final part = chunk.value[key];
+      if (part is String) {
+        stringPresent = true;
+        value.write(part);
+      }
+    }
+    if (present) result[key] = stringPresent ? value.toString() : null;
+  }
+  var detailsPresent = false;
+  final details = <dynamic>[];
+  for (final chunk in ordered) {
+    if (!chunk.value.containsKey('reasoning_details')) continue;
+    detailsPresent = true;
+    final chunkDetails = chunk.value['reasoning_details'];
+    if (chunkDetails is List) details.addAll(chunkDetails);
+  }
+  if (detailsPresent) result['reasoning_details'] = details;
+  return result;
+}
+
+List<oai.ReasoningDetail>? _parseReasoningDetails(
+  final Map<String, dynamic>? reasoning,
+) {
+  if (reasoning == null || !reasoning.containsKey('reasoning_details')) {
+    return null;
+  }
+  final details = reasoning['reasoning_details'];
+  if (details is! List) return null;
+  return details
+      .whereType<Map<Object?, Object?>>()
+      .map((detail) => detail.cast<String, dynamic>())
+      .map(oai.ReasoningDetail.fromJson)
+      .toList(growable: false);
+}
+
+Map<String, dynamic>? _asStringMap(final Object? value) =>
+    value is Map<Object?, Object?> ? value.cast<String, dynamic>() : null;
+
 extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
   oai.ResponseFormat toChatCompletionResponseFormat() {
     return switch (this) {
@@ -368,10 +544,22 @@ extension ChatOpenAIResponseFormatMapper on ChatOpenAIResponseFormat {
 
 extension ChatOpenAIReasoningEffortX on ChatOpenAIReasoningEffort? {
   oai.ReasoningEffort? toReasoningEffort() => switch (this) {
-    ChatOpenAIReasoningEffort.minimal => oai.ReasoningEffort.low, // deprecated
+    ChatOpenAIReasoningEffort.none => oai.ReasoningEffort.none,
+    ChatOpenAIReasoningEffort.minimal => oai.ReasoningEffort.minimal,
     ChatOpenAIReasoningEffort.low => oai.ReasoningEffort.low,
     ChatOpenAIReasoningEffort.medium => oai.ReasoningEffort.medium,
     ChatOpenAIReasoningEffort.high => oai.ReasoningEffort.high,
+    ChatOpenAIReasoningEffort.xhigh => oai.ReasoningEffort.xhigh,
+    ChatOpenAIReasoningEffort.max => oai.ReasoningEffort.max,
+    null => null,
+  };
+}
+
+extension ChatOpenAIVerbosityX on ChatOpenAIVerbosity? {
+  oai.Verbosity? toVerbosity() => switch (this) {
+    ChatOpenAIVerbosity.low => oai.Verbosity.low,
+    ChatOpenAIVerbosity.medium => oai.Verbosity.medium,
+    ChatOpenAIVerbosity.high => oai.Verbosity.high,
     null => null,
   };
 }
@@ -380,6 +568,7 @@ extension ChatOpenAIServiceTierX on ChatOpenAIServiceTier? {
   String? toServiceTierString() => switch (this) {
     ChatOpenAIServiceTier.auto => 'auto',
     ChatOpenAIServiceTier.vDefault => 'default',
+    ChatOpenAIServiceTier.fast => 'fast',
     null => null,
   };
 }
@@ -391,5 +580,6 @@ FinishReason _mapFinishReason(final oai.FinishReason? reason) =>
       oai.FinishReason.toolCalls => FinishReason.toolCalls,
       oai.FinishReason.contentFilter => FinishReason.contentFilter,
       oai.FinishReason.functionCall => FinishReason.toolCalls,
+      oai.FinishReason.unknown => FinishReason.unspecified,
       null => FinishReason.unspecified,
     };

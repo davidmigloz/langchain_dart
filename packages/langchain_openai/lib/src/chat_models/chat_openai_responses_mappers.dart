@@ -616,6 +616,12 @@ extension ChatOpenAIResponsesResponseFormatMapper
 extension ChatOpenAIResponsesReasoningEffortMapper
     on ChatOpenAIResponsesReasoningEffort {
   oai.ReasoningConfig toReasoningConfig() => switch (this) {
+    ChatOpenAIResponsesReasoningEffort.none => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.none,
+    ),
+    ChatOpenAIResponsesReasoningEffort.minimal => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.minimal,
+    ),
     ChatOpenAIResponsesReasoningEffort.low => const oai.ReasoningConfig(
       effort: oai.ReasoningEffort.low,
     ),
@@ -625,6 +631,12 @@ extension ChatOpenAIResponsesReasoningEffortMapper
     ChatOpenAIResponsesReasoningEffort.high => const oai.ReasoningConfig(
       effort: oai.ReasoningEffort.high,
     ),
+    ChatOpenAIResponsesReasoningEffort.xhigh => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.xhigh,
+    ),
+    ChatOpenAIResponsesReasoningEffort.max => const oai.ReasoningConfig(
+      effort: oai.ReasoningEffort.max,
+    ),
   };
 }
 
@@ -633,6 +645,7 @@ extension ChatOpenAIResponsesServiceTierMapper
   oai.ServiceTier toServiceTier() => switch (this) {
     ChatOpenAIResponsesServiceTier.auto => oai.ServiceTier.auto,
     ChatOpenAIResponsesServiceTier.vDefault => oai.ServiceTier.defaultTier,
+    ChatOpenAIResponsesServiceTier.fast => oai.ServiceTier.fast,
   };
 }
 
