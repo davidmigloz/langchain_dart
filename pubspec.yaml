@@ -88,7 +88,7 @@ melos:
         mistralai_dart: ^6.1.0
         objectbox: ^5.1.0
         ollama_dart: ^2.6.0
-        openai_dart: ^1.4.0
+        openai_dart: ^8.1.0
         path: ^1.9.1
         pinecone: ^0.7.2
         rxdart: ">=0.27.7 <0.29.0"
