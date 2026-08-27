@@ -124,8 +124,7 @@ class CsvLoader extends BaseDocumentLoader {
             fieldDelimiter: fieldDelimiter,
             quoteCharacter: fieldTextDelimiter,
           ),
-        )
-        .expand((final rows) => rows);
+        );
 
     final fieldsToPositions = <String, int>{};
     final pageContentFields = <String>[];
