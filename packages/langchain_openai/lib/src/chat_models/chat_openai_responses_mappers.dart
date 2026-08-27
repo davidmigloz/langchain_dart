@@ -326,7 +326,8 @@ extension ResponseStreamAccumulatorMapper on oai.ResponseStreamAccumulator {
           usage: _mapResponseUsage(usage),
           streaming: true,
         );
-      case oai.ResponseCompletedEvent(:final response):
+      case oai.ResponseCompletedEvent(:final response) ||
+          oai.ResponseIncompleteEvent(:final response):
         final result = response.toChatResult();
         return ChatResult(
           id: result.id,
@@ -647,8 +648,8 @@ extension ChatOpenAIResponsesTruncationMapper on ChatOpenAIResponsesTruncation {
 /// The Responses API reports `completed` even when the model requested a tool
 /// call (the tool intent lives in the output items, not in `status`), so tool
 /// calls are detected via [oai.Response.hasToolCalls]. An `incomplete` response
-/// is a `length` stop only when truncated by `max_output_tokens`; a
-/// `content_filter` reason maps to [FinishReason.contentFilter].
+/// maps to `length` unless its reason is `content_filter`, which maps to
+/// [FinishReason.contentFilter].
 FinishReason _mapFinishReason(final oai.Response response) =>
     switch (response.status) {
       oai.ResponseStatus.completed =>

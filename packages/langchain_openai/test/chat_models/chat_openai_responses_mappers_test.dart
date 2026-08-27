@@ -242,6 +242,60 @@ void main() {
 
         expect(result.finishReason, FinishReason.contentFilter);
       });
+
+      test('maps a completed tool-call stream to toolCalls', () {
+        final accumulator = oai.ResponseStreamAccumulator()
+          ..add(
+            oai.ResponseCompletedEvent(
+              response: responseFromJson(
+                status: 'completed',
+                output: [functionCallItem],
+              ),
+            ),
+          );
+
+        final result = accumulator.toChatResult();
+
+        expect(result, isNotNull);
+        expect(result!.finishReason, FinishReason.toolCalls);
+        expect(result.streaming, isTrue);
+      });
+
+      test('maps an incomplete stream to length', () {
+        final accumulator = oai.ResponseStreamAccumulator()
+          ..add(
+            oai.ResponseIncompleteEvent(
+              response: responseFromJson(
+                status: 'incomplete',
+                incompleteDetails: {'reason': 'max_output_tokens'},
+              ),
+            ),
+          );
+
+        final result = accumulator.toChatResult();
+
+        expect(result, isNotNull);
+        expect(result!.finishReason, FinishReason.length);
+        expect(result.streaming, isTrue);
+      });
+
+      test('maps a content-filtered incomplete stream to contentFilter', () {
+        final accumulator = oai.ResponseStreamAccumulator()
+          ..add(
+            oai.ResponseIncompleteEvent(
+              response: responseFromJson(
+                status: 'incomplete',
+                incompleteDetails: {'reason': 'content_filter'},
+              ),
+            ),
+          );
+
+        final result = accumulator.toChatResult();
+
+        expect(result, isNotNull);
+        expect(result!.finishReason, FinishReason.contentFilter);
+        expect(result.streaming, isTrue);
+      });
     });
 
     group('createResponseRequest', () {
