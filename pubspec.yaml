@@ -62,7 +62,7 @@ melos:
         collection: ^1.19.1
         cross_file: ^0.3.4+2
         crypto: ^3.0.6
-        csv: ^7.1.0
+        csv: ^8.0.0
         anthropic_sdk_dart: ^7.0.0
         equatable: ^2.0.7
         firebase_ai: ^4.0.0
