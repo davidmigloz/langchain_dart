@@ -9,7 +9,6 @@ import 'package:langchain/langchain.dart'
     show AgentExecutor, ConversationBufferMemory;
 import 'package:langchain_community/langchain_community.dart';
 import 'package:langchain_core/agents.dart';
-import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/prompts.dart';
 import 'package:langchain_core/runnables.dart';
 import 'package:langchain_core/tools.dart';
@@ -137,19 +136,9 @@ void main() {
       Runnable.mapInput(
         (final AgentPlanInput planInput) => <String, dynamic>{
           'input': planInput.inputs['input'],
-          'agent_scratchpad': planInput.intermediateSteps
-              .map((final s) {
-                return s.action.messageLog +
-                    [
-                      ChatMessage.tool(
-                        toolCallId: s.action.id,
-                        content: s.observation,
-                        name: s.action.tool,
-                      ),
-                    ];
-              })
-              .expand((final m) => m)
-              .toList(growable: false),
+          'agent_scratchpad': buildToolAgentScratchpad(
+            planInput.intermediateSteps,
+          ),
         },
       ).pipe(prompt).pipe(model).pipe(const OpenAIToolsAgentOutputParser()),
       tools: [tool],

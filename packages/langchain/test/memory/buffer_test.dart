@@ -55,6 +55,27 @@ void main() {
       expect(result2, {BaseMemory.defaultMemoryKey: expectedResult});
     });
 
+    test('Test ordered chat message lists as input and output', () async {
+      final memory = ConversationBufferMemory(returnMessages: true);
+      final input = <ChatMessage>[
+        ChatMessage.tool(toolCallId: 'call-1', content: 'one'),
+        ChatMessage.tool(toolCallId: 'call-2', content: 'two'),
+      ];
+      final output = <ChatMessage>[
+        ChatMessage.aiText('three'),
+        ChatMessage.aiText('four'),
+      ];
+
+      await memory.saveContext(
+        inputValues: {'input': input},
+        outputValues: {'output': output},
+      );
+
+      expect(await memory.loadMemoryVariables(), {
+        BaseMemory.defaultMemoryKey: [...input, ...output],
+      });
+    });
+
     test('Test buffer memory with pre-loaded history', () async {
       final pastMessages = [
         ChatMessage.humanText("My name's Jonas"),

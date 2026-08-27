@@ -67,7 +67,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
   final bool? store;
 
   /// Constrains effort on reasoning for reasoning models.
-  /// Supported values are `low`, `medium`, and `high`.
+  /// Supported values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`,
+  /// and `max`, depending on the selected model.
   ///
   /// See https://platform.openai.com/docs/api-reference/responses/create#responses-create-reasoning
   final ChatOpenAIResponsesReasoningEffort? reasoningEffort;
@@ -349,6 +350,12 @@ class ChatOpenAIResponsesResponseFormatJsonSchema
 
 /// Constrains effort on reasoning for reasoning models.
 enum ChatOpenAIResponsesReasoningEffort {
+  /// No effort
+  none,
+
+  /// Minimal effort
+  minimal,
+
   /// Low effort
   low,
 
@@ -357,6 +364,12 @@ enum ChatOpenAIResponsesReasoningEffort {
 
   /// High effort
   high,
+
+  /// Extra-high effort
+  xhigh,
+
+  /// Maximum effort
+  max,
 }
 
 /// Specifies the latency tier to use for processing the request.
@@ -366,6 +379,9 @@ enum ChatOpenAIResponsesServiceTier {
 
   /// The request will be processed using the default service tier.
   vDefault,
+
+  /// The request uses OpenAI Fast mode for lower latency at higher cost.
+  fast,
 }
 
 /// The truncation strategy to use for the model.

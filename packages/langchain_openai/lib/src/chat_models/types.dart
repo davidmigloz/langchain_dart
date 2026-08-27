@@ -100,7 +100,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.parallelToolCalls,
     this.serviceTier,
     this.user,
-    @Deprecated('verbosity is no longer supported by the OpenAI API')
     this.verbosity,
     super.concurrencyLimit,
   });
@@ -123,7 +122,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
   final bool? store;
 
   /// Constrains effort on reasoning for reasoning models.
-  /// Supported values are `minimal`, `low`, `medium`, and `high`.
+  /// Supported values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`,
+  /// and `max`, depending on the selected model.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-reasoning_effort
   final ChatOpenAIReasoningEffort? reasoningEffort;
@@ -227,7 +227,6 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Supported values are `low`, `medium`, and `high`.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-verbosity
-  @Deprecated('verbosity is no longer supported by the OpenAI API')
   final ChatOpenAIVerbosity? verbosity;
 
   @override
@@ -484,8 +483,10 @@ class ChatOpenAIJsonSchema {
 
 /// Constrains effort on reasoning for reasoning models.
 enum ChatOpenAIReasoningEffort {
+  /// No reasoning effort
+  none,
+
   /// Minimal effort
-  @Deprecated('The OpenAI API no longer supports minimal. Use low instead.')
   minimal,
 
   /// Low effort
@@ -496,10 +497,15 @@ enum ChatOpenAIReasoningEffort {
 
   /// High effort
   high,
+
+  /// Extra-high effort
+  xhigh,
+
+  /// Maximum effort
+  max,
 }
 
 /// Constrains the verbosity of the model's response.
-@Deprecated('verbosity is no longer supported by the OpenAI API')
 enum ChatOpenAIVerbosity {
   /// More concise responses
   low,
@@ -520,6 +526,9 @@ enum ChatOpenAIServiceTier {
   /// The request will be processed using the default service tier with a lower
   /// uptime SLA and no latency guarantee.
   vDefault,
+
+  /// The request uses OpenAI Fast mode for lower latency at higher cost.
+  fast,
 }
 
 /// {@template openai_refusal_exception}

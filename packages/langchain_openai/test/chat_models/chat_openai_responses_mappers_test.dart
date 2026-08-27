@@ -345,6 +345,21 @@ void main() {
 
         expect(request.metadata, {'key': 'value'});
       });
+
+      test('maps current reasoning efforts and fast service tier', () {
+        final messages = [ChatMessage.humanText('Hello')];
+        final request = createResponseRequest(
+          messages,
+          options: const ChatOpenAIResponsesOptions(
+            reasoningEffort: ChatOpenAIResponsesReasoningEffort.max,
+            serviceTier: ChatOpenAIResponsesServiceTier.fast,
+          ),
+          defaultOptions: const ChatOpenAIResponsesOptions(model: 'gpt-5'),
+        );
+
+        expect(request.reasoning?.effort, oai.ReasoningEffort.max);
+        expect(request.serviceTier, oai.ServiceTier.fast);
+      });
     });
 
     group('ordered output blocks', () {

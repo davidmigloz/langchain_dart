@@ -705,13 +705,11 @@ CustomChatMessagePromptTemplate{
 }
 
 /// {@template message_placeholder}
-/// Prompt template that assumes the variable is a [ChatMessage] ([ChatMessageType.messagePlaceholder]).
+/// Prompt template that accepts one [ChatMessage] or an ordered message list
+/// ([ChatMessageType.messagePlaceholder]).
 ///
-/// This is useful when you want to use a single [ChatMessage] in the prompt.
-/// For example, when you decide the type of message at runtime (e.g.
-/// [HumanChatMessage] or [FunctionChatMessage]).
-///
-/// If you need to add multiple messages, use [MessagesPlaceholder].
+/// This is useful when the value can be either a single runtime-selected
+/// message or a group of messages that must stay at the same prompt position.
 ///
 /// Example:
 /// ```dart
@@ -753,8 +751,17 @@ final class MessagePlaceholder extends ChatMessagePromptTemplate {
   List<ChatMessage> formatMessages([
     final Map<String, dynamic> values = const {},
   ]) {
-    final message = values[variableName] as ChatMessage?;
-    return [if (message != null) message];
+    final value = values[variableName];
+    return switch (value) {
+      null => const [],
+      final ChatMessage message => [message],
+      final List<ChatMessage> messages => messages,
+      _ => throw ArgumentError.value(
+        value,
+        variableName,
+        'Expected a ChatMessage or List<ChatMessage>',
+      ),
+    };
   }
 
   @override
