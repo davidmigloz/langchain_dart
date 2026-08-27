@@ -6,6 +6,7 @@ import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/tools.dart';
 
+import '../firebase_parts_mapper.dart';
 import 'types.dart';
 
 extension ChatMessagesMapper on List<ChatMessage> {
@@ -92,14 +93,7 @@ extension ChatMessagesMapper on List<ChatMessage> {
   }
 
   f.Content _mapAIChatMessage(final AIChatMessage msg) {
-    final contentParts = [
-      if (msg.content.isNotEmpty) f.TextPart(msg.content),
-      if (msg.toolCalls.isNotEmpty)
-        ...msg.toolCalls.map(
-          (final call) => f.FunctionCall(call.name, call.arguments),
-        ),
-    ];
-    return f.Content.model(contentParts);
+    return f.Content.model(aiMessageToFirebaseParts(msg));
   }
 
   f.FunctionResponse _toolMsgToFunctionResponse(final ToolChatMessage msg) {
@@ -122,32 +116,12 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
     final candidate = candidates.first;
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: candidate.content.parts
-            .map(
-              (p) => switch (p) {
-                final f.TextPart p => p.text,
-                final f.InlineDataPart p => base64Encode(p.bytes),
-                final f.FileData p => p.fileUri,
-                f.FunctionResponse() || f.FunctionCall() => '',
-                f.ExecutableCodePart() => '',
-                f.CodeExecutionResultPart() => '',
-                f.UnknownPart() => '',
-              },
-            )
-            .nonNulls
-            .join('\n'),
-        toolCalls: candidate.content.parts
-            .whereType<f.FunctionCall>()
-            .map(
-              (final call) => AIChatMessageToolCall(
-                id: call.name,
-                name: call.name,
-                argumentsRaw: jsonEncode(call.args),
-                arguments: call.args,
-              ),
-            )
-            .toList(growable: false),
+      output: AIChatMessage.withBlocks(
+        contentBlocks: firebasePartsToContentBlocks(
+          candidate.content.parts,
+          responseId: id,
+        ),
+        legacyContent: firebasePartsToLegacyContent(candidate.content.parts),
       ),
       finishReason: _mapFinishReason(candidate.finishReason),
       metadata: {
@@ -187,10 +161,23 @@ extension GenerateContentResponseMapper on f.GenerateContentResponse {
         f.FinishReason.unknown => FinishReason.unspecified,
         f.FinishReason.stop => FinishReason.stop,
         f.FinishReason.maxTokens => FinishReason.length,
-        f.FinishReason.safety => FinishReason.contentFilter,
-        f.FinishReason.recitation => FinishReason.recitation,
-        f.FinishReason.other => FinishReason.unspecified,
+        f.FinishReason.safety ||
+        f.FinishReason.blocklist ||
+        f.FinishReason.prohibitedContent ||
+        f.FinishReason.spii ||
+        f.FinishReason.imageSafety ||
+        f.FinishReason.imageProhibitedContent ||
+        f.FinishReason.language => FinishReason.contentFilter,
+        f.FinishReason.recitation ||
+        f.FinishReason.imageRecitation => FinishReason.recitation,
+        f.FinishReason.other ||
         f.FinishReason.malformedFunctionCall ||
+        f.FinishReason.imageOther ||
+        f.FinishReason.noImage ||
+        f.FinishReason.unexpectedToolCall ||
+        f.FinishReason.tooManyToolCalls ||
+        f.FinishReason.missingThoughtSignature ||
+        f.FinishReason.malformedResponse ||
         null => FinishReason.unspecified,
       };
 }

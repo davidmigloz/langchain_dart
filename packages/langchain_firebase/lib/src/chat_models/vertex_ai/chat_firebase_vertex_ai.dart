@@ -318,9 +318,14 @@ class ChatFirebaseVertexAI extends BaseChatModel<ChatFirebaseVertexAIOptions> {
     final effectiveBackend = backend ?? defaultBackend;
 
     final firebaseAI = switch (effectiveBackend) {
+      // Keep supporting explicitly injected Auth and App Check instances while
+      // Firebase transitions callers to FirebaseAI.agentPlatform().
+      // ignore: deprecated_member_use
       FirebaseAIBackend.vertexAI => FirebaseAI.vertexAI(
         app: app,
+        // ignore: deprecated_member_use
         appCheck: appCheck,
+        // ignore: deprecated_member_use
         auth: auth,
         location: location,
       ),
