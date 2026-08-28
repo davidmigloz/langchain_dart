@@ -1,0 +1,14 @@
+---
+title: Ollama Embeddings
+description: Generate embeddings locally using Ollama
+---
+
+# OllamaEmbeddings
+
+```dart
+final embeddings = OllamaEmbeddings(model: 'llama3.2');
+const text = 'This is a test document.';
+final res = await embeddings.embedQuery(text);
+// or for multiple documents
+// final res = await embeddings.embedDocuments([text]);
+```
