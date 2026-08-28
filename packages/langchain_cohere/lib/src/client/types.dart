@@ -552,9 +552,8 @@ class CohereEmbedResponse {
     return CohereEmbedResponse(
       id: json['id'] as String? ?? '',
       embeddings: floats
-          .whereType<List<dynamic>>()
           .map(
-            (final e) => e
+            (final e) => (e as List<dynamic>)
                 .map((final v) => (v as num).toDouble())
                 .toList(growable: false),
           )

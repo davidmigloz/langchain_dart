@@ -232,5 +232,87 @@ void main() {
       expect(merged.finishReason, FinishReason.stop);
       chatModel.close();
     });
+
+    test(
+      'surfaces tool_plan from tool-plan-delta events in metadata',
+      () async {
+        final body = [
+          sse({'type': 'message-start', 'id': 'msg_1'}),
+          sse({
+            'type': 'tool-plan-delta',
+            'delta': {
+              'message': {'tool_plan': 'I will '},
+            },
+          }),
+          sse({
+            'type': 'tool-plan-delta',
+            'delta': {
+              'message': {'tool_plan': 'check the weather.'},
+            },
+          }),
+          sse({
+            'type': 'message-end',
+            'delta': {'finish_reason': 'COMPLETE'},
+          }),
+        ].join();
+
+        final chatModel = modelReturning(body);
+        final chunks = await chatModel
+            .stream(PromptValue.string('What is the weather?'))
+            .toList();
+
+        final withPlan = chunks
+            .where((final c) => c.metadata.containsKey('tool_plan'))
+            .toList();
+        expect(withPlan, hasLength(1));
+        expect(
+          withPlan.single.metadata['tool_plan'],
+          'I will check the weather.',
+        );
+        chatModel.close();
+      },
+    );
+  });
+
+  group('ChatCohere invoke (mocked)', () {
+    test('maps a non-streaming /v2/chat response to a ChatResult', () async {
+      final body = jsonEncode({
+        'id': 'res_1',
+        'message': {
+          'role': 'assistant',
+          'content': [
+            {'type': 'text', 'text': 'Hello there!'},
+          ],
+        },
+        'finish_reason': 'COMPLETE',
+        'usage': {
+          'tokens': {'input_tokens': 5, 'output_tokens': 3},
+        },
+      });
+
+      final chatModel = ChatCohere(
+        apiKey: 'test-key',
+        client: MockClient(
+          (final request) async => http.Response(
+            body,
+            200,
+            headers: {'content-type': 'application/json'},
+          ),
+        ),
+      );
+
+      final res = await chatModel.invoke(
+        PromptValue.chat([ChatMessage.humanText('Hi')]),
+      );
+
+      expect(res.id, 'res_1');
+      expect(res.output.contentAsString, 'Hello there!');
+      expect(res.output.toolCalls, isEmpty);
+      expect(res.finishReason, FinishReason.stop);
+      expect(res.usage.promptTokens, 5);
+      expect(res.usage.responseTokens, 3);
+      expect(res.metadata['model'], isNotEmpty);
+      chatModel.close();
+    });
   });
 }

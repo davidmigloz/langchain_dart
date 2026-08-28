@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:langchain_cohere/src/client/client.dart';
 import 'package:test/test.dart';
 
@@ -353,5 +357,94 @@ void main() {
         [0.4, 0.5, 0.6],
       ]);
     });
+  });
+
+  group('CohereClient error handling', () {
+    CohereClient clientReturning(final String body, final int statusCode) =>
+        CohereClient(
+          apiKey: 'test-key',
+          client: MockClient(
+            (final request) async => http.Response(
+              body,
+              statusCode,
+              headers: {'content-type': 'application/json'},
+            ),
+          ),
+        );
+
+    test('chat() throws CohereClientException with the parsed message '
+        'and status code on a non-2xx response', () async {
+      final client = clientReturning(
+        jsonEncode({'message': 'invalid api token'}),
+        401,
+      );
+
+      await expectLater(
+        () => client.chat(
+          request: const CohereChatRequest(
+            model: 'command-r-plus-08-2024',
+            messages: [CohereMessage.user('Hello!')],
+          ),
+        ),
+        throwsA(
+          isA<CohereClientException>()
+              .having((final e) => e.statusCode, 'statusCode', 401)
+              .having((final e) => e.message, 'message', 'invalid api token'),
+        ),
+      );
+      client.close();
+    });
+
+    test(
+      'chat() falls back to the raw body when the error is not JSON',
+      () async {
+        final client = clientReturning('Bad Gateway', 502);
+
+        await expectLater(
+          () => client.chat(
+            request: const CohereChatRequest(
+              model: 'command-r-plus-08-2024',
+              messages: [CohereMessage.user('Hello!')],
+            ),
+          ),
+          throwsA(
+            isA<CohereClientException>()
+                .having((final e) => e.statusCode, 'statusCode', 502)
+                .having((final e) => e.message, 'message', 'Bad Gateway'),
+          ),
+        );
+        client.close();
+      },
+    );
+
+    test(
+      'embed() throws when the response has fewer embeddings than inputs',
+      () async {
+        // Two input texts, but the response only carries one embedding.
+        final client = clientReturning(
+          jsonEncode({
+            'id': 'res_1',
+            'embeddings': {
+              'float': [
+                [0.1, 0.2],
+              ],
+            },
+          }),
+          200,
+        );
+
+        await expectLater(
+          () => client.embed(
+            request: const CohereEmbedRequest(
+              model: 'embed-v4.0',
+              texts: ['first', 'second'],
+              inputType: CohereEmbeddingInputType.searchDocument,
+            ),
+          ),
+          throwsA(isA<CohereClientException>()),
+        );
+        client.close();
+      },
+    );
   });
 }

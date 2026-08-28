@@ -167,7 +167,10 @@ class CohereEmbeddings extends Embeddings {
         truncate: truncate,
       ),
     );
-    return data.embeddings.firstOrNull ?? [];
+    // `CohereClient.embed` guarantees one embedding per input text, so exactly
+    // one is present here. Returning `.first` surfaces a malformed/empty
+    // response as an error instead of masking it as a zero-length vector.
+    return data.embeddings.first;
   }
 
   /// Closes the client and cleans up any resources associated with it.

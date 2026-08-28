@@ -94,9 +94,22 @@ class CohereClient {
       body: json.encode(request.toJson()),
     );
     _checkResponse(response.statusCode, response.body);
-    return CohereEmbedResponse.fromJson(
+    final result = CohereEmbedResponse.fromJson(
       json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>,
     );
+    // Guard against a short/misaligned response: the embeddings must line up
+    // one-to-one (and in order) with the input texts, otherwise callers would
+    // silently associate an embedding with the wrong document.
+    if (result.embeddings.length != request.texts.length) {
+      throw CohereClientException(
+        message:
+            'Cohere returned ${result.embeddings.length} embeddings for '
+            '${request.texts.length} input text(s)',
+        statusCode: response.statusCode,
+        body: response.body,
+      );
+    }
+    return result;
   }
 
   /// Closes the client and cleans up any resources associated with it.

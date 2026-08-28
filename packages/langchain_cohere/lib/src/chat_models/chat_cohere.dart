@@ -213,10 +213,16 @@ class ChatCohere extends BaseChatModel<ChatCohereOptions> {
     );
 
     var id = '';
+    final toolPlan = StringBuffer();
     await for (final event in events) {
       switch (event.type) {
         case 'message-start':
           id = event.id ?? '';
+        case 'tool-plan-delta':
+          // Accumulate Cohere's tool-planning text so it can be surfaced in
+          // the terminal `message-end` metadata, matching the non-streaming
+          // `invoke()` path (see mappers.dart `toChatResult`).
+          toolPlan.write(event.toolPlanDelta ?? '');
         case 'content-delta':
           yield ChatResult(
             id: id,
@@ -281,16 +287,18 @@ class ChatCohere extends BaseChatModel<ChatCohereOptions> {
             id: id,
             output: const AIChatMessage(content: []),
             finishReason: mapCohereFinishReason(event.finishReason),
-            metadata: {'model': model},
+            metadata: {
+              'model': model,
+              if (toolPlan.isNotEmpty) 'tool_plan': toolPlan.toString(),
+            },
             usage:
                 event.usage?.toLanguageModelUsage() ??
                 const LanguageModelUsage(),
             streaming: true,
           );
         default:
-          // content-start, content-end, tool-plan-delta, tool-call-end,
-          // citation events, etc. carry no payload relevant to this
-          // integration.
+          // content-start, content-end, tool-call-end, citation events, etc.
+          // carry no payload relevant to this integration.
           continue;
       }
     }
