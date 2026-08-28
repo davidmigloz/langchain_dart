@@ -11,8 +11,8 @@ void main() {
       final messages = [
         ChatMessage.system('You are a helpful assistant'),
         ChatMessage.humanText('Hello!'),
-        ChatMessage.ai('Hi! How can I help you?'),
-        ChatMessage.ai(
+        ChatMessage.aiText('Hi! How can I help you?'),
+        ChatMessage.aiText(
           '',
           toolCalls: const [
             AIChatMessageToolCall(
@@ -116,7 +116,7 @@ void main() {
       final result = response.toChatResult(model: 'command-r-plus-08-2024');
 
       expect(result.id, 'res_1');
-      expect(result.output.content, 'Hello world!');
+      expect(result.output.contentAsString, 'Hello world!');
       expect(result.output.toolCalls, isEmpty);
       expect(result.finishReason, FinishReason.stop);
       expect(result.metadata, {'model': 'command-r-plus-08-2024'});

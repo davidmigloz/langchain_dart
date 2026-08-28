@@ -1,8 +1,11 @@
 @TestOn('vm')
 library; // Uses dart:io
 
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:langchain_cohere/langchain_cohere.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
@@ -88,7 +91,7 @@ void main() {
           ]),
         );
         expect(
-          res.output.content.replaceAll(RegExp(r'[\s\n]'), ''),
+          res.output.contentAsString.replaceAll(RegExp(r'[\s\n]'), ''),
           contains('123456789'),
         );
         expect(res.id, isNotEmpty);
@@ -120,4 +123,114 @@ void main() {
       });
     },
   );
+
+  group('ChatCohere streaming (mocked)', () {
+    // Builds an SSE `data:` line for a Cohere v2 stream event.
+    String sse(final Map<String, dynamic> event) =>
+        'data: ${jsonEncode(event)}\n\n';
+
+    ChatCohere modelReturning(final String body) => ChatCohere(
+      apiKey: 'test-key',
+      client: MockClient(
+        (final request) async => http.Response(
+          body,
+          200,
+          headers: {'content-type': 'text/event-stream'},
+        ),
+      ),
+    );
+
+    test('merges streamed tool-call deltas into a single tool call', () async {
+      final body = [
+        sse({'type': 'message-start', 'id': 'msg_1'}),
+        sse({
+          'type': 'tool-call-start',
+          'index': 0,
+          'delta': {
+            'message': {
+              'tool_calls': {
+                'id': 'call_1',
+                'function': {
+                  'name': 'get_weather',
+                  'arguments': '{"location":',
+                },
+              },
+            },
+          },
+        }),
+        sse({
+          'type': 'tool-call-delta',
+          'index': 0,
+          'delta': {
+            'message': {
+              'tool_calls': {
+                'function': {'arguments': '"Madrid"}'},
+              },
+            },
+          },
+        }),
+        sse({
+          'type': 'message-end',
+          'delta': {'finish_reason': 'TOOL_CALL'},
+        }),
+      ].join();
+
+      final chatModel = modelReturning(body);
+      final chunks = await chatModel
+          .stream(PromptValue.string('What is the weather in Madrid?'))
+          .toList();
+      final merged = chunks.reduce((final a, final b) => a.concat(b));
+
+      final toolCalls = merged.output.toolCalls;
+      expect(toolCalls, hasLength(1));
+      expect(toolCalls.single.id, 'call_1');
+      expect(toolCalls.single.name, 'get_weather');
+      expect(toolCalls.single.argumentsRaw, '{"location":"Madrid"}');
+      expect(toolCalls.single.arguments, {'location': 'Madrid'});
+      expect(merged.finishReason, FinishReason.toolCalls);
+      chatModel.close();
+    });
+
+    test('merges streamed content deltas into a single text block', () async {
+      final body = [
+        sse({'type': 'message-start', 'id': 'msg_1'}),
+        sse({
+          'type': 'content-delta',
+          'index': 0,
+          'delta': {
+            'message': {
+              'content': {'text': 'Hello '},
+            },
+          },
+        }),
+        sse({
+          'type': 'content-delta',
+          'index': 0,
+          'delta': {
+            'message': {
+              'content': {'text': 'world!'},
+            },
+          },
+        }),
+        sse({
+          'type': 'message-end',
+          'delta': {'finish_reason': 'COMPLETE'},
+        }),
+      ].join();
+
+      final chatModel = modelReturning(body);
+      final chunks = await chatModel
+          .stream(PromptValue.string('Say hello'))
+          .toList();
+      final merged = chunks.reduce((final a, final b) => a.concat(b));
+
+      expect(
+        merged.output.content.whereType<AIChatMessageTextBlock>(),
+        hasLength(1),
+      );
+      expect(merged.output.contentAsString, 'Hello world!');
+      expect(merged.finishReason, FinishReason.stop);
+      chatModel.close();
+    });
+  });
 }

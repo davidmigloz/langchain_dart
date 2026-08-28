@@ -19,12 +19,12 @@ extension ChatMessageListMapper on List<ChatMessage> {
       final AIChatMessage msg =>
         msg.toolCalls.isNotEmpty
             ? CohereMessage.assistant(
-                msg.content.isNotEmpty ? msg.content : null,
+                msg.contentAsString.isNotEmpty ? msg.contentAsString : null,
                 toolCalls: msg.toolCalls
                     .map(_mapToolCall)
                     .toList(growable: false),
               )
-            : CohereMessage.assistant(msg.content),
+            : CohereMessage.assistant(msg.contentAsString),
       final ToolChatMessage msg => CohereMessage.tool(
         toolCallId: msg.toolCallId,
         content: msg.content,
@@ -82,8 +82,8 @@ extension ChatResultMapper on CohereChatResponse {
   ChatResult toChatResult({required final String model}) {
     return ChatResult(
       id: id,
-      output: AIChatMessage(
-        content: text ?? '',
+      output: AIChatMessage.text(
+        text ?? '',
         toolCalls: toolCalls.map(_mapToolCall).toList(growable: false),
       ),
       finishReason: mapCohereFinishReason(finishReason),

@@ -220,7 +220,16 @@ class ChatCohere extends BaseChatModel<ChatCohereOptions> {
         case 'content-delta':
           yield ChatResult(
             id: id,
-            output: AIChatMessage(content: event.textDelta ?? ''),
+            output: AIChatMessage(
+              content: [
+                AIChatMessageTextBlock(
+                  text: event.textDelta ?? '',
+                  // The shared [index] merges consecutive text deltas into a
+                  // single visible text block when concatenating the stream.
+                  index: event.index,
+                ),
+              ],
+            ),
             finishReason: FinishReason.unspecified,
             metadata: {'model': model},
             usage: const LanguageModelUsage(),
@@ -230,13 +239,13 @@ class ChatCohere extends BaseChatModel<ChatCohereOptions> {
           yield ChatResult(
             id: id,
             output: AIChatMessage(
-              content: '',
-              toolCalls: [
+              content: [
                 AIChatMessageToolCall(
                   id: event.toolCallId ?? '',
                   name: event.toolCallName ?? '',
                   argumentsRaw: event.toolCallArgumentsDelta ?? '',
                   arguments: const {},
+                  index: event.index,
                 ),
               ],
             ),
@@ -249,15 +258,16 @@ class ChatCohere extends BaseChatModel<ChatCohereOptions> {
           yield ChatResult(
             id: id,
             output: AIChatMessage(
-              content: '',
-              toolCalls: [
+              content: [
                 AIChatMessageToolCall(
-                  // The id is empty so that the delta is merged into the
-                  // last tool call when concatenating the stream chunks.
+                  // The id and name are empty; the shared [index] merges this
+                  // delta into the tool call opened by the matching
+                  // `tool-call-start` event when concatenating the stream.
                   id: '',
                   name: '',
                   argumentsRaw: event.toolCallArgumentsDelta ?? '',
                   arguments: const {},
+                  index: event.index,
                 ),
               ],
             ),
@@ -269,7 +279,7 @@ class ChatCohere extends BaseChatModel<ChatCohereOptions> {
         case 'message-end':
           yield ChatResult(
             id: id,
-            output: const AIChatMessage(content: ''),
+            output: const AIChatMessage(content: []),
             finishReason: mapCohereFinishReason(event.finishReason),
             metadata: {'model': model},
             usage:

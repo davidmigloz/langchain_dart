@@ -396,6 +396,7 @@ class CohereChatStreamEvent {
   const CohereChatStreamEvent({
     required this.type,
     this.id,
+    this.index,
     this.textDelta,
     this.toolPlanDelta,
     this.toolCallId,
@@ -424,6 +425,7 @@ class CohereChatStreamEvent {
     return CohereChatStreamEvent(
       type: json['type'] as String? ?? '',
       id: json['id'] as String?,
+      index: json['index'] as int?,
       textDelta: content['text'] as String?,
       toolPlanDelta: message['tool_plan'] as String?,
       toolCallId: toolCalls['id'] as String?,
@@ -439,6 +441,14 @@ class CohereChatStreamEvent {
 
   /// The id of the message (only present in `message-start` events).
   final String? id;
+
+  /// The index of the content block or tool call this event belongs to.
+  ///
+  /// Cohere's streaming protocol emits this on `content-*` and `tool-call-*`
+  /// events. It is used as the merge identity when concatenating streamed
+  /// chunks into ordered content blocks (deltas share the index of the block
+  /// they extend).
+  final int? index;
 
   /// The text delta (only present in `content-delta` events).
   final String? textDelta;

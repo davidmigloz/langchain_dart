@@ -39,7 +39,7 @@ Future<void> _example2() async {
       stdout.write('> ');
       final usrMsg = ChatMessage.humanText(stdin.readLineSync() ?? '');
       final aiMsg = await chatModel([usrMsg]);
-      print(aiMsg.content);
+      print(aiMsg.contentAsString);
     }
   } finally {
     chatModel.close();

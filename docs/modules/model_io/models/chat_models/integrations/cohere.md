@@ -37,7 +37,7 @@ final prompt = PromptValue.chat([
 ]);
 
 final res = await chatModel.invoke(prompt);
-print(res.output.content);
+print(res.output.contentAsString);
 
 chatModel.close();
 ```
@@ -47,7 +47,7 @@ chatModel.close();
 ```dart
 final stream = chatModel.stream(prompt);
 await for (final chunk in stream) {
-  stdout.write(chunk.output.content);
+  stdout.write(chunk.output.contentAsString);
 }
 ```
 

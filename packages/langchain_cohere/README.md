@@ -31,7 +31,7 @@ final prompt = PromptValue.chat([
   ChatMessage.humanText('Tell me a joke.'),
 ]);
 final res = await chatModel.invoke(prompt);
-print(res.output.content);
+print(res.output.contentAsString);
 chatModel.close();
 ```
 
@@ -40,7 +40,7 @@ Streaming:
 ```dart
 final stream = chatModel.stream(prompt);
 await for (final chunk in stream) {
-  stdout.write(chunk.output.content);
+  stdout.write(chunk.output.contentAsString);
 }
 ```
 
