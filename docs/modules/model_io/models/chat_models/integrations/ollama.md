@@ -38,6 +38,25 @@ final chatModel = ChatOllama(
 );
 ```
 
+### Using with llmman
+
+[llmman](https://github.com/llmmanorg/llmman) is a local model runner that serves the Ollama API (alongside OpenAI- and Anthropic-compatible ones) on port 17434. `ChatOllama` works with it unchanged; only the base URL differs:
+
+1. Install llmman: `curl -fsSL https://raw.githubusercontent.com/llmmanorg/llmman/main/install.sh | sh`
+2. Start the server: `llmman serve`
+3. Pull a model, e.g. `llmman pull gemma4` (OCI registries and `hf.co/org/model` are supported)
+
+```dart
+final chatModel = ChatOllama(
+  baseUrl: 'http://localhost:17434',
+  defaultOptions: ChatOllamaOptions(
+    model: 'gemma4',
+  ),
+);
+```
+
+Tool calling, multimodal input and JSON mode work the same way as with Ollama, and `OllamaEmbeddings(baseUrl: 'http://localhost:17434')` works for embeddings.
+
 ## Usage
 
 ```dart

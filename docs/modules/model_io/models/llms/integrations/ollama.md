@@ -18,6 +18,19 @@ Follow [these instructions](https://github.com/jmorganca/ollama) to set up and r
 2. Fetch a model via `ollama pull <model family>`
   * e.g., for Llama 3: `ollama pull llama3.2`
 
+### Using with llmman
+
+[llmman](https://github.com/llmmanorg/llmman) is a local model runner that serves the Ollama API (alongside OpenAI- and Anthropic-compatible ones) on port 17434. `Ollama` works with it unchanged; only the base URL differs. After `llmman serve` and `llmman pull gemma4`:
+
+```dart
+final llm = Ollama(
+  baseUrl: 'http://localhost:17434',
+  defaultOptions: OllamaOptions(
+    model: 'gemma4',
+  ),
+);
+```
+
 ## Usage
 
 ```dart

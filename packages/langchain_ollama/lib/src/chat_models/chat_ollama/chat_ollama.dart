@@ -43,6 +43,10 @@ import 'types.dart';
 /// (default Ollama API URL). But if you are running Ollama on a different
 /// one, you can override it using the [baseUrl] parameter.
 ///
+/// Other servers that speak the Ollama API, such as
+/// [llmman](https://github.com/llmmanorg/llmman), work the same way
+/// (e.g. `baseUrl: 'http://localhost:17434'`).
+///
 /// ### Call options
 ///
 /// You can configure the parameters that will be used when calling the
