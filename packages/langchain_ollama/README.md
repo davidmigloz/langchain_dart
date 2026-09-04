@@ -17,6 +17,9 @@
 - Embeddings:
   * `OllamaEmbeddings`: wrapper around Ollama Embeddings API.
 
+These also work with other servers that speak the Ollama API, such as
+[llmman](https://github.com/llmmanorg/llmman) (`baseUrl: 'http://localhost:17434'`).
+
 ## License
 
 LangChain.dart is licensed under the 
