@@ -1,4 +1,5 @@
 import '../../language_models.dart';
+import '../callbacks/types.dart';
 import '../prompts/types.dart';
 import 'base.dart';
 import 'types.dart';
@@ -29,7 +30,7 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
   }
 
   @override
-  Stream<LLMResult> stream(
+  Stream<LLMResult> streamModel(
     final PromptValue input, {
     final LLMOptions? options,
   }) {
@@ -64,12 +65,27 @@ class FakeLLM extends SimpleLLM<FakeLLMOptions> {
 /// {@endtemplate}
 class FakeLLMOptions extends LLMOptions {
   /// {@macro fake_llm_options}
-  const FakeLLMOptions({super.model, super.concurrencyLimit});
+  const FakeLLMOptions({
+    super.model,
+    super.callbacks,
+    super.tags,
+    super.metadata,
+    super.concurrencyLimit,
+  });
 
   @override
-  FakeLLMOptions copyWith({final String? model, final int? concurrencyLimit}) {
+  FakeLLMOptions copyWith({
+    final String? model,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
+    final int? concurrencyLimit,
+  }) {
     return FakeLLMOptions(
       model: model ?? this.model,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -87,7 +103,7 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
   String get modelType => 'fake-echo';
 
   @override
-  Future<LLMResult> invoke(
+  Future<LLMResult> invokeModel(
     final PromptValue input, {
     final LLMOptions? options,
   }) {
@@ -103,7 +119,7 @@ class FakeEchoLLM extends BaseLLM<FakeLLMOptions> {
   }
 
   @override
-  Stream<LLMResult> stream(
+  Stream<LLMResult> streamModel(
     final PromptValue input, {
     final LLMOptions? options,
   }) {

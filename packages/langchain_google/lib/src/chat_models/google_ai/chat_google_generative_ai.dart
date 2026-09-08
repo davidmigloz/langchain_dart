@@ -246,7 +246,7 @@ class ChatGoogleGenerativeAI
   static const defaultModel = 'gemini-1.5-flash';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final ChatGoogleGenerativeAIOptions? options,
   }) async {
@@ -264,7 +264,7 @@ class ChatGoogleGenerativeAI
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final ChatGoogleGenerativeAIOptions? options,
   }) {
