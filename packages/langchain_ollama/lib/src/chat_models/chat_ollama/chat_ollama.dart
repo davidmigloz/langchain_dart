@@ -182,7 +182,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   static const defaultModel = 'llama3.2';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final ChatOllamaOptions? options,
   }) async {
@@ -198,7 +198,7 @@ class ChatOllama extends BaseChatModel<ChatOllamaOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final ChatOllamaOptions? options,
   }) {

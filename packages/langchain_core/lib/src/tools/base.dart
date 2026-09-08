@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
+import '../callbacks/manager.dart';
 import '../langchain/base.dart';
 import '../utils/reduce.dart';
 import 'string.dart';
@@ -205,15 +206,37 @@ abstract base class Tool<
   /// - [options] is the options to pass to the tool.
   @override
   Future<Output> invoke(final Input input, {final Options? options}) async {
-    try {
-      return await invokeInternal(input, options: options);
-    } on ToolException catch (e) {
-      if (handleToolError != null) {
-        return handleToolError!(e);
-      } else {
+    final opts = options ?? defaultOptions;
+    final mgr = CallbackManager.configure(
+      callbacks: opts.callbacks,
+      tags: opts.tags,
+      metadata: opts.metadata,
+    );
+
+    if (mgr == null) {
+      try {
+        return await invokeInternal(input, options: options);
+      } on ToolException catch (e) {
+        if (handleToolError != null) return handleToolError!(e);
         rethrow;
       }
+    }
+
+    final runMgr = mgr.handleToolStart(input: input);
+    try {
+      final result = await invokeInternal(input, options: options);
+      runMgr.handleEnd(result);
+      return result;
+    } on ToolException catch (e) {
+      if (handleToolError != null) {
+        final result = handleToolError!(e);
+        runMgr.handleEnd(result);
+        return result;
+      }
+      runMgr.handleError(e);
+      rethrow;
     } catch (e) {
+      runMgr.handleError(e);
       rethrow;
     }
   }

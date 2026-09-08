@@ -1,5 +1,6 @@
 import 'package:anthropic_sdk_dart/anthropic_sdk_dart.dart' as a;
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -120,6 +121,9 @@ class ChatAnthropicOptions extends ChatModelOptions {
     this.thinking,
     super.tools,
     super.toolChoice,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -202,6 +206,9 @@ class ChatAnthropicOptions extends ChatModelOptions {
     final ChatAnthropicThinking? thinking,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return ChatAnthropicOptions(
@@ -215,6 +222,9 @@ class ChatAnthropicOptions extends ChatModelOptions {
       thinking: thinking ?? this.thinking,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -232,6 +242,9 @@ class ChatAnthropicOptions extends ChatModelOptions {
       thinking: other?.thinking,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -29,6 +30,9 @@ class ChatVertexAIOptions extends ChatModelOptions {
     this.cachedContent,
     super.tools,
     super.toolChoice,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -182,6 +186,9 @@ class ChatVertexAIOptions extends ChatModelOptions {
     final String? cachedContent,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return ChatVertexAIOptions(
@@ -201,6 +208,9 @@ class ChatVertexAIOptions extends ChatModelOptions {
       cachedContent: cachedContent ?? this.cachedContent,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -224,6 +234,9 @@ class ChatVertexAIOptions extends ChatModelOptions {
       cachedContent: other?.cachedContent,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

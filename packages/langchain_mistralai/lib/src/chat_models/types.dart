@@ -1,3 +1,4 @@
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -19,6 +20,9 @@ class ChatMistralAIOptions extends ChatModelOptions {
     this.randomSeed,
     super.tools,
     super.toolChoice,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -59,6 +63,9 @@ class ChatMistralAIOptions extends ChatModelOptions {
     final int? randomSeed,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return ChatMistralAIOptions(
@@ -70,6 +77,9 @@ class ChatMistralAIOptions extends ChatModelOptions {
       randomSeed: randomSeed ?? this.randomSeed,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -85,6 +95,9 @@ class ChatMistralAIOptions extends ChatModelOptions {
       randomSeed: other?.randomSeed,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

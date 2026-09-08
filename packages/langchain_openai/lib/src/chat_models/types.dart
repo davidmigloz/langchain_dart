@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -101,6 +102,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.serviceTier,
     this.user,
     this.verbosity,
+    super.callbacks,
+    super.tags,
     super.concurrencyLimit,
   });
 
@@ -253,6 +256,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final ChatOpenAIServiceTier? serviceTier,
     final String? user,
     final ChatOpenAIVerbosity? verbosity,
+    final Callbacks? callbacks,
+    final List<String>? tags,
     final int? concurrencyLimit,
   }) {
     return ChatOpenAIOptions(
@@ -278,6 +283,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
       serviceTier: serviceTier ?? this.serviceTier,
       user: user ?? this.user,
       verbosity: verbosity ?? this.verbosity,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -307,6 +314,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
       serviceTier: other?.serviceTier,
       user: other?.user,
       verbosity: other?.verbosity,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

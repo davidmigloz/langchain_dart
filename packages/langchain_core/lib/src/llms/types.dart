@@ -8,7 +8,13 @@ import '../language_models/types.dart';
 @immutable
 abstract class LLMOptions extends LanguageModelOptions {
   /// {@macro llm_options}
-  const LLMOptions({super.model, super.concurrencyLimit});
+  const LLMOptions({
+    super.model,
+    super.callbacks,
+    super.tags,
+    super.metadata,
+    super.concurrencyLimit,
+  });
 }
 
 /// {@template llm_result}

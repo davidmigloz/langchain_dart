@@ -219,7 +219,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   static const defaultModel = 'gemini-2.5-flash';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final ChatVertexAIOptions? options,
   }) async {
@@ -237,7 +237,7 @@ class ChatVertexAI extends BaseChatModel<ChatVertexAIOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final ChatVertexAIOptions? options,
   }) {

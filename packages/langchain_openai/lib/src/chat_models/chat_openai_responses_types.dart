@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -45,6 +46,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
     this.parallelToolCalls,
     this.serviceTier,
     this.truncation,
+    super.callbacks,
+    super.tags,
     super.concurrencyLimit,
   });
 
@@ -152,6 +155,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
     final bool? parallelToolCalls,
     final ChatOpenAIResponsesServiceTier? serviceTier,
     final ChatOpenAIResponsesTruncation? truncation,
+    final Callbacks? callbacks,
+    final List<String>? tags,
     final int? concurrencyLimit,
   }) {
     return ChatOpenAIResponsesOptions(
@@ -173,6 +178,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
       parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
       serviceTier: serviceTier ?? this.serviceTier,
       truncation: truncation ?? this.truncation,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -200,6 +207,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
       parallelToolCalls: other?.parallelToolCalls,
       serviceTier: other?.serviceTier,
       truncation: other?.truncation,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

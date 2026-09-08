@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
+import '../callbacks/types.dart';
 import '../langchain/types.dart';
 
 /// {@template language_model_options}
@@ -9,7 +10,13 @@ import '../langchain/types.dart';
 @immutable
 abstract class LanguageModelOptions extends BaseLangChainOptions {
   /// {@macro language_model_options}
-  const LanguageModelOptions({this.model, super.concurrencyLimit});
+  const LanguageModelOptions({
+    this.model,
+    super.callbacks,
+    super.tags,
+    super.metadata,
+    super.concurrencyLimit,
+  });
 
   /// ID of the language model to use.
   /// Check the provider's documentation for available models.
@@ -18,6 +25,9 @@ abstract class LanguageModelOptions extends BaseLangChainOptions {
   @override
   LanguageModelOptions copyWith({
     final String? model,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   });
 }
