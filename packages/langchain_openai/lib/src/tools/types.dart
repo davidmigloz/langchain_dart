@@ -1,3 +1,4 @@
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
 
@@ -16,6 +17,9 @@ class OpenAIDallEToolOptions extends ToolOptions {
     this.size = ImageSize.size1024x1024,
     this.style = ImageStyle.vivid,
     this.user,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -75,6 +79,9 @@ class OpenAIDallEToolOptions extends ToolOptions {
     final ImageSize? size,
     final ImageStyle? style,
     final String? user,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return OpenAIDallEToolOptions(
@@ -84,6 +91,9 @@ class OpenAIDallEToolOptions extends ToolOptions {
       size: size ?? this.size,
       style: style ?? this.style,
       user: user ?? this.user,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
     );
   }
@@ -97,6 +107,9 @@ class OpenAIDallEToolOptions extends ToolOptions {
       size: other?.size,
       style: other?.style,
       user: other?.user,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

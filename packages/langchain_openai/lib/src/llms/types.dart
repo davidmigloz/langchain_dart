@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:meta/meta.dart';
 
@@ -30,6 +31,9 @@ class OpenAIOptions extends LLMOptions {
     this.temperature,
     this.topP,
     this.user,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -137,6 +141,9 @@ class OpenAIOptions extends LLMOptions {
     final double? temperature,
     final double? topP,
     final String? user,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return OpenAIOptions(
@@ -154,6 +161,9 @@ class OpenAIOptions extends LLMOptions {
       temperature: temperature ?? this.temperature,
       topP: topP ?? this.topP,
       user: user ?? this.user,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
     );
   }
@@ -175,6 +185,9 @@ class OpenAIOptions extends LLMOptions {
       temperature: other?.temperature,
       topP: other?.topP,
       user: other?.user,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

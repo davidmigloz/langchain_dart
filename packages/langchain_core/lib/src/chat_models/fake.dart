@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 
 import '../../language_models.dart';
+import '../callbacks/types.dart';
 import '../prompts/types.dart';
 import '../tools/base.dart';
 import 'base.dart';
@@ -26,7 +27,7 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
   String get modelType => 'fake-chat-model';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final FakeChatModelOptions? options,
   }) async {
@@ -45,7 +46,7 @@ class FakeChatModel extends BaseChatModel<FakeChatModelOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final FakeChatModelOptions? options,
   }) {
@@ -85,19 +86,20 @@ class FakeChatModelOptions extends ChatModelOptions {
   /// {@macro fake_chat_model_options}
   const FakeChatModelOptions({
     super.model,
-    this.metadata,
+    super.metadata,
+    super.callbacks,
+    super.tags,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
   });
 
-  /// Metadata.
-  final Map<String, dynamic>? metadata;
-
   @override
   FakeChatModelOptions copyWith({
     final String? model,
     final Map<String, dynamic>? metadata,
+    final Callbacks? callbacks,
+    final List<String>? tags,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
     final int? concurrencyLimit,
@@ -105,6 +107,8 @@ class FakeChatModelOptions extends ChatModelOptions {
     return FakeChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
@@ -116,6 +120,8 @@ class FakeChatModelOptions extends ChatModelOptions {
     return copyWith(
       model: other?.model,
       metadata: other?.metadata,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }
@@ -150,7 +156,7 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
   String get modelType => 'fake-echo-chat-model';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final FakeEchoChatModelOptions? options,
   }) async {
@@ -175,7 +181,7 @@ class FakeEchoChatModel extends BaseChatModel<FakeEchoChatModelOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final FakeEchoChatModelOptions? options,
   }) {
@@ -224,15 +230,14 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
   /// {@macro fake_chat_model_options}
   const FakeEchoChatModelOptions({
     super.model,
-    this.metadata,
+    super.metadata,
+    super.callbacks,
+    super.tags,
     this.throwRandomError = false,
     super.tools,
     super.toolChoice,
     super.concurrencyLimit,
   });
-
-  /// Metadata.
-  final Map<String, dynamic>? metadata;
 
   /// If true, throws a random error.
   final bool throwRandomError;
@@ -241,6 +246,8 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
   FakeEchoChatModelOptions copyWith({
     final String? model,
     final Map<String, dynamic>? metadata,
+    final Callbacks? callbacks,
+    final List<String>? tags,
     final bool? throwRandomError,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
@@ -249,6 +256,8 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     return FakeEchoChatModelOptions(
       model: model ?? this.model,
       metadata: metadata ?? this.metadata,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
       throwRandomError: throwRandomError ?? this.throwRandomError,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
@@ -263,6 +272,8 @@ class FakeEchoChatModelOptions extends ChatModelOptions {
     return copyWith(
       model: other?.model,
       metadata: other?.metadata,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
       throwRandomError: other?.throwRandomError,
       concurrencyLimit: other?.concurrencyLimit,
     );

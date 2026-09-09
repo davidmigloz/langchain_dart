@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -82,7 +83,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     super.model,
     this.store,
     this.reasoningEffort,
-    this.metadata,
+    Map<String, String>? metadata,
     this.frequencyPenalty,
     this.logitBias,
     this.logprobs,
@@ -101,8 +102,10 @@ class ChatOpenAIOptions extends ChatModelOptions {
     this.serviceTier,
     this.user,
     this.verbosity,
+    super.callbacks,
+    super.tags,
     super.concurrencyLimit,
-  });
+  }) : _metadata = metadata;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// their existing frequency in the text so far, decreasing the model's
@@ -131,7 +134,9 @@ class ChatOpenAIOptions extends ChatModelOptions {
   /// Developer-defined tags and values used for filtering completions.
   ///
   /// See https://platform.openai.com/docs/api-reference/chat/create#chat-create-metadata
-  final Map<String, String>? metadata;
+  @override
+  Map<String, String>? get metadata => _metadata;
+  final Map<String, String>? _metadata;
 
   /// Whether to return log probabilities of the output tokens.
   ///
@@ -234,7 +239,7 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final String? model,
     final bool? store,
     final ChatOpenAIReasoningEffort? reasoningEffort,
-    final Map<String, String>? metadata,
+    final Map<String, dynamic>? metadata,
     final double? frequencyPenalty,
     final Map<String, int>? logitBias,
     final bool? logprobs,
@@ -253,13 +258,15 @@ class ChatOpenAIOptions extends ChatModelOptions {
     final ChatOpenAIServiceTier? serviceTier,
     final String? user,
     final ChatOpenAIVerbosity? verbosity,
+    final Callbacks? callbacks,
+    final List<String>? tags,
     final int? concurrencyLimit,
   }) {
     return ChatOpenAIOptions(
       model: model ?? this.model,
       store: store ?? this.store,
       reasoningEffort: reasoningEffort ?? this.reasoningEffort,
-      metadata: metadata ?? this.metadata,
+      metadata: metadata?.cast<String, String>() ?? this.metadata,
       frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
       logitBias: logitBias ?? this.logitBias,
       logprobs: logprobs ?? this.logprobs,
@@ -278,6 +285,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
       serviceTier: serviceTier ?? this.serviceTier,
       user: user ?? this.user,
       verbosity: verbosity ?? this.verbosity,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -307,6 +316,8 @@ class ChatOpenAIOptions extends ChatModelOptions {
       serviceTier: other?.serviceTier,
       user: other?.user,
       verbosity: other?.verbosity,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

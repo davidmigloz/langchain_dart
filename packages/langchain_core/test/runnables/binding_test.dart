@@ -1,4 +1,5 @@
 // ignore_for_file: unused_element
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/language_models.dart';
 import 'package:langchain_core/output_parsers.dart';
@@ -131,6 +132,9 @@ class _FakeOptionsChatModelOptions extends ChatModelOptions {
     final String? model,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return _FakeOptionsChatModelOptions(stop);

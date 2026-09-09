@@ -188,7 +188,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   static const defaultModel = 'mistral-small';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final ChatMistralAIOptions? options,
   }) async {
@@ -202,7 +202,7 @@ class ChatMistralAI extends BaseChatModel<ChatMistralAIOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final ChatMistralAIOptions? options,
   }) {

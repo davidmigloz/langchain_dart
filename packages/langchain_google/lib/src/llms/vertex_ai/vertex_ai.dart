@@ -156,7 +156,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   static const defaultModel = 'gemini-2.5-flash';
 
   @override
-  Future<LLMResult> invoke(
+  Future<LLMResult> invokeModel(
     final PromptValue input, {
     final VertexAIOptions? options,
   }) async {
@@ -176,7 +176,7 @@ class VertexAI extends BaseLLM<VertexAIOptions> {
   }
 
   @override
-  Stream<LLMResult> stream(
+  Stream<LLMResult> streamModel(
     final PromptValue input, {
     final VertexAIOptions? options,
   }) {

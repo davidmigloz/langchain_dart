@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:meta/meta.dart';
 
@@ -13,6 +14,9 @@ class OllamaOptions extends LLMOptions {
   /// {@macro ollama_options}
   const OllamaOptions({
     super.model,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     this.system,
     this.suffix,
     this.template,
@@ -247,6 +251,9 @@ class OllamaOptions extends LLMOptions {
   @override
   OllamaOptions copyWith({
     final String? model,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final String? system,
     final String? suffix,
     final String? template,
@@ -289,6 +296,9 @@ class OllamaOptions extends LLMOptions {
   }) {
     return OllamaOptions(
       model: model ?? this.model,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       system: system ?? this.system,
       suffix: suffix ?? this.suffix,
       template: template ?? this.template,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
 
@@ -85,6 +86,10 @@ class TavilySearchResultsToolOptions extends ToolOptions {
     this.includeRawContent = false,
     this.includeDomains,
     this.excludeDomains,
+    super.callbacks,
+    super.tags,
+    super.metadata,
+    super.concurrencyLimit,
   });
 
   /// The number of maximum search results to return.
@@ -114,6 +119,9 @@ class TavilyAnswerToolOptions extends ToolOptions {
     this.searchDepth = TavilySearchDepth.basic,
     this.includeDomains,
     this.excludeDomains,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -135,6 +143,9 @@ class TavilyAnswerToolOptions extends ToolOptions {
     final TavilySearchDepth? searchDepth,
     final List<String>? includeDomains,
     final List<String>? excludeDomains,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return TavilyAnswerToolOptions(
@@ -142,6 +153,9 @@ class TavilyAnswerToolOptions extends ToolOptions {
       searchDepth: searchDepth ?? this.searchDepth,
       includeDomains: includeDomains ?? this.includeDomains,
       excludeDomains: excludeDomains ?? this.excludeDomains,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? super.concurrencyLimit,
     );
   }
@@ -155,6 +169,9 @@ class TavilyAnswerToolOptions extends ToolOptions {
       searchDepth: other?.searchDepth,
       includeDomains: other?.includeDomains,
       excludeDomains: other?.excludeDomains,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }
@@ -165,6 +182,9 @@ class TavilyAnswerToolOptions extends ToolOptions {
         searchDepth == other.searchDepth &&
         includeDomains == other.includeDomains &&
         excludeDomains == other.excludeDomains &&
+        callbacks == other.callbacks &&
+        tags == other.tags &&
+        metadata == other.metadata &&
         concurrencyLimit == other.concurrencyLimit;
   }
 
@@ -174,6 +194,9 @@ class TavilyAnswerToolOptions extends ToolOptions {
         searchDepth.hashCode ^
         includeDomains.hashCode ^
         excludeDomains.hashCode ^
+        callbacks.hashCode ^
+        tags.hashCode ^
+        metadata.hashCode ^
         concurrencyLimit.hashCode;
   }
 }

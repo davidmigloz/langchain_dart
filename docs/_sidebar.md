@@ -122,6 +122,7 @@
     - Popular
       - [Summarize](/modules/chains/popular/summarize.md)
   - [Memory](/modules/memory/memory.md)
+  - [Callbacks](/modules/callbacks/callbacks.md)
   - [Agents](/modules/agents/agents.md)
     - [Agent types](/modules/agents/agent_types/agent_types.md)
       - [Tools Agent](/modules/agents/agent_types/tools_agent.md)
