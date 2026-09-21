@@ -32,7 +32,7 @@ dependencies:
   meta: ^1.16.0
   objectbox: ^5.1.0
   path: ^1.9.1
-  tavily_dart: ^0.2.2
+  tavily_dart: ^0.3.0
   uuid: ^4.5.1
 
 dev_dependencies:
