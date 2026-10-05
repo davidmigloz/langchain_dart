@@ -22,7 +22,7 @@ resolution: workspace
 dependencies:
   async: ^2.13.0
   collection: ^1.19.1
-  cross_file: ^0.3.4+2
+  cross_file: ^0.4.0
   crypto: ^3.0.6
   meta: ^1.16.0
   rxdart: ">=0.27.7 <0.29.0"
