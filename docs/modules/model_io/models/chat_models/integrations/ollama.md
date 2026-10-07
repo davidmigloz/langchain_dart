@@ -38,6 +38,30 @@ final chatModel = ChatOllama(
 );
 ```
 
+### Ollama-compatible servers
+
+Other servers that implement the Ollama API can be used by setting `baseUrl`. For example, [llmman](https://github.com/llmmanorg/llmman) serves it on port 17434 (`llmman pull gemma4`):
+
+```dart
+final chatModel = ChatOllama(
+  baseUrl: 'http://localhost:17434',
+  defaultOptions: ChatOllamaOptions(
+    model: 'gemma4',
+  ),
+);
+```
+
+For embeddings, use a model the server supports. With llmman, pull one with `llmman pull embeddinggemma`:
+
+```dart
+final embeddings = OllamaEmbeddings(
+  baseUrl: 'http://localhost:17434',
+  model: 'embeddinggemma',
+);
+```
+
+Compatibility depends on the server. llmman rejects `raw`, `suffix` and `template` requests, only applies some `options`, and needs a GGUF embedding model with pooling support. See its [Ollama API notes](https://github.com/llmmanorg/llmman/blob/e58a15606084f1ce8146bdeb9641d580aa9c2a34/docs/api.md#ollama-api-notes).
+
 ## Usage
 
 ```dart
