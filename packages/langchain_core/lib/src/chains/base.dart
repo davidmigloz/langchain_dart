@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import '../../exceptions.dart';
 import '../../langchain.dart';
 import '../../memory.dart';
+import '../callbacks/manager.dart';
 import 'types.dart';
 
 /// {@template base_chain}
@@ -69,13 +70,29 @@ abstract class BaseChain<MemoryType extends BaseMemory>
   /// Runs the core logic of this chain with the given input.
   ///
   /// - [input] is the input to this chain.
-  /// - [options] not used.
+  /// - [options] options including callbacks.
   @override
   Future<ChainValues> invoke(
     final ChainValues input, {
     final ChainOptions? options,
-  }) {
-    return call(input);
+  }) async {
+    final opts = options ?? defaultOptions;
+    final mgr = CallbackManager.configure(
+      callbacks: opts.callbacks,
+      tags: opts.tags,
+      metadata: opts.metadata,
+    );
+    if (mgr == null) return call(input);
+
+    final runMgr = mgr.handleChainStart(inputs: input);
+    try {
+      final result = await call(input);
+      runMgr.handleEnd(result);
+      return result;
+    } catch (e) {
+      runMgr.handleError(e);
+      rethrow;
+    }
   }
 
   /// Runs the core logic of this chain with the given values.

@@ -1,3 +1,4 @@
+import '../callbacks/manager.dart';
 import '../documents/document.dart';
 import '../runnables/runnable.dart';
 import '../utils/reduce.dart';
@@ -16,8 +17,27 @@ abstract class Retriever<Options extends RetrieverOptions>
   /// - [input] - The query to search for.
   /// - [options] - Retrieval options.
   @override
-  Future<List<Document>> invoke(final String input, {final Options? options}) {
-    return getRelevantDocuments(input, options: options);
+  Future<List<Document>> invoke(
+    final String input, {
+    final Options? options,
+  }) async {
+    final opts = options ?? defaultOptions;
+    final mgr = CallbackManager.configure(
+      callbacks: opts.callbacks,
+      tags: opts.tags,
+      metadata: opts.metadata,
+    );
+    if (mgr == null) return getRelevantDocuments(input, options: options);
+
+    final runMgr = mgr.handleRetrieverStart(query: input);
+    try {
+      final result = await getRelevantDocuments(input, options: options);
+      runMgr.handleEnd(result);
+      return result;
+    } catch (e) {
+      runMgr.handleError(e);
+      rethrow;
+    }
   }
 
   /// Streams the most relevant documents for the query resulting from

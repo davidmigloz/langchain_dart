@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
+import '../callbacks/types.dart';
 import '../language_models/language_models.dart';
 import '../tools/base.dart';
 import 'content_blocks.dart';
@@ -17,6 +18,9 @@ abstract class ChatModelOptions extends LanguageModelOptions {
     super.model,
     this.tools,
     this.toolChoice,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -28,10 +32,13 @@ abstract class ChatModelOptions extends LanguageModelOptions {
 
   @override
   ChatModelOptions copyWith({
-    final String? model,
-    final List<ToolSpec>? tools,
-    final ChatToolChoice? toolChoice,
-    final int? concurrencyLimit,
+    String? model,
+    List<ToolSpec>? tools,
+    ChatToolChoice? toolChoice,
+    Callbacks? callbacks,
+    List<String>? tags,
+    Map<String, dynamic>? metadata,
+    int? concurrencyLimit,
   });
 }
 

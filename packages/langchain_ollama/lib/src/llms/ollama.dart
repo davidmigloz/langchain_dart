@@ -185,7 +185,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   static const defaultModel = 'llama3.2';
 
   @override
-  Future<LLMResult> invoke(
+  Future<LLMResult> invokeModel(
     final PromptValue input, {
     final OllamaOptions? options,
   }) async {
@@ -197,7 +197,7 @@ class Ollama extends BaseLLM<OllamaOptions> {
   }
 
   @override
-  Stream<LLMResult> stream(
+  Stream<LLMResult> streamModel(
     final PromptValue input, {
     final OllamaOptions? options,
   }) {

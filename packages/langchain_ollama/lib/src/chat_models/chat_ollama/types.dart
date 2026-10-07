@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -52,6 +53,9 @@ class ChatOllamaOptions extends ChatModelOptions {
     this.numThread,
     super.tools,
     super.toolChoice,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -260,6 +264,9 @@ class ChatOllamaOptions extends ChatModelOptions {
     final int? numThread,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return ChatOllamaOptions(
@@ -299,6 +306,9 @@ class ChatOllamaOptions extends ChatModelOptions {
       numThread: numThread ?? this.numThread,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -340,6 +350,9 @@ class ChatOllamaOptions extends ChatModelOptions {
       useMmap: other?.useMmap,
       useMlock: other?.useMlock,
       numThread: other?.numThread,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

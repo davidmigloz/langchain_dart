@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -32,7 +33,7 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
     this.previousResponseId,
     this.store,
     this.reasoningEffort,
-    this.metadata,
+    Map<String, String>? metadata,
     this.frequencyPenalty,
     this.topLogprobs,
     this.maxOutputTokens,
@@ -45,8 +46,10 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
     this.parallelToolCalls,
     this.serviceTier,
     this.truncation,
+    super.callbacks,
+    super.tags,
     super.concurrencyLimit,
-  });
+  }) : _metadata = metadata;
 
   /// A system (or developer) message inserted at the beginning of the
   /// model's context as an alternative to adding a [SystemChatMessage].
@@ -76,7 +79,9 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
   /// Developer-defined tags and values used for filtering completions.
   ///
   /// See https://platform.openai.com/docs/api-reference/responses/create#responses-create-metadata
-  final Map<String, String>? metadata;
+  @override
+  Map<String, String>? get metadata => _metadata;
+  final Map<String, String>? _metadata;
 
   /// Number between -2.0 and 2.0. Positive values penalize new tokens based on
   /// their existing frequency in the text so far, decreasing the model's
@@ -139,7 +144,7 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
     final String? previousResponseId,
     final bool? store,
     final ChatOpenAIResponsesReasoningEffort? reasoningEffort,
-    final Map<String, String>? metadata,
+    final Map<String, dynamic>? metadata,
     final double? frequencyPenalty,
     final int? topLogprobs,
     final int? maxOutputTokens,
@@ -152,6 +157,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
     final bool? parallelToolCalls,
     final ChatOpenAIResponsesServiceTier? serviceTier,
     final ChatOpenAIResponsesTruncation? truncation,
+    final Callbacks? callbacks,
+    final List<String>? tags,
     final int? concurrencyLimit,
   }) {
     return ChatOpenAIResponsesOptions(
@@ -160,7 +167,7 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
       previousResponseId: previousResponseId ?? this.previousResponseId,
       store: store ?? this.store,
       reasoningEffort: reasoningEffort ?? this.reasoningEffort,
-      metadata: metadata ?? this.metadata,
+      metadata: metadata?.cast<String, String>() ?? this.metadata,
       frequencyPenalty: frequencyPenalty ?? this.frequencyPenalty,
       topLogprobs: topLogprobs ?? this.topLogprobs,
       maxOutputTokens: maxOutputTokens ?? this.maxOutputTokens,
@@ -173,6 +180,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
       parallelToolCalls: parallelToolCalls ?? this.parallelToolCalls,
       serviceTier: serviceTier ?? this.serviceTier,
       truncation: truncation ?? this.truncation,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -200,6 +209,8 @@ class ChatOpenAIResponsesOptions extends ChatModelOptions {
       parallelToolCalls: other?.parallelToolCalls,
       serviceTier: other?.serviceTier,
       truncation: other?.truncation,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

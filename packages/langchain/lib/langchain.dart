@@ -2,6 +2,7 @@
 library;
 
 export 'src/agents/agents.dart';
+export 'src/callbacks/callbacks.dart';
 export 'src/chains/chains.dart';
 export 'src/chat_history/chat_history.dart';
 export 'src/chat_models/chat_models.dart';

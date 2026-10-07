@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chat_models.dart';
 import 'package:langchain_core/tools.dart';
 import 'package:meta/meta.dart';
@@ -26,6 +27,9 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     this.backend,
     super.tools,
     super.toolChoice,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -140,6 +144,9 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
     final FirebaseAIBackend? backend,
     final List<ToolSpec>? tools,
     final ChatToolChoice? toolChoice,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return ChatFirebaseVertexAIOptions(
@@ -155,6 +162,9 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
       backend: backend ?? this.backend,
       tools: tools ?? this.tools,
       toolChoice: toolChoice ?? this.toolChoice,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }
@@ -176,6 +186,9 @@ class ChatFirebaseVertexAIOptions extends ChatModelOptions {
       backend: other?.backend,
       tools: other?.tools,
       toolChoice: other?.toolChoice,
+      callbacks: other?.callbacks,
+      tags: other?.tags,
+      metadata: other?.metadata,
       concurrencyLimit: other?.concurrencyLimit,
     );
   }

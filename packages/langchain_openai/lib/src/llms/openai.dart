@@ -252,7 +252,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   static const defaultConcurrencyLimit = 20;
 
   @override
-  Future<LLMResult> invoke(
+  Future<LLMResult> invokeModel(
     final PromptValue input, {
     final OpenAIOptions? options,
   }) async {
@@ -303,7 +303,7 @@ class OpenAI extends BaseLLM<OpenAIOptions> {
   }
 
   @override
-  Stream<LLMResult> stream(
+  Stream<LLMResult> streamModel(
     final PromptValue input, {
     final OpenAIOptions? options,
   }) {

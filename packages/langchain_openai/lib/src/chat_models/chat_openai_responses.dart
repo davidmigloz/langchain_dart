@@ -173,7 +173,7 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
   static const defaultModel = 'gpt-5-mini';
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final ChatOpenAIResponsesOptions? options,
   }) async {
@@ -188,7 +188,7 @@ class ChatOpenAIResponses extends BaseChatModel<ChatOpenAIResponsesOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final ChatOpenAIResponsesOptions? options,
   }) {

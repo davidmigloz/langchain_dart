@@ -205,7 +205,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   static const defaultMaxTokens = 1024;
 
   @override
-  Future<ChatResult> invoke(
+  Future<ChatResult> invokeModel(
     final PromptValue input, {
     final ChatAnthropicOptions? options,
   }) async {
@@ -220,7 +220,7 @@ class ChatAnthropic extends BaseChatModel<ChatAnthropicOptions> {
   }
 
   @override
-  Stream<ChatResult> stream(
+  Stream<ChatResult> streamModel(
     final PromptValue input, {
     final ChatAnthropicOptions? options,
   }) {

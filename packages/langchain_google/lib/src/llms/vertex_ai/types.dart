@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/llms.dart';
 import 'package:meta/meta.dart';
 
@@ -19,6 +20,9 @@ class VertexAIOptions extends LLMOptions {
     this.topK,
     this.stopSequences,
     this.candidateCount,
+    super.callbacks,
+    super.tags,
+    super.metadata,
     super.concurrencyLimit,
   });
 
@@ -80,6 +84,9 @@ class VertexAIOptions extends LLMOptions {
     final int? topK,
     final List<String>? stopSequences,
     final int? candidateCount,
+    final Callbacks? callbacks,
+    final List<String>? tags,
+    final Map<String, dynamic>? metadata,
     final int? concurrencyLimit,
   }) {
     return VertexAIOptions(
@@ -90,6 +97,9 @@ class VertexAIOptions extends LLMOptions {
       topK: topK ?? this.topK,
       stopSequences: stopSequences ?? this.stopSequences,
       candidateCount: candidateCount ?? this.candidateCount,
+      callbacks: callbacks ?? this.callbacks,
+      tags: tags ?? this.tags,
+      metadata: metadata ?? this.metadata,
       concurrencyLimit: concurrencyLimit ?? this.concurrencyLimit,
     );
   }

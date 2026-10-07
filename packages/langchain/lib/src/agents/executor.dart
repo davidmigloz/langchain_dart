@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:langchain_core/agents.dart';
+import 'package:langchain_core/callbacks.dart';
 import 'package:langchain_core/chains.dart';
 import 'package:langchain_core/output_parsers.dart';
 import 'package:langchain_core/tools.dart';
@@ -49,6 +50,9 @@ class AgentExecutor extends BaseChain {
   /// executor.
   final List<Tool> _internalTools;
 
+  /// Transient run manager set during [invoke] for agent-specific callbacks.
+  ChainRunManager? _currentRunManager;
+
   /// Whether to return the agent's trajectory of intermediate steps at the
   /// end in addition to the final output.
   final bool returnIntermediateSteps;
@@ -93,6 +97,33 @@ class AgentExecutor extends BaseChain {
       }
     }
     return true;
+  }
+
+  @override
+  Future<ChainValues> invoke(
+    final ChainValues input, {
+    final ChainOptions? options,
+  }) async {
+    final opts = options ?? defaultOptions;
+    final mgr = CallbackManager.configure(
+      callbacks: opts.callbacks,
+      tags: opts.tags,
+      metadata: opts.metadata,
+    );
+    if (mgr == null) return call(input);
+
+    final runMgr = mgr.handleChainStart(inputs: input);
+    try {
+      _currentRunManager = runMgr;
+      final result = await call(input);
+      runMgr.handleEnd(result);
+      return result;
+    } catch (e) {
+      runMgr.handleError(e);
+      rethrow;
+    } finally {
+      _currentRunManager = null;
+    }
   }
 
   @override
@@ -202,10 +233,12 @@ class AgentExecutor extends BaseChain {
     for (final action in actions) {
       // If the tool chosen is the finishing tool, then we end and return
       if (action is AgentFinish) {
+        _currentRunManager?.handleAgentFinish(action);
         return (action, null);
       }
       // Otherwise, we run the tool
       final agentAction = action as AgentAction;
+      _currentRunManager?.handleAgentAction(agentAction);
       final tool = nameToToolMap[agentAction.tool];
       String observation;
       if (tool != null) {
