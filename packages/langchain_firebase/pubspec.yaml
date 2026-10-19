@@ -23,10 +23,10 @@ resolution: workspace
 
 dependencies:
   collection: ^1.19.1
-  firebase_ai: ^4.0.0
-  firebase_app_check: ^0.4.1+1
-  firebase_auth: ^6.1.1
-  firebase_core: ^4.2.0
+  firebase_ai: ^5.0.0
+  firebase_app_check: ^0.5.0
+  firebase_auth: ^7.0.0
+  firebase_core: ^5.0.0
   langchain_core: 0.5.0
   meta: ^1.16.0
   uuid: ^4.5.1
